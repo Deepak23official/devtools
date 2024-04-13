@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+</head>
+<style>
+    .w-100{
+        /* display: flex; */
+        gap: 10px;
+    }
+    .col-12{
+        width: 800px;
+        margin-top: 10px;
+        border-radius: 20px;
+    }
+    .col-8{
+        width: 350px;
+        margin-top: 10px;
+    }
+    .d-flex{
+        padding: 10px 20px;
+    }
+    .d-flex .col-12:hover{
+        box-shadow: 0px 0px 23px black;
+        transition: 0.5s;
+    }
+    .d-flex .col-8:hover{
+        box-shadow: 0px 0px 23px black;
+        transition: 0.5s;
+    }
+    .card{
+        /* background-image: url(https://cdn.pixabay.com/photo/2015/12/19/20/32/paper-1100254_1280.jpg); */
+        font-weight: bold;
+        /* background: linear-gradient(20deg, rgb(208, 12, 64) 10%, rgb(226, 218, 201) 100%); */
+        /* background: linear-gradient(rgb(222, 190, 66), rgb(255, 255, 255)); */
+        /* background-color: #6C40EA; */
+        background-image: url(https://img.freepik.com/free-photo/gray-abstract-wireframe-technology-background_53876-101941.jpg?size=626&ext=jpg&ga=GA1.1.617367075.1696605853&semt=sph);
+        color: rgb(0, 0, 0);
+        background-size: cover;
+    }
+    /* .img::before{
+    content: "";
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    inset: 0px;
+    z-index: -1;
+    } */
+    .img{
+        /* background: linear-gradient(20deg, rgb(208, 12, 64) 10%, rgb(226, 218, 201) 100%);  */
+        /* background-image: url(https://cdn.pixabay.com/photo/2015/12/19/20/32/paper-1100254_1280.jpg); */
+        width: 100%;
+        height: 100vh;
+        object-fit: contain;
+        position: fixed;
+        z-index: -1;
+    }
+    .flex{
+        display: flex;
+        gap: 20px;
+        font-weight: 200;
+        padding: 10px;
+        margin: 20px 0px;
+    }
+    .flex img{
+        width: 100px;
+        height: 100px;
+    }
+    .margin-apply{
+        margin-top: 250px;
+    }
+    /* .padding-apply{
+        margin-bottom: 00px;
+    } */
+    @media(min-width:320px){
+        .w-100{
+            flex-direction: column;
+        }
+        .d-flex{
+            max-width: 320px;
+        }
+        .col-8{
+        width: 800px;
+    }
+    }
+    @media(min-width:560px){
+        .w-100{
+            flex-direction: column;
+        }
+        .d-flex{
+            max-width: 560px;
+        }
+    }
+    @media(min-width:768px){
+        .w-100{
+            flex-direction: row;
+        }
+        .d-flex{
+            max-width: 768px;
+        }
+        .col-12{
+        width:470px;
+    }
+    .col-8{
+        width: 260px;
+    }
+    }
+    @media(min-width:1024px){
+        .w-100{
+            flex-direction: row;
+        }
+        .col-12{
+        width: 630px;
+    }
+    .d-flex{
+            max-width: 1024px;
+        }
+    .col-8{
+        width: 350px;
+    }
+    }
+    @media(min-width:1280px){
+        .d-flex{
+            max-width: 1280px;
+        }
+        .col-12{
+            width: 790px;
+        }
+        .col-8{
+        margin-right: 20px;
+        width: 400px;
+    }
+    }
+    li{
+        text-align:justify;
+        font-weight: 200;
+        margin: 20px;
+    }
+</style>
+<body>
+    <div class="img"></div>
+    <div class="container-flvid d-flex w-100">
+        <div>
+            <div class="col-12 mb-3 mb-sm-0">
+                 <div class="card">
+                     <div class="card-body">
+                       <h5 class="card-title fs-3 fw-bold">Terraform state locking using DynamoDB (aws_dynamodb_table)?</h5>
+                       <div>
+                        <div class="flex">
+                            <div><img src="https://jhooq.com/wp-content/uploads/terraform/logo/Terraform_logo.webp" alt=""></div>
+                            <p class="card-text">
+                                Terraform state is the backbone of your terraform project for provisioning your cloud infrastructure. When you work on large infrastructure provisioning with Terraform then it is always more than one developer or team of a developer working on the same terraform project. The problems arise when two developers try to …</p>
+                        </div>
+                       </div>
+                      
+                       <a href="#" class="btn btn-primary">Read More</a>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">Docker - ADD, Update, Export Environment variable</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/2020/03/docker-2-e1584555918677.webp" alt=""></div>
+                           <p class="card-text">When writing a Dockerfile or docker-compose.yml you often need to rely on the ENVIRONMENT variable and there could be many reasons behind it, for example - If your container is using Python then you might wanna rely on the Python version which is set into the host machine's environment variable. another use case could …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold ">Managing Terraform states?</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/terraform/logo/Terraform_logo.webp" alt=""></div>
+                           <p class="card-text">
+                            Terraform has its backbone known as terraform.tfstate file any change you do with your infrastructure will have its presence in the terraform.tfstate file. So when you work with Terraform for managing and provisioning your infrastructure then terraform will always create a terraform.tfstate file for you. In this blog …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">How to fix-Docker docker failed to compute cache key not found</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/2020/03/docker-2-e1584555918677.webp" alt=""></div>
+                           <p class="card-text">
+                            The Docker failed to compute cache key error is result of docker buildcommand which is executed on a directory where the Dockefile is not present. I had this issue when I was working with one of my project on my windows laptop and my directory structure looked like this - 1\parent-directory 2- test-file-1.py 3- …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">How to fix docker driver failed programming external connectivity on endpoint webserver?</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/2020/03/docker-2-e1584555918677.webp" alt=""></div>
+                           <p class="card-text">
+                            This blog post will address how to fix the docker issue EADDRINUSE (PORT or ADDRESS already in use). Here is a little error snapshot which I have taken from my docker container which I was aiming to run on port 1313 but unfortunately the port is already occupied by some other process. 1docker: Error response from …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">Delete Kubernetes POD stuck in terminating state?</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/2020/06/Kubernetes_cropped-logo.webp" alt=""></div>
+                           <p class="card-text">
+                            The deletion of the Kubernetes POD depends on many factors, before you execute the kubectl delete pod command you should go through the following checkpoint - Is the container associated with POD still running? Are there any active Kubernetes deployment associated with POD? Check if the POD persistent volume and …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">How to Delete PV(Persistent Volume) and PVC(Persistent Volume Claim) stuck in terminating state?</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/2020/06/Kubernetes_cropped-logo.webp" alt=""></div>
+                           <p class="card-text">The deletion of PV(Persistent Volume) and PVC(Persistent Volume claim) is pretty much dependent on the Delete reclaim policy. When you are planning to delete the Persistent Volume as well as Persistent Volume Claim then you must follow an order - First delete - Persistent Volume Claim Second delete- Persistent Volume …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">Securing AWS secrets using HashiCorp Vault with Terraform?</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/terraform/logo/Terraform_logo.webp" alt=""></div>
+                           <p class="card-text">
+                            For managing the cloud resources(EC2, S3 Bucket) on AWS you need to supply the AWS secrets(region, access_key, secret_key) inside the terraform file. You can use the plain text AWS Secrets inside your terraform file and it should work fine. But from the security standpoint, it is strongly discouraged to use plain text …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">How to fix docker error executable file not found in $PATH?</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/2020/03/docker-2-e1584555918677.webp" alt=""></div>
+                           <p class="card-text">You might have encountered the error executable file not found in $PATH when you are trying to run your docker container. There could be many reasons for an error like this. But in simple words, the docker can not find the binary which you want to run inside the docker container. Let's take some examples to identify …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">How to download entire S3 bucket?</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/aws/images/aws-logo.webp" alt=""></div>
+                           <p class="card-text">
+                            Amazon offers S3 Bucket where S3 is a short form of Simple Storage Service which can be used for text, images, web applications, data lake, and many more in a cost-effective way. Amazon AWS service provides GUI for managing S3 bucket which includes - Viewing S3 Bucket content Uploading the content to S3 bucket …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+         </div>
+
+         <div>
+            <div class="col-8 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title fs-3 fw-bold">Categories</h5>
+                        <a href="#" class="btn m-2 btn-primary">DOCKER</a>
+                        <a href="#" class="btn m-2 btn-primary">AWS</a>
+                        <a href="#" class="btn m-2 btn-primary">KUBERNETES</a>
+                        <a href="#" class="btn m-2 btn-primary">ANSIBLE</a>
+                        <a href="#" class="btn m-2 btn-primary">HELM-CHART</a>
+                        <a href="#" class="btn m-2 btn-primary">SSL</a>
+                        <a href="#" class="btn m-2 btn-primary">BLOGGING</a>
+                        <a href="#" class="btn m-2 btn-primary">SPRING BOOT</a>
+                        <a href="#" class="btn m-2 btn-primary">GIT HUB</a>
+                        <a href="#" class="btn m-2 btn-primary">QUARKUS</a>
+                        <a href="#" class="btn m-2 btn-primary">VAGRANT</a>
+                        <a href="#" class="btn m-2 btn-primary">KUBESPRAY</a>
+                        <a href="#" class="btn m-2 btn-primary">PROMETHEUS-GRAFANA</a>
+                        <a href="#" class="btn my-5 m-2 btn-primary padding-apply">ALL CATEGORIES</a>
+                        <div class="margin-apply">
+                            <h5 class="card-title fs-3 fw-bold">Series</h5>
+                            <a href="#" class="btn m-2 btn-primary">TRANSFORM</a>
+                            <a href="#" class="btn m-2 btn-primary">KUBERNETES</a>
+                            <a href="#" class="btn m-2 btn-primary">HELM-CHART</a>
+                            <a href="#" class="btn m-2 btn-primary">ANSIBLE</a>
+                            <a href="#" class="btn m-2 btn-primary">DOCKER</a>
+                            <a href="#" class="btn m-2 btn-primary">AWS</a>
+                            <a href="#" class="btn m-2 btn-primary">LINEX-COMMENDS</a>
+                            <a href="#" class="btn m-2 btn-primary">JENKINS</a>
+                        </div>
+                        <div class="my-5">
+                            <h5 class="card-title fs-3 fw-bold">Tags</h5>
+                            <a href="#" class="btn m-2 btn-primary">KUBERNETES</a>
+                            <a href="#" class="btn m-2 btn-primary">SSL</a>
+                            <a href="#" class="btn m-2 btn-primary">BLOGGING</a>
+                            <a href="#" class="btn m-2 btn-primary">SPRING BOOT</a>
+                            <a href="#" class="btn m-2 btn-primary">HELM-CHART</a>
+                            <a href="#" class="btn m-2 btn-primary">QUARKUS</a>
+                            <a href="#" class="btn m-2 btn-primary">TRANSFORM</a>
+                            <a href="#" class="btn m-2 btn-primary">ANSIBLE</a>
+                            <a href="#" class="btn m-2 btn-primary">KUBESPRAY</a>
+                            <a href="#" class="btn m-2 btn-primary">TRANSFORM</a>
+                            <a href="#" class="btn m-2 btn-primary">DOCKER</a>
+                            <a href="#" class="btn m-2 btn-primary">GIT HUB</a>
+                            <a href="#" class="btn m-2 btn-primary">NGINX</a>
+                            <a href="#" class="btn m-2 btn-primary">AWS</a>
+                            <a href="#" class="btn m-2 btn-primary">INDEX</a>
+                            <a href="#" class="btn m-2 btn-primary">JENKINS</a>
+                        </div>
+                        <div class="my-5">
+                            <h4 class="my-5">Recent Posts</h4>
+                            <li>Ansible Handlers Explained Real-World Use Cases & Examples</li>
+                            <li>Securing Sensitive Data in Terraform</li>
+                            <li>Boost Your AWS Security with Terraform : A Step-by-Step Guide</li>
+                            <li>How to Load Input Data from a File in Terraform?</li>
+                            <li>Can Terraform be used to provision on-premises infrastructure?</li>
+                            <li>Fixing the Terraform Error creating IAM Role. MalformedPolicyDocument Has prohibited field Resource</li>
+                            <li>In terraform how to handle null value with default value?</li>
+                            <li>Terraform use module output variables as inputs for another module?</li>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+    <div class="container my-5">
+        <button class="btn btn-warning" onclick="home()"><i class="fa-solid fa-angles-left"></i></button>
+        <button class="btn btn-warning" onclick="page1()">8</button>
+        <button class="btn btn-warning" onclick="page3()">9</button>
+        <button class="btn btn-warning" onclick="page4()">10</button>
+      </div>
+<script>
+    function home(){ 
+setTimeout(function(){ 
+  window.location.href="page7.html"
+}, 1000); // 3 seconds = 3000 milliseconds 
+} 
+function page1(){ 
+  setTimeout(function(){ 
+    window.location.href="page8.html"
+}, 1000); // 3 seconds = 3000 milliseconds 
+} 
+function page3(){ 
+  setTimeout(function(){ 
+    window.location.href="page9.html"
+}, 1000); // 3 seconds = 3000 milliseconds 
+} 
+function page4(){ 
+  setTimeout(function(){ 
+    window.location.href="page10.html"
+}, 1000); // 3 seconds = 3000 milliseconds 
+}  
+</script> 
+
+</body>
+</html>

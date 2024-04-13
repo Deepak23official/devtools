@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+<style>
+  body{
+  padding: 20px;
+}
+body h2{
+font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+body p{
+font-size: 15px;
+font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+.highlight{
+  border-radius: 20px;
+  background-color: rgb(57, 58, 79);
+  height: fit-content;
+  font-weight: bold;
+  padding: 20px;
+  position: relative;
+}
+.highlight i{
+position: absolute;
+width: 30px;
+height: 30px;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 20px;
+top: 10px;
+right: 10px;
+color: white;
+}
+.highlight i:hover{
+background-color: rgb(37, 20, 20);
+box-shadow: 0px 0px 23px white;
+cursor: pointer;
+}
+.highlight:hover{
+  box-shadow: 0px 0px 23px black;
+  transition: 0.5s;
+}
+.highlight span{
+color: rgb(244, 163, 12);
+}
+.highlight span .ln{
+margin: 0 10px;
+color: white;
+}
+.highlight span .kr{
+color: greenyellow;
+}
+</style>
+  <body>
+    <div class="container">
+<h2>1. What is Input Data in Terraform?</h2>
+<p>Before we delve into the details, let's understand what input data is in Terraform. Inputs in Terraform are like function arguments that allow you to customize aspects of the resource being created. They can include things like <em>IP addresses, usernames,</em> and any other parameters needed to configure your resources.</p>
+<br/>
+<h2>2. Why Load Input Data from a File?</h2>
+<p>Loading input data from a file can make your code more dynamic and flexible. For instance, you might have different configurations for different environments like <strong>development, staging,</strong> and <strong>production</strong>.</p>
+<p>Having your input data in separate files allows you to quickly and easily change configurations without modifying your Terraform code.</p>
+<br/>
+<h2>3. Loading Input Data: Terraform's file() Function</h2>
+<p>One common way to load data from a file is by using Terraform's built-in <strong>file()</strong> function. This function reads the file at the given path and returns the file's content as a string.</p>
+<div class="highlight cp1"><i onclick="cpy()" class="fa-regular fa-copy"></i><pre <code><span><span class="ln">1</span><span class="cl"><span># main.tf 
+</span></span></span><span><span class="ln">2</span><span class="cl"><span></span><span class="kr">
+</span></span></span><span><span class="ln">3</span><span class="cl"><span class="kr"> resource</span> <span class="s2">&#34;aws_instance&#34;</span> <span class="s2">&#34;example&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln">4</span><span class="cl">  <span class="na">user_data</span> = <span class="nb">file</span><span class="p">(</span><span class="s2">&#34;</span><span class="si">${</span><span class="nx">path</span><span class="p">.</span><span class="nb">module</span><span class="si">}</span><span class="s2">/user_data.sh&#34;</span><span class="p">)</span><span>
+</span></span></span><span><span class="ln">5</span><span class="cl"><span>  # other configuration...
+</span></span></span><span><span class="ln">6</span><span class="cl"><span></span><span class="p">}</span>
+</span></span></code></pre></div><p>In this example, the <strong>file()</strong> function is used to load a user data script that is run when the <a href="https://aws.amazon.com/ec2/instance-types/">EC2 instance</a> is launched.</p>
+<p>Remember, the <strong>file()</strong> function reads the entire file as a string. If you're trying to load structured data such as <strong>JSON</strong> or <strong>YAML</strong>, you will need to use additional functions to parse the data.</p>
+<br/>
+<h2>4. Parsing Structured Data: Terraform's jsondecode() and yamldecode() Functions</h2>
+<p>Terraform provides the<strong>jsondecode()</strong></a> and <a href="https://developer.hashicorp.com/terraform/language/functions/yamldecode"><strong>yamldecode()</strong></a> functions to parse JSON and YAML files, respectively.</p>
+<p>Here's an example of loading and parsing a JSON file:</p>
+<div class="highlight cp2"><i onclick="cpy1()" class="fa-regular fa-copy"></i><pre <code><span><span class="ln">1</span><span class="cl"><span># main.tf 
+</span></span></span><span><span class="ln">2</span><span class="cl"><span></span><span class="kr">
+</span></span></span><span><span class="ln">3</span><span class="cl"><span class="kr">variable</span> <span class="s2">&#34;config&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln">4</span><span class="cl">  <span class="na">type</span> =<span class="nb"> map</span><span class="p">(</span><span class="nx">any</span><span class="p">)</span>
+</span></span><span><span class="ln">5</span><span class="cl">  <span class="na">default</span> =<span class="nb"> jsondecode</span><span class="p">(</span><span class="nb">file</span><span class="p">(</span><span class="s2">&#34;</span><span class="si">${</span><span class="nx">path</span><span class="p">.</span><span class="nb">module</span><span class="si">}</span><span class="s2">/config.json&#34;</span><span class="p">))</span>
+</span></span><span><span class="ln">6</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>In this example, the <strong>file()</strong> function is used to load a <strong>JSON</strong> configuration file, and <strong>jsondecode()</strong> is used to parse the loaded JSON data.</p>
+<br/>
+<h4>Important Considerations</h4>
+<ol>
+<li>
+<p><strong>File Path:</strong> Always ensure that the file path provided to the file() function is correct. The path can be either relative to the directory where Terraform is run, or absolute.</p>
+</li>
+<li>
+<p><strong>File Format:</strong> The file() function reads the file as a string. If the file contains structured data (like JSON or YAML), remember to use the appropriate function to parse the data.</p>
+</li>
+<li>
+<p><strong>Sensitive Data:</strong> If the file contains sensitive data (like passwords or API keys), be cautious about where and how you use this data. Avoid outputting sensitive data to the console or storing it in state files if possible.</p>
+</li>
+</ol>
+<br/> 
+<h2>5. Load Input Data from a File using templatefile Function</h2>
+<p>In a previous section, we discussed loading input data from a file in Terraform using the <strong>file()</strong> function.</p>
+<p>Now, let's discuss some more advanced ways to load data from a file in Terraform using the <strong><a href="../terraform-template/index.html">templatefile</a></strong> function.</p>
+<p>The <strong>templatefile</strong> function is an upgrade over the file function and can be used to render a template from a file. This function reads the file at the given path and treats its content as a template to be rendered.</p>
+<p>This is a typical use-case:</p>
+<div class="highlight cp3"><i onclick="cpy2()" class="fa-regular fa-copy"></i><pre <code><span><span class="ln">1</span><span class="cl"><span># main.tf
+</span></span></span><span><span class="ln">2</span><span class="cl"><span># Read the template file user_data.sh.tpl
+</span></span></span><span><span class="ln">3</span><span class="cl"><span></span><span class="kr">
+</span></span></span><span><span class="ln">4</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_instance&#34;</span> <span class="s2">&#34;example&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln">5</span><span class="cl">  <span class="na">user_data</span> = <span class="nb">templatefile</span><span class="p">(</span><span class="s2">&#34;</span><span class="si">${</span><span class="nx">path</span><span class="p">.</span><span class="nb">module</span><span class="si">}</span><span class="s2">/user_data.sh.tpl&#34;</span><span class="p">,</span> <span class="p">{</span> <span class="na">instance_name</span> = <span class="s2">&#34;example-instance&#34;</span> <span class="p">})</span><span>
+</span></span></span><span><span class="ln">6</span><span class="cl"><span>  # other configuration...
+</span></span></span><span><span class="ln">7</span><span class="cl"><span></span><span class="p">}</span> 
+</span></span></code></pre></div><p>Here is the template file -</p>
+<div class="highlight cp4"><i onclick="cpy3()" class="fa-regular fa-copy"></i><pre class="chroma"><code class="language-bash" data-lang="bash"><span><span class="ln"> 1</span><span class="cl">
+</span></span><span><span class="ln"> 2</span><span class="cl"><span>#!/bin/bash</span>
+</span></span><span><span class="ln"> 3</span><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Hello, this is </span><span class="si">${</span><span class="nv">instance_name</span><span class="si">}</span><span class="s2">!&#34;</span>
+</span></span><span><span class="ln"> 4</span><span class="cl">
+</span></span><span><span class="ln"> 5</span><span class="cl"><span># Add any setup commands you need to run on your instance.</span>
+</span></span><span><span class="ln"> 6</span><span class="cl"><span># For example, to update and upgrade an Ubuntu server, you might include:</span>
+</span></span><span><span class="ln"> 7</span><span class="cl">apt-get update -y
+</span></span><span><span class="ln"> 8</span><span class="cl">apt-get upgrade -y
+</span></span><span><span class="ln"> 9</span><span class="cl">
+</span></span><span><span class="ln">10</span><span class="cl"><span># You can use the instance_name variable anywhere you need it in this script.</span>
+</span></span><span><span class="ln">11</span><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">instance_name</span><span class="si">}</span><span class="s2"> setup complete!&#34;</span>
+</span></span></code></pre></div><p>In this example, <strong>templatefile</strong> reads the file <strong>user_data.sh.tpl</strong> and substitutes the variables in the template with the values provided in the second argument (in this case, <strong>instance_name</strong> is substituted with &quot;example-instance&quot;).</p>
+<br/>
+<h2>6. Load Input Data from a File using local_file Data Source</h2>
+<p>The <strong>local_file data source</a></strong> is used to read a local file's content into Terraform and use the data within the Terraform configuration.</p>
+<p>Here is an example:</p>
+<div class="highlight cp5"><i onclick="cpy4()" class="fa-regular fa-copy"></i><pre class="chroma"><code class="language-terraform" data-lang="terraform"><span><span class="ln">1</span><span class="cl"><span class="kr">data</span> <span class="s2">&#34;local_file&#34;</span> <span class="s2">&#34;example&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln">2</span><span class="cl">  <span class="na">filename</span> = <span class="s2">&#34;</span><span class="si">${</span><span class="nx">path</span><span class="p">.</span><span class="nb">module</span><span class="si">}</span><span class="s2">/example.txt&#34;</span>
+</span></span><span><span class="ln">3</span><span class="cl"><span class="p">}</span>
+</span></span><span><span class="ln">4</span><span class="cl"><span class="kr">
+</span></span></span><span><span class="ln">5</span><span class="cl"><span class="kr">output</span> <span class="s2">&#34;file_content&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln">6</span><span class="cl">  <span class="na">value</span> = <span class="nb">data</span><span class="p">.</span><span class="nx">local_file</span><span class="p">.</span><span class="nx">example</span><span class="p">.</span><span class="nx">content</span>
+</span></span><span><span class="ln">7</span><span class="cl"><span class="p">}</span> 
+</span></span></code></pre></div><p>In this example, the <strong>local_file</strong> data source reads the file <strong>example.txt</strong> and the content is then accessible via <strong>data.local_file.example.content</strong>.</p>
+<br/>
+<h2>7. Load Input Data from a File using template_file Data Source (Deprecated)</h2>
+<p>The <strong>template_file</strong> data source is used to render a file template. Note that as of <strong>Terraform 0.12</strong>, this data source has been deprecated and replaced with the templatefile function. Here is how it was typically used:</p>
+<div class="highlight cp6"><i onclick="cpy5()" class="fa-regular fa-copy"></i><pre class="chroma"><code class="language-terraform" data-lang="terraform"><span><span class="ln"> 1</span><span class="cl"><span class="kr">data</span> <span class="s2">&#34;template_file&#34;</span> <span class="s2">&#34;example&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln"> 2</span><span class="cl"><span class="na">template</span> = <span class="s2">&#34;</span><span class="si">${</span><span class="nb">file</span><span class="p">(</span><span class="s2">&#34;</span><span class="si">${</span><span class="nx">path</span><span class="p">.</span><span class="nb">module</span><span class="si">}</span><span class="s2">/example.tpl&#34;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span><span class="ln"> 3</span><span class="cl">
+</span></span><span><span class="ln"> 4</span><span class="cl"><span class="na">vars</span> = <span class="p">{</span>
+</span></span><span><span class="ln"> 5</span><span class="cl"><span class="na">instance_name</span> = <span class="s2">&#34;example-instance&#34;</span>
+</span></span><span><span class="ln"> 6</span><span class="cl"><span class="na">environment</span>   = <span class="s2">&#34;development&#34;</span>
+</span></span><span><span class="ln"> 7</span><span class="cl"><span class="p">}</span>
+</span></span><span><span class="ln"> 8</span><span class="cl"><span class="p">}</span>
+</span></span><span><span class="ln"> 9</span><span class="cl"><span class="kr">
+</span></span></span><span><span class="ln">10</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_instance&#34;</span> <span class="s2">&#34;example&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln">11</span><span class="cl">  <span class="na">user_data</span> = <span class="nb">data</span><span class="p">.</span><span class="nx">template_file</span><span class="p">.</span><span class="nx">example</span><span class="p">.</span><span class="nx">rendered</span><span>
+</span></span></span><span><span class="ln">12</span><span class="cl"><span>  # other configuration...
+</span></span></span><span><span class="ln">13</span><span class="cl"><span></span><span class="p">}</span>
+</span></span></code></pre></div><p>Here is the template file -</p>
+<div class="highlight cp7"><i onclick="cpy6()" class="fa-regular fa-copy"></i><pre class="chroma"><code class="language-json" data-lang="json"><span><span class="ln"> 1</span><span class="cl"><span class="p">{</span>
+</span></span><span><span class="ln"> 2</span><span class="cl"><span>&#34;instance_name&#34;</span><span class="p">:</span> <span class="s2">&#34;${instance_name}&#34;</span><span class="p">,</span>
+</span></span><span><span class="ln"> 3</span><span class="cl"><span>&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;This is an example instance named ${instance_name}.&#34;</span><span class="p">,</span>
+</span></span><span><span class="ln"> 4</span><span class="cl"><span>&#34;tags&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span><span class="ln"> 5</span><span class="cl"><span class="p">{</span>
+</span></span><span><span class="ln"> 6</span><span class="cl"><span>&#34;key&#34;</span><span class="p">:</span> <span class="s2">&#34;Name&#34;</span><span class="p">,</span>
+</span></span><span><span class="ln"> 7</span><span class="cl"><span>&#34;value&#34;</span><span class="p">:</span> <span class="s2">&#34;${instance_name}&#34;</span>
+</span></span><span><span class="ln"> 8</span><span class="cl"><span class="p">},</span>
+</span></span><span><span class="ln"> 9</span><span class="cl"><span class="p">{</span>
+</span></span><span><span class="ln">10</span><span class="cl"><span>&#34;key&#34;</span><span class="p">:</span> <span class="s2">&#34;Environment&#34;</span><span class="p">,</span>
+</span></span><span><span class="ln">11</span><span class="cl"><span>&#34;value&#34;</span><span class="p">:</span> <span class="s2">&#34;${environment}&#34;</span>
+</span></span><span><span class="ln">12</span><span class="cl"><span class="p">}</span>
+</span></span><span><span class="ln">13</span><span class="cl"><span class="p">]</span>
+</span></span><span><span class="ln">14</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>In this example, <strong>template_file</strong> reads the file <strong>example.tpl</strong> and substitutes the variables in the template with the values provided in vars (in this case, <strong>instance_name</strong> is substituted with <strong>&quot;example-instance&quot;</strong>).</p>
+<br/>
+<h2>8. Wrapping Up: Leveraging Terraform's File-Based Inputs</h2>
+<p>We've uncovered the power and flexibility of Terraform's file-based input capabilities. We started with the straightforward <strong>file()</strong> function, a tool that allows us to load an entire file as a <strong>string</strong>, useful for instances where we need to incorporate a static script or a configuration file in our Terraform setup.</p>
+<p>When our needs became more complex, demanding dynamic inputs and variable substitutions, we discovered the <strong>templatefile function</strong>. This utility took our file inputs to a new level, enabling us to render file templates with dynamic variable substitution. This is ideal for situations where we want to incorporate changing variables into scripts or configuration files that need to be attached to our resources.</p>
+<p>For scenarios where we simply wanted to read data from a <strong>local file</strong> into our Terraform configurations, we employed the <strong>local_file data source</strong>. This data source facilitates seamless integration of local file data into our Terraform workflow, empowering us to easily reference the content within our infrastructure setup.</p>
+<p>Lastly, we delved into the history books and revisited the deprecated template_file data source. While it has been replaced by the templatefile function in Terraform 0.12 and later, understanding its usage provided us valuable insight into Terraform's evolution. However, for modern Terraform setups, it's advisable to use the <strong><a href="../terraform-template/index.html">templatefile function</a></strong> for the added efficiency and support.</p>
+<p>Across all these methods, it's evident how Terraform has catered to a multitude of scenarios, ensuring that developers and system administrators have the tools they need to manage and provision infrastructure with ease and finesse.</p>
+<p>As you venture forth in your Terraform journey, remember the lessons learned here. Understand your needs and choose the right method to manage your file-based input data. Whether it's a simple file(), a dynamic templatefile, or a local_file data source, Terraform's versatility is ready to back you up, simplifying your infrastructure management tasks and making your code more robust, dynamic, and maintainable.</p>
+
+</div>
+</div>
+
+<script>
+  function cpy(){
+        let content = document.querySelector(".cp1");
+        navigator.clipboard.writeText(content.innerText)
+    }
+    function cpy1(){
+        let content = document.querySelector(".cp2");
+        navigator.clipboard.writeText(content.innerText)
+    }
+    function cpy2(){
+        let content = document.querySelector(".cp3");
+        navigator.clipboard.writeText(content.innerText)
+    }
+    function cpy3(){
+        let content = document.querySelector(".cp4");
+        navigator.clipboard.writeText(content.innerText)
+    }
+    function cpy4(){
+        let content = document.querySelector(".cp5");
+        navigator.clipboard.writeText(content.innerText)
+    }
+    </script>
+  </body>
+</html>

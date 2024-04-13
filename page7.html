@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+</head>
+<style>
+    .w-100{
+        /* display: flex; */
+        gap: 10px;
+    }
+    .col-12{
+        width: 800px;
+        margin-top: 10px;
+        border-radius: 20px;
+    }
+    .col-8{
+        width: 350px;
+        margin-top: 10px;
+    }
+    .d-flex{
+        padding: 10px 20px;
+    }
+    .d-flex .col-12:hover{
+        box-shadow: 0px 0px 23px black;
+        transition: 0.5s;
+    }
+    .d-flex .col-8:hover{
+        box-shadow: 0px 0px 23px black;
+        transition: 0.5s;
+    }
+    .card{
+        /* background-image: url(https://cdn.pixabay.com/photo/2015/12/19/20/32/paper-1100254_1280.jpg); */
+        font-weight: bold;
+        /* background: linear-gradient(20deg, rgb(208, 12, 64) 10%, rgb(226, 218, 201) 100%); */
+        /* background: linear-gradient(rgb(222, 190, 66), rgb(255, 255, 255)); */
+        /* background-color: #6C40EA; */
+        background-image: url(https://img.freepik.com/free-photo/gray-abstract-wireframe-technology-background_53876-101941.jpg?size=626&ext=jpg&ga=GA1.1.617367075.1696605853&semt=sph);
+        color: rgb(0, 0, 0);background-size: cover;
+    }
+    /* .img::before{
+    content: "";
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    inset: 0px;
+    z-index: -1;
+    } */
+    .img{
+        /* background: linear-gradient(20deg, rgb(208, 12, 64) 10%, rgb(226, 218, 201) 100%);  */
+        /* background-image: url(https://cdn.pixabay.com/photo/2015/12/19/20/32/paper-1100254_1280.jpg); */
+        width: 100%;
+        height: 100vh;
+        object-fit: contain;
+        position: fixed;
+        z-index: -1;
+    }
+    .flex{
+        display: flex;
+        gap: 20px;
+        font-weight: 200;
+        padding: 10px;
+        margin: 20px 0px;
+    }
+    .flex img{
+        width: 100px;
+        height: 100px;
+    }
+    .margin-apply{
+        margin-top: 250px;
+    }
+    /* .padding-apply{
+        margin-bottom: 00px;
+    } */
+    @media(min-width:320px){
+        .w-100{
+            flex-direction: column;
+        }
+        .d-flex{
+            max-width: 320px;
+        }
+        .col-8{
+        width: 800px;
+    }
+    }
+    @media(min-width:560px){
+        .w-100{
+            flex-direction: column;
+        }
+        .d-flex{
+            max-width: 560px;
+        }
+    }
+    @media(min-width:768px){
+        .w-100{
+            flex-direction: row;
+        }
+        .d-flex{
+            max-width: 768px;
+        }
+        .col-12{
+        width:470px;
+    }
+    .col-8{
+        width: 260px;
+    }
+    }
+    @media(min-width:1024px){
+        .w-100{
+            flex-direction: row;
+        }
+        .col-12{
+        width: 630px;
+    }
+    .d-flex{
+            max-width: 1024px;
+        }
+    .col-8{
+        width: 350px;
+    }
+    }
+    @media(min-width:1280px){
+        .d-flex{
+            max-width: 1280px;
+        }
+        .col-12{
+            width: 790px;
+        }
+        .col-8{
+        margin-right: 20px;
+        width: 400px;
+    }
+    }
+    li{
+        text-align:justify;
+        font-weight: 200;
+        margin: 20px;
+    }
+</style>
+<body>
+    <div class="img"></div>
+    <div class="container-flvid d-flex w-100">
+        <div>
+            <div class="col-12 mb-3 mb-sm-0">
+                 <div class="card">
+                     <div class="card-body">
+                       <h5 class="card-title fs-3 fw-bold">How manage access-control, permission and authorization with Permit.io</h5>
+                       <div>
+                        <div class="flex">
+                            <div><img src="https://jhooq.com/wp-content/uploads/sponsored/permit-io/permit-io-logo.webp" alt=""></div>
+                            <p class="card-text">
+                                Permit.io is a platform for managing your permission infrastructure and allowing you to focus on the actual business requirement. With Permit.io you do not have to build your own solution to implement authorization, it has all the features(GUI Interface, Developer SDK) which comes really handy to manage the users roles …</p>
+                        </div>
+                       </div>
+                      
+                       <a href="#" class="btn btn-primary">Read More</a>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">Install Ansible on MacOS, Windows, Ubuntu(debian) and Fedora(rpm) - Part 1</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/ansible/logo/ansible-logo.webp" alt=""></div>
+                           <p class="card-text">
+                            Thinking about Ansible as your configuration management tool, Great choice, of course, Ansible has a lot to offer and also a lot to learn to use effectively. Today’s article is your first step to Ansible! In this tutorial,, we will dive together into Ansible's installation process on different platforms. Ansible …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold ">How to deploy site to Netlify manually and How to automate site deployment using FTP on other hosting service provider?</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/blogging/hosting-on-netlify/netlify.webp" alt=""></div>
+                           <p class="card-text">
+                            Netlify hosting has excellent integration with Github, so if you own a static website like me then you can rely on Netlify automated infrastructure for automatic deployment as well as update of your website. But there might be a situation where you need to manually control the deployment of your static website by …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">Fixing the Hugo Theme on Netlify Hosting?</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/blogging/hosting-on-netlify/netlify.webp" alt=""></div>
+                           <p class="card-text">
+                            This is a detailed blog post on how to fix the Hugo theme on Netlify hosting. I personally run this website with Hugo and I am impressed with the performance and configurations provided by the GoHugo as well as Netlify. If you are new to this setup then I would recommend reading this beginner's guide on - Hosting a …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">What is persistent storage in docker and how to manage it</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/2020/03/docker-2-e1584555918677.webp" alt=""></div>
+                           <p class="card-text">When working with containers, one major point of concern is the persistent storage of data. Container storage is ephemeral, meaning that the data written by the containerized application is not preserved if the container is removed. Containerized applications work on the assumption that they always start with empty …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">Docker Installation on MacOS, Linux and Windows</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/2020/03/docker-2-e1584555918677.webp" alt=""></div>
+                           <p class="card-text">This is blog series on Docker we will start with Docker installation on all the Machines . i.e. macOS, Linux and Windows. Also along with the installation, we will focus on all the possible issues which you can encounter during the pre-installation as well as post-installation. Table of Content Installation of Docker …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">How to set up Netlify CMS for static website?</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/blogging/hosting-on-netlify/netlify.webp" alt=""></div>
+                           <p class="card-text">Netlify CMS is one of the most requested features by all the authors who own static websites. I'm personally running my blog from last 3 years on Hugo static site framework and I am really happy with my website performance but when I read some posts on the Netlify forum about Netlify CMS, it made me curious as well as …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">Hosting a website on Netlify</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/blogging/hosting-on-netlify/netlify.webp" alt=""></div>
+                           <p class="card-text">
+                            This blog post is inspired by a lot of questions I received from my readers and they generally ask - How did you design your website? Which hosting service I am using? How much does it cost to run a website with its domain name? Is it possible to run a website free? (Disclaimer - Yes you can run the website for free …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">How to use Terragrunt?</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/terraform/terragrunt-guide/terragrunt-logo.webp" alt=""></div>
+                           <p class="card-text">Terragrunt is an additional wrapper that is built on top of the Terraform. Terraform is a great Infrastructure as Code tool for managing your cloud infrastructure. But as the project size grows and you have multiple environments (Development, Testing, Staging, Production, etc..) to manage then you will realize …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">Terraform and AWS Multi account Setup?</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/terraform/logo/Terraform_logo.webp" alt=""></div>
+                           <p class="card-text">
+                            This article is focused on how to use AWS multiple account setup with Terraform. Terraform is a great tool for provisioning your cloud infrastructure but as you start using Terraform for managing your cloud infrastructure you will always feel a need for multiple AWS accounts that can cater to some specific environment …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+         </div>
+
+         <div>
+            <div class="col-8 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title fs-3 fw-bold">Categories</h5>
+                        <a href="#" class="btn m-2 btn-primary">DOCKER</a>
+                        <a href="#" class="btn m-2 btn-primary">AWS</a>
+                        <a href="#" class="btn m-2 btn-primary">KUBERNETES</a>
+                        <a href="#" class="btn m-2 btn-primary">ANSIBLE</a>
+                        <a href="#" class="btn m-2 btn-primary">HELM-CHART</a>
+                        <a href="#" class="btn m-2 btn-primary">SSL</a>
+                        <a href="#" class="btn m-2 btn-primary">BLOGGING</a>
+                        <a href="#" class="btn m-2 btn-primary">SPRING BOOT</a>
+                        <a href="#" class="btn m-2 btn-primary">GIT HUB</a>
+                        <a href="#" class="btn m-2 btn-primary">QUARKUS</a>
+                        <a href="#" class="btn m-2 btn-primary">VAGRANT</a>
+                        <a href="#" class="btn m-2 btn-primary">KUBESPRAY</a>
+                        <a href="#" class="btn m-2 btn-primary">PROMETHEUS-GRAFANA</a>
+                        <a href="#" class="btn my-5 m-2 btn-primary padding-apply">ALL CATEGORIES</a>
+                        <div class="margin-apply">
+                            <h5 class="card-title fs-3 fw-bold">Series</h5>
+                            <a href="#" class="btn m-2 btn-primary">TRANSFORM</a>
+                            <a href="#" class="btn m-2 btn-primary">KUBERNETES</a>
+                            <a href="#" class="btn m-2 btn-primary">HELM-CHART</a>
+                            <a href="#" class="btn m-2 btn-primary">ANSIBLE</a>
+                            <a href="#" class="btn m-2 btn-primary">DOCKER</a>
+                            <a href="#" class="btn m-2 btn-primary">AWS</a>
+                            <a href="#" class="btn m-2 btn-primary">LINEX-COMMENDS</a>
+                            <a href="#" class="btn m-2 btn-primary">JENKINS</a>
+                        </div>
+                        <div class="my-5">
+                            <h5 class="card-title fs-3 fw-bold">Tags</h5>
+                            <a href="#" class="btn m-2 btn-primary">KUBERNETES</a>
+                            <a href="#" class="btn m-2 btn-primary">SSL</a>
+                            <a href="#" class="btn m-2 btn-primary">BLOGGING</a>
+                            <a href="#" class="btn m-2 btn-primary">SPRING BOOT</a>
+                            <a href="#" class="btn m-2 btn-primary">HELM-CHART</a>
+                            <a href="#" class="btn m-2 btn-primary">QUARKUS</a>
+                            <a href="#" class="btn m-2 btn-primary">TRANSFORM</a>
+                            <a href="#" class="btn m-2 btn-primary">ANSIBLE</a>
+                            <a href="#" class="btn m-2 btn-primary">KUBESPRAY</a>
+                            <a href="#" class="btn m-2 btn-primary">TRANSFORM</a>
+                            <a href="#" class="btn m-2 btn-primary">DOCKER</a>
+                            <a href="#" class="btn m-2 btn-primary">GIT HUB</a>
+                            <a href="#" class="btn m-2 btn-primary">NGINX</a>
+                            <a href="#" class="btn m-2 btn-primary">AWS</a>
+                            <a href="#" class="btn m-2 btn-primary">INDEX</a>
+                            <a href="#" class="btn m-2 btn-primary">JENKINS</a>
+                        </div>
+                        <div class="my-5">
+                            <h4 class="my-5">Recent Posts</h4>
+                            <li>Ansible Handlers Explained Real-World Use Cases & Examples</li>
+                            <li>Securing Sensitive Data in Terraform</li>
+                            <li>Boost Your AWS Security with Terraform : A Step-by-Step Guide</li>
+                            <li>How to Load Input Data from a File in Terraform?</li>
+                            <li>Can Terraform be used to provision on-premises infrastructure?</li>
+                            <li>Fixing the Terraform Error creating IAM Role. MalformedPolicyDocument Has prohibited field Resource</li>
+                            <li>In terraform how to handle null value with default value?</li>
+                            <li>Terraform use module output variables as inputs for another module?</li>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+    <div class="container my-5">
+        <button class="btn btn-warning" onclick="home()"><i class="fa-solid fa-angles-left"></i></button>
+        <button class="btn btn-warning" onclick="page1()">6</button>
+        <button class="btn btn-warning" onclick="page3()">7</button>
+        <button class="btn btn-warning" onclick="page4()">8</button>
+        <button class="btn btn-warning" onclick="page5()"><i class="fa-solid fa-angles-right"></i></button>
+      </div>
+<script>
+    function home(){ 
+setTimeout(function(){ 
+  window.location.href="page6.html"
+}, 1000); // 3 seconds = 3000 milliseconds 
+} 
+function page1(){ 
+  setTimeout(function(){ 
+    window.location.href="page7.html"
+}, 1000); // 3 seconds = 3000 milliseconds 
+} 
+function page3(){ 
+  setTimeout(function(){ 
+    window.location.href="page8.html"
+}, 1000); // 3 seconds = 3000 milliseconds 
+} 
+function page4(){ 
+  setTimeout(function(){ 
+    window.location.href="page9.html"
+}, 1000); // 3 seconds = 3000 milliseconds 
+} 
+function page5(){ 
+  setTimeout(function(){ 
+    window.location.href="page10.html"
+}, 1000); // 3 seconds = 3000 milliseconds 
+}     
+</script>
+
+</body>
+</html>

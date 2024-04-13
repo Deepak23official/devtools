@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+<style>
+  body{
+  padding: 20px;
+}
+body h2{
+font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+body p{
+font-size: 15px;
+font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+.highlight{
+  border-radius: 20px;
+  background-color: rgb(57, 58, 79);
+  height: fit-content;
+  font-weight: bold;
+  padding: 20px;
+  position: relative;
+}
+.highlight i{
+position: absolute;
+width: 30px;
+height: 30px;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 20px;
+top: 10px;
+right: 10px;
+color: white;
+}
+.highlight i:hover{
+background-color: rgb(37, 20, 20);
+box-shadow: 0px 0px 23px white;
+cursor: pointer;
+}
+.highlight:hover{
+  box-shadow: 0px 0px 23px black;
+  transition: 0.5s;
+}
+.highlight span{
+color: rgb(244, 163, 12);
+}
+.highlight span .ln{
+margin: 0 10px;
+color: white;
+}
+.highlight span .kr{
+color: greenyellow;
+}
+</style>
+<body>
+  <div class="container">
+<h2>1. Introduction</h2>
+<p><strong>Sensitive data?</strong> <strong>Yes</strong>, you heard it right. We're talking about the data that you don't want to expose to the public. This might be your -</p>
+<ol>
+<li>Database Credentials</li>
+<li>SSH keys</li>
+<li>API tokens -</li>
+</ol>
+<p>Anything that could cause a significant security risk if it fell into the wrong hands. Handling this data properly is an essential part of our work in a <a href="https://www.terraform.io/">Terraform</a> environment.</p>
+<br/>
+<h2>2. Securing Sensitive Data with Terraform</h2>
+<p>Handling sensitive data properly can be tricky, but don't worry, Terraform has got you covered! Here are some of the best practices that you should consider:</p>
+<h3>2.1 Securely managing Terraform variables</h3>
+<p>This is your first line of defense. Avoid <strong>hardcoding</strong> sensitive data into your configuration files. Terraform variables should be your go-to choice for handling such data.</p>
+<div class="highlight cp1"><i onclick="cpy()" class="fa-regular fa-copy"></i><pre>
+  <code>
+    <span><span class="ln">1</span>
+    <span class="cl"><span class="c1 text-white"># Set sensitive flag=true
+</span></span></span>
+<span><span class="ln">2</span>
+<span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span><span class="ln">3</span><span class="cl"><span class="kr">variable</span> <span class="s2">&#34;password&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln">4</span><span class="cl">   <span>description</span> = <span class="s2">&#34;Database password&#34;</span>
+</span></span><span><span class="ln">5</span><span class="cl">   <span>type</span>        = <span class="nx">string</span>
+</span></span><span><span class="ln">6</span><span class="cl">   <span>sensitive</span>   = <span class="kc">true</span>
+</span></span><span><span class="ln">7</span><span class="cl"><span class="p">}</span> 
+</span></span></code></pre></div><br/>
+<h3>2.2 Encrypting Sensitive Data at Rest</h3>
+<p>One of the most common places to store sensitive data at rest is in an <strong><a href="https://aws.amazon.com/s3/">AWS S3 bucket</a></strong>.</p>
+<blockquote>
+<p><strong>But how do we ensure that our data is encrypted in S3 Bucket?</strong></p>
+</blockquote>
+<p>AWS offers a solution called <strong>Server-Side Encryption</strong> with <strong><a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingServerSideEncryption.html">Amazon S3-Managed Keys (SSE-S3)</a></strong>.</p>
+<p>When you enable <strong>SSE-S3</strong>, each object in your bucket is encrypted with a unique key. As an additional safeguard, this key itself is encrypted with a master key that Amazon regularly rotates.</p>
+<p>Here is an Example Terraform code which you could refer:</p>
+<div class="highlight cp2"><i onclick="cpy1()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="c1"># Enable encryption SSE-S3 for S3 Bucket
+</span></span></span><span><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_s3_bucket&#34;</span> <span class="s2">&#34;bucket&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln"> 4</span><span class="cl">  <span>bucket</span> = <span class="s2">&#34;my_tfstate_bucket&#34;</span>
+</span></span><span><span class="ln"> 5</span><span class="cl">  <span>acl</span>    = <span class="s2">&#34;private&#34;</span>
+</span></span><span><span class="ln"> 6</span><span class="cl">
+</span></span><span><span class="ln"> 7</span><span class="cl">  <span class="nx">server_side_encryption_configuration</span> <span class="p">{</span>
+</span></span><span><span class="ln"> 8</span><span class="cl">    <span class="nx">rule</span> <span class="p">{</span>
+</span></span><span><span class="ln"> 9</span><span class="cl">      <span class="nx">apply_server_side_encryption_by_default</span> <span class="p">{</span>
+</span></span><span><span class="ln">10</span><span class="cl">        <span>sse_algorithm</span> = <span class="s2">&#34;AES256&#34;</span>
+</span></span><span><span class="ln">11</span><span class="cl">      <span class="p">}</span>
+</span></span><span><span class="ln">12</span><span class="cl">    <span class="p">}</span>
+</span></span><span><span class="ln">13</span><span class="cl">  <span class="p">}</span>
+</span></span><span><span class="ln">14</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>In the above example, we're creating a private <strong>S3 bucket</strong> and enabling server-side encryption using the <strong>AES256</strong> algorithm.</p>
+<br/>
+<h3>2.3 Encrypting Sensitive Data in Transit</h3>
+<p>When it comes to encrypting data in <strong>transit</strong>, <strong>Transport Layer Security (TLS)</strong> is one of the most commonly used protocols.</p>
+<p>AWS offers an option to enforce the use of <strong>HTTPS (which incorporates TLS)</strong> in the communication with your <strong>S3 bucket</strong>.</p>
+<p>In order to enforce <strong>HTTPS</strong> for an <strong>S3 bucket</strong>, we can use a bucket policy that denies all <strong>non-HTTPS requests</strong>:</p>
+<div class="highlight cp3"><i onclick="cpy2()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="c1">
+</span></span></span><span><span class="ln"> 2</span><span class="cl"><span class="c1"># Deny all non-https request
+</span></span></span><span><span class="ln"> 3</span><span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span><span class="ln"> 4</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_s3_bucket&#34;</span> <span class="s2">&#34;bucket&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln"> 5</span><span class="cl">  <span>bucket</span> = <span class="s2">&#34;my_tfstate_bucket&#34;</span>
+</span></span><span><span class="ln"> 6</span><span class="cl">  <span>acl</span>    = <span class="s2">&#34;private&#34;</span>
+</span></span><span><span class="ln"> 7</span><span class="cl"><span class="p">}</span>
+</span></span><span><span class="ln"> 8</span><span class="cl"><span class="kr">
+</span></span></span><span><span class="ln"> 9</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_s3_bucket_policy&#34;</span> <span class="s2">&#34;bucket_policy&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln">10</span><span class="cl">  <span>bucket</span> = <span class="nx">aws_s3_bucket</span><span class="p">.</span><span class="nx">bucket</span><span class="p">.</span><span class="nx">id</span><span class="c1">
+</span></span></span><span><span class="ln">11</span><span class="cl"><span class="c1">  
+</span></span></span><span><span class="ln">12</span><span class="cl"><span class="c1">  # Deny non-https request policy
+</span></span></span><span><span class="ln">13</span><span class="cl"><span class="c1"></span>  <span>policy</span> =<span class="nb"> jsonencode</span><span class="p">({</span>
+</span></span><span><span class="ln">14</span><span class="cl">    <span>Version</span> = <span class="s2">&#34;2012-10-17&#34;</span>
+</span></span><span><span class="ln">15</span><span class="cl">    <span>Statement</span> = <span class="p">[</span>
+</span></span><span><span class="ln">16</span><span class="cl">      <span class="p">{</span>
+</span></span><span><span class="ln">17</span><span class="cl">        <span>Sid</span>       = <span class="s2">&#34;ForceSSLOnlyAccess&#34;</span>
+</span></span><span><span class="ln">18</span><span class="cl">        <span>Effect</span>    = <span class="s2">&#34;Deny&#34;</span>
+</span></span><span><span class="ln">19</span><span class="cl">        <span>Principal</span> = <span class="s2">&#34;*&#34;</span>
+</span></span><span><span class="ln">20</span><span class="cl">        <span>Action</span>    = <span class="s2">&#34;s3:*&#34;</span>
+</span></span><span><span class="ln">21</span><span class="cl">        <span>Resource</span>  = <span class="s2">&#34;arn:aws:s3:::my_tfstate_bucket/*&#34;</span>
+</span></span><span><span class="ln">22</span><span class="cl">        <span>Condition</span> = <span class="p">{</span>
+</span></span><span><span class="ln">23</span><span class="cl">          <span>Bool</span> = <span class="p">{</span>
+</span></span><span><span class="ln">24</span><span class="cl">            <span class="s2">&#34;aws:SecureTransport&#34;</span> <span class="o">=</span> <span class="s2">&#34;false&#34;</span>
+</span></span><span><span class="ln">25</span><span class="cl">          <span class="p">}</span>
+</span></span><span><span class="ln">26</span><span class="cl">        <span class="p">}</span>
+</span></span><span><span class="ln">27</span><span class="cl">      <span class="p">},</span>
+</span></span><span><span class="ln">28</span><span class="cl">    <span class="p">]</span>
+</span></span><span><span class="ln">29</span><span class="cl">  <span class="p">})</span>
+</span></span><span><span class="ln">30</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><br/>
+<h3>2.4 The use of sensitive argument in Terraform to prevent logging of sensitive data</h3>
+<p>Now, imagine you're a detective (Sherlock Holmes, perhaps?), and your <strong>logs</strong> are like your case notes. They tell you the story of what happened in your system.</p>
+<p>But there are certain details - the secret stuff - that you don't want to be written down in your notes for everyone to see. That's exactly where the <strong>sensitive argument</strong> in Terraform comes to the rescue!</p>
+<p>Let's see how it works through a practical example:</p>
+<p>Consider a scenario where you are creating a new <strong><a href="https://aws.amazon.com/rds/">AWS RDS</a></strong> instance using Terraform. One of the necessary input variables would be your <strong>database password</strong>. We certainly wouldn't want this information being printed in our console output or logs.</p>
+<div class="highlight cp4"><i onclick="cpy3()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="c1"># make the db_password sensitive
+</span></span></span><span><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span class="cl"><span class="kr">variable</span> <span class="s2">&#34;db_password&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln"> 4</span><span class="cl">  <span>description</span> = <span class="s2">&#34;The password for our database.&#34;</span>
+</span></span><span><span class="ln"> 5</span><span class="cl">  <span>type</span>        = <span class="nx">string</span>
+</span></span><span><span class="ln"> 6</span><span class="cl">  <span>sensitive</span>   = <span class="kc">true</span>
+</span></span><span><span class="ln"> 7</span><span class="cl"><span class="p">}</span>
+</span></span><span><span class="ln"> 8</span><span class="cl"><span class="kr">
+</span></span></span><span><span class="ln"> 9</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_db_instance&#34;</span> <span class="s2">&#34;my_db&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln">10</span><span class="cl">  <span>allocated_storage</span>    = <span class="m">20</span>
+</span></span><span><span class="ln">11</span><span class="cl">  <span>storage_type</span>         = <span class="s2">&#34;gp2&#34;</span>
+</span></span><span><span class="ln">12</span><span class="cl">  <span>engine</span>               = <span class="s2">&#34;mysql&#34;</span>
+</span></span><span><span class="ln">13</span><span class="cl">  <span>engine_version</span>       = <span class="s2">&#34;5.7&#34;</span>
+</span></span><span><span class="ln">14</span><span class="cl">  <span>instance_class</span>       = <span class="s2">&#34;db.t2.micro&#34;</span>
+</span></span><span><span class="ln">15</span><span class="cl">  <span>name</span>                 = <span class="s2">&#34;my_db&#34;</span>
+</span></span><span><span class="ln">16</span><span class="cl">  <span>username</span>             = <span class="s2">&#34;admin&#34;</span>
+</span></span><span><span class="ln">17</span><span class="cl">  <span>password</span>             = <span class="nb">var</span><span class="p">.</span><span class="nx">db_password</span>
+</span></span><span><span class="ln">18</span><span class="cl">  <span>parameter_group_name</span> = <span class="s2">&#34;default.mysql5.7&#34;</span>
+</span></span><span><span class="ln">19</span><span class="cl">  <span>skip_final_snapshot</span>  = <span class="kc">true</span>
+</span></span><span><span class="ln">20</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>In this example, we've set the <strong>sensitive attribute</strong> of the <strong>db_password</strong> variable to <strong>true</strong>. This ensures that Terraform will redact this value from the logs and console outputs, keeping our secret safe and sound.</p>
+<p>However, that's not the end of the story. It's also crucial to understand that Terraform can't completely prevent sensitive data from appearing in logs or command outputs, especially if you are explicitly outputting it.</p>
+<p>So, it's essential to use the <strong>sensitive flag</strong> for <strong>output variables</strong> as well, like so:</p>
+<div class="highlight cp5"><i onclick="cpy4()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1"># set sensitive = true for output variable
+</span></span></span><span><span class="ln">2</span><span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span><span class="ln">3</span><span class="cl"><span class="kr">output</span> <span class="s2">&#34;db_password&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln">4</span><span class="cl">   <span>value</span>     = <span class="nx">aws_db_instance</span><span class="p">.</span><span class="nx">my_db</span><span class="p">.</span><span class="nx">password</span>
+</span></span><span><span class="ln">5</span><span class="cl">   <span>sensitive</span> = <span class="kc">true</span>
+</span></span><span><span class="ln">6</span><span class="cl"><span class="p">}</span> 
+</span></span></code></pre></div><p>This prevents the password from being exposed in the <strong>terraform apply</strong> output or when you run terraform output.</p>
+<p>So, remember, my friends, the <strong><a href="https://developer.hashicorp.com/terraform/tutorials/configuration-language/sensitive-variables">sensitive argument</a></strong> is a really handy tool in our Terraform toolkit. But like any tool, it's up to us to use it wisely.</p>
+<br/>
+<h3>2.5 Remote state storage and encryption</h3>
+<p>Securing your Terraform state files is like putting your gold in a <strong>vault</strong> (no pun intended) - it's a must!</p>
+<p>Terraform keeps track of your infrastructure's state in what it calls, well, the state file. By default, this file is stored <strong>locally</strong>, which is not ideal, especially when you're working in a team.</p>
+<p>A more secure and collaborative approach is to store the <strong>state file remotely</strong>. For this, we can use a <strong>Terraform backend</strong>.</p>
+<p>In <a href="https://aws.com/">AWS</a> land, a popular choice for a remote backend is the <strong><a href="https://aws.amazon.com/s3/">S3 bucket</a></strong>. Here's an example of how to configure S3 as your remote backend:</p>
+<div class="highlight cp6"><i onclick="cpy5()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="c1"># Remote S3 Bucket to store state file
+</span></span></span><span><span class="ln"> 2</span><span class="cl"><span class="c1"></span>
+</span></span><span><span class="ln"> 3</span><span class="cl"><span class="nx">terraform</span> <span class="p">{</span>
+</span></span><span><span class="ln"> 4</span><span class="cl">   <span class="nx">backend</span> <span class="s2">&#34;s3&#34;</span> <span class="p">{</span><span class="c1">
+</span></span></span><span><span class="ln"> 5</span><span class="cl"><span class="c1">      # S3 bucket hosted on AWS
+</span></span></span><span><span class="ln"> 6</span><span class="cl"><span class="c1"></span>      <span>bucket</span> = <span class="s2">&#34;my-terraform-state&#34;</span><span class="c1">
+</span></span></span><span><span class="ln"> 7</span><span class="cl"><span class="c1">      # Directory inside S3 Bucket
+</span></span></span><span><span class="ln"> 8</span><span class="cl"><span class="c1"></span>      <span>key</span>    = <span class="s2">&#34;path/to/my/key&#34;</span>
+</span></span><span><span class="ln"> 9</span><span class="cl">      <span>region</span> = <span class="s2">&#34;us-west-2&#34;</span>
+</span></span><span><span class="ln">10</span><span class="cl">   <span class="p">}</span>
+</span></span><span><span class="ln">11</span><span class="cl"><span class="p">}</span> 
+</span></span></code></pre></div><p>In this code snippet, my-terraform-state is the name of the <strong><a href="https://aws.amazon.com/s3/">S3 bucket</a></strong>, <strong>path/to/my/key</strong> is the location of your state file within the bucket, and <strong>us-west-2</strong> is the <strong>AWS</strong> region where your bucket resides.</p>
+<p>But, <strong>we're not done yet!</strong> Just storing our state file remotely isn't enough. We should also <strong>encrypt</strong> it at rest. Thankfully, AWS makes this pretty easy for us with <strong>S3 bucket encryption</strong>:</p>
+<div class="highlight cp7"><i onclick="cpy6()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1"># Set he encrypt flag true
+</span></span></span><span><span class="ln">2</span><span class="cl"><span class="c1"></span><span class="nx">terraform</span> <span class="p">{</span>
+</span></span><span><span class="ln">3</span><span class="cl">  <span class="nx">backend</span> <span class="s2">&#34;s3&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln">4</span><span class="cl">    <span>bucket</span>  = <span class="s2">&#34;my-terraform-state&#34;</span>
+</span></span><span><span class="ln">5</span><span class="cl">    <span>key</span>     = <span class="s2">&#34;path/to/my/key&#34;</span>
+</span></span><span><span class="ln">6</span><span class="cl">    <span>region</span>  = <span class="s2">&#34;us-west-2&#34;</span>
+</span></span><span><span class="ln">7</span><span class="cl">    <span>encrypt</span> = <span class="kc">true</span>
+</span></span><span><span class="ln">8</span><span class="cl">  <span class="p">}</span>
+</span></span><span><span class="ln">9</span><span class="cl"><span class="p">}</span> 
+</span></span></code></pre></div><p>See that <strong>encrypt = true</strong> at the end? That's all you need to ensure your state file is encrypted at rest in your <strong>S3 bucket</strong>.</p>
+<p>Also, when working in a team, you would want to prevent any conflicts in the state file. This is where state locking comes in. If you enable state locking, only one person can modify the state at a time.</p>
+<p>In AWS, we can use <a href="../terraform-state-file-locking/index.html">DynamoDB for state locking</a>:</p>
+<div class="highlight cp8"><i onclick="cpy7()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="c1"># State locking using dynamo db
+</span></span></span><span><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="nx">terraform</span> <span class="p">{</span>
+</span></span><span><span class="ln"> 3</span><span class="cl">  <span class="nx">backend</span> <span class="s2">&#34;s3&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln"> 4</span><span class="cl">    <span>bucket</span>         = <span class="s2">&#34;my-terraform-state&#34;</span>
+</span></span><span><span class="ln"> 5</span><span class="cl">    <span>key</span>            = <span class="s2">&#34;path/to/my/key&#34;</span>
+</span></span><span><span class="ln"> 6</span><span class="cl">    <span>region</span>         = <span class="s2">&#34;us-west-2&#34;</span>
+</span></span><span><span class="ln"> 7</span><span class="cl">    <span>encrypt</span>        = <span class="kc">true</span>
+</span></span><span><span class="ln"> 8</span><span class="cl">    <span>dynamodb_table</span> = <span class="s2">&#34;my-lock-table&#34;</span>
+</span></span><span><span class="ln"> 9</span><span class="cl">  <span class="p">}</span>
+</span></span><span><span class="ln">10</span><span class="cl"><span class="p">}</span> 
+</span></span></code></pre></div><p>In this case, <strong>my-lock-table</strong> is the name of the DynamoDB table that will keep track of the state lock.</p>
+<p>So, there you have it, my friends! By storing your state file remotely, encrypting it, and enabling state locking, you're putting that gold safely in a vault.</p>
+<blockquote>
+<p><strong>Learn more about -</strong> Terraform state locking using DynamoDB(LockID) and S3 Bucket</p>
+</blockquote>
+<div class="ratio ratio-16x9">
+  <iframe src="https://www.youtube.com/embed/44f2zqQGCjg"></iframe>
+</div>
+<br/>
+<h2>3. Practical Examples of Securing Sensitive Data</h2>
+<h3>3.1 Using environment variables for sensitive data</h3>
+<p>Using environment variables is like having a secret handshake - you don't write it down, but you and your pals know it by heart.</p>
+<p>Similarly, we can use <strong>environment variables</strong> to handle <strong>sensitive data</strong> in Terraform, preventing us from exposing the data directly in our Terraform files.</p>
+<p>Terraform can automatically fetch the values for your variables if you've stored them as <strong>environment variables</strong>. You just need to prefix the variable name with <strong>'TF_VAR_'</strong>. Here's how to set this up:</p>
+<div class="highlight cp9"><i onclick="cpy8()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="nx">export</span> <span>TF_VAR_db_password</span>=<span class="s2">&#34;MyS3cretP@ssword&#34;</span> 
+</span></span></code></pre></div><p>In this case, <strong>db_password</strong> is our variable name in Terraform, and we are setting the value as <strong>MyS3cretP@ssword</strong>.</p>
+<p>Let's assume we have a Terraform configuration to create an AWS RDS instance:</p>
+<div class="highlight cp10"><i onclick="cpy9()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="c1"># using environment variable to get the password
+</span></span></span><span><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span class="cl"><span class="kr">variable</span> <span class="s2">&#34;db_password&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln"> 4</span><span class="cl">  <span>description</span> = <span class="s2">&#34;Password for the database&#34;</span>
+</span></span><span><span class="ln"> 5</span><span class="cl">  <span>type</span>        = <span class="nx">string</span>
+</span></span><span><span class="ln"> 6</span><span class="cl">  <span>sensitive</span>   = <span class="kc">true</span>
+</span></span><span><span class="ln"> 7</span><span class="cl"><span class="p">}</span>
+</span></span><span><span class="ln"> 8</span><span class="cl"><span class="kr">
+</span></span></span><span><span class="ln"> 9</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_db_instance&#34;</span> <span class="s2">&#34;default&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln">10</span><span class="cl">  <span>allocated_storage</span>    = <span class="m">10</span>
+</span></span><span><span class="ln">11</span><span class="cl">  <span>engine</span>               = <span class="s2">&#34;mysql&#34;</span>
+</span></span><span><span class="ln">12</span><span class="cl">  <span>engine_version</span>       = <span class="s2">&#34;5.7&#34;</span>
+</span></span><span><span class="ln">13</span><span class="cl">  <span>instance_class</span>       = <span class="s2">&#34;db.t2.micro&#34;</span>
+</span></span><span><span class="ln">14</span><span class="cl">  <span>name</span>                 = <span class="s2">&#34;my_db&#34;</span>
+</span></span><span><span class="ln">15</span><span class="cl">  <span>username</span>             = <span class="s2">&#34;admin&#34;</span>
+</span></span><span><span class="ln">16</span><span class="cl">  <span>password</span>             = <span class="nb">var</span><span class="p">.</span><span class="nx">db_password</span>
+</span></span><span><span class="ln">17</span><span class="cl">  <span>parameter_group_name</span> = <span class="s2">&#34;default.mysql5.7&#34;</span>
+</span></span><span><span class="ln">18</span><span class="cl">  <span>skip_final_snapshot</span>  = <span class="kc">true</span>
+</span></span><span><span class="ln">19</span><span class="cl"><span class="p">}</span>
+</span></span><span><span class="ln">20</span><span class="cl"> 
+</span></span></code></pre></div><p>Here, we are using the <strong>db_password</strong> variable as the password for our RDS instance. When we run <strong>terraform apply</strong>, Terraform will automatically fetch the password from our environment variable <strong>TF_VAR_db_password</strong>.</p>
+<p>Remember, storing your environment variables securely is also crucial. You might want to consider using a tool like <strong>direnv</strong> or storing them securely in your <strong>CI/CD environment</strong>.</p>
+<p>And that's how you manage your secrets with environment variables in Terraform! No paper trails left behind, and your secret handshake remains a secret.</p>
+<br/>
+<h3>3.2 Securing sensitive data with AWS Key Management Service (KMS)</h3>
+<p>Let's step into the world of <strong><a href="https://aws.amazon.com/kms/">AWS Key Management Service (KMS)</a></strong>!</p>
+<p>Picture this - you have a secret message, and you need to ensure that only certain people can read it. What do you do? Well, in the olden days, you might have used a cipher or a secret code. In the AWS universe, we have <a href="https://aws.amazon.com/kms/">AWS Key Management Service (KMS)</a>!</p>
+<p>KMS is a managed service that allows you to create and control <strong>cryptographic keys</strong>, which you can use to <strong>encrypt</strong> and <strong>decrypt</strong> data. It's integrated with other AWS services making it easier to encrypt data you store in these services and control access to the keys that decrypt it.</p>
+<p>Let's walk through an example where we are creating an S3 bucket and encrypting its content with a <strong>KMS key</strong>:</p>
+<div class="highlight cp11"><i onclick="cpy10()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="c1"># Create S3 bucekt but encrypt its content using KMS key
+</span></span></span><span><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_kms_key&#34;</span> <span class="s2">&#34;my_key&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln"> 4</span><span class="cl">  <span>description</span>             = <span class="s2">&#34;This is my KMS key for encrypting an S3 bucket&#34;</span>
+</span></span><span><span class="ln"> 5</span><span class="cl">  <span>deletion_window_in_days</span> = <span class="m">10</span>
+</span></span><span><span class="ln"> 6</span><span class="cl"><span class="p">}</span>
+</span></span><span><span class="ln"> 7</span><span class="cl"><span class="kr">
+</span></span></span><span><span class="ln"> 8</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_s3_bucket&#34;</span> <span class="s2">&#34;bucket&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln"> 9</span><span class="cl">  <span>bucket</span> = <span class="s2">&#34;my_bucket&#34;</span>
+</span></span><span><span class="ln">10</span><span class="cl">  <span>acl</span>    = <span class="s2">&#34;private&#34;</span>
+</span></span><span><span class="ln">11</span><span class="cl">
+</span></span><span><span class="ln">12</span><span class="cl">  <span class="nx">server_side_encryption_configuration</span> <span class="p">{</span>
+</span></span><span><span class="ln">13</span><span class="cl">    <span class="nx">rule</span> <span class="p">{</span>
+</span></span><span><span class="ln">14</span><span class="cl">      <span class="nx">apply_server_side_encryption_by_default</span> <span class="p">{</span>
+</span></span><span><span class="ln">15</span><span class="cl">        <span>sse_algorithm</span>     = <span class="s2">&#34;aws:kms&#34;</span>
+</span></span><span><span class="ln">16</span><span class="cl">        <span>kms_master_key_id</span> = <span class="nx">aws_kms_key</span><span class="p">.</span><span class="nx">my_key</span><span class="p">.</span><span class="nx">arn</span>
+</span></span><span><span class="ln">17</span><span class="cl">      <span class="p">}</span>
+</span></span><span><span class="ln">18</span><span class="cl">    <span class="p">}</span>
+</span></span><span><span class="ln">19</span><span class="cl">  <span class="p">}</span>
+</span></span><span><span class="ln">20</span><span class="cl"><span class="p">}</span>
+</span></span><span><span class="ln">21</span><span class="cl"> 
+</span></span></code></pre></div><p>In this example, we first create a <strong>KMS key</strong> with the <strong>&quot;aws_kms_key&quot;</strong> resource.</p>
+<p>Then, when we create our <strong>S3 bucket</strong>, we specify a <strong>server_side_encryption_configuration</strong> block, where we choose <strong>aws:kms</strong> as our <strong>sse_algorithm</strong> and provide the <strong>ARN</strong> of our KMS key as <strong>kms_master_key_id</strong>.</p>
+<p>By doing this, any object that's uploaded to our bucket will automatically be encrypted using the KMS key we created. And only those with the necessary permissions to use this KMS key will be able to decrypt the data.</p>
+<p>Do note that <strong>KMS keys have a cost associated with them</strong>, and you need to manage permissions for the key separately. So, be careful and vigilant about who can access what!</p>
+<p>And that's it, my friends! With <strong>AWS KMS</strong>, your sensitive data gets an extra layer of security.</p>
+<br/>
+<h3>3.3 Implementing Vault for secrets management</h3>
+<p>Think of like your very own digital Swiss bank. It's a centralized service for securely storing and accessing <strong>secrets</strong>, whether they're <strong>API keys</strong>, <strong>passwords</strong>, or <strong>certificates</strong>.</p>
+<p>Vault can be particularly useful when working with <strong>Terraform</strong>. You can use it to <strong>dynamically generate secrets</strong>, so you're not hard-coding them into your Terraform scripts. Plus, it has detailed audit logs so you can track who's accessing what.</p>
+<p>Here's an example of how to use Vault with Terraform:</p>
+<p>First, you need to configure the Vault provider:</p>
+<div class="highlight cp12"><i onclick="cpy11()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1"># Hashicorp vault provider
+</span></span></span><span><span class="ln">2</span><span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span><span class="ln">3</span><span class="cl"><span class="kr">provider</span> <span class="s2">&#34;vault&#34;</span> <span class="p">{</span><span class="c1">
+</span></span></span><span><span class="ln">4</span><span class="cl"><span class="c1">  # it is recommended to use environment variables for VAULT_ADDR and VAULT_TOKEN
+</span></span></span><span><span class="ln">5</span><span class="cl"><span class="c1">  # address = &#34;http://localhost:8200&#34;
+</span></span></span><span><span class="ln">6</span><span class="cl"><span class="c1">  # token   = &#34;s.myVaultToken123456&#34;
+</span></span></span><span><span class="ln">7</span><span class="cl"><span class="c1"></span><span class="p">}</span> 
+</span></span></code></pre></div><p>For the Vault address and token, it's a best practice to use environment variables (<code>VAULT_ADDR</code> and <code>VAULT_TOKEN</code> respectively). This way, you're not hardcoding these potentially sensitive details into your scripts.</p>
+<p>Now, let's assume you have a secret stored in Vault at path <code>secret/my_secrets/db_password</code>. Here's how you would retrieve it with Terraform:</p>
+<div class="highlight cp13"><i onclick="cpy12()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="c1"># set the password
+</span></span></span><span><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span class="cl"><span class="kr">data</span> <span class="s2">&#34;vault_generic_secret&#34;</span> <span class="s2">&#34;db_password&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln"> 4</span><span class="cl">  <span>path</span> = <span class="s2">&#34;secret/my_secrets/db_password&#34;</span>
+</span></span><span><span class="ln"> 5</span><span class="cl"><span class="p">}</span>
+</span></span><span><span class="ln"> 6</span><span class="cl"><span class="kr">
+</span></span></span><span><span class="ln"> 7</span><span class="cl"><span class="kr">output</span> <span class="s2">&#34;db_password&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln"> 8</span><span class="cl">  <span>value</span>     = <span class="nb">data</span><span class="p">.</span><span class="nx">vault_generic_secret</span><span class="p">.</span><span class="nx">db_password</span><span class="p">.</span><span class="nb">data</span><span class="p">[</span><span class="s2">&#34;value&#34;</span><span class="p">]</span>
+</span></span><span><span class="ln"> 9</span><span class="cl">  <span>sensitive</span> = <span class="kc">true</span>
+</span></span><span><span class="ln">10</span><span class="cl"><span class="p">}</span> 
+</span></span></code></pre></div><p>In this example, the <strong>vault_generic_secret</strong> data source is used to fetch the secret from Vault. The value of the secret can then be accessed with <strong>data.vault_generic_secret.db_password.data[&quot;value&quot;]</strong>.</p>
+<p>We're also using the sensitive attribute for our output to ensure that the password won't be shown in the <strong>terraform apply</strong> output.</p>
+<p>But remember, the Swiss bank isn't invincible, and neither is Vault. You'll need to secure your Vault instance - think about encryption, access policies, and regular auditing. Use it wisely, and it can be a powerful tool in your Terraform toolkit.</p>
+<blockquote>
+<p><strong>Here are more concrete lab sessions and playlist on how to use Hashicorp Vault</strong></p>
+</blockquote>
+<div class="ratio ratio-16x9">
+  <iframe src="https://www.youtube.com/embed/44f2zqQGCjg"></iframe>
+</div>
+<br/>
+<h2>4. Regular Auditing and Rotating Secrets</h2>
+<h3>4.1 The importance of auditing</h3>
+<p>Let's step into the shoes of our inner security guard and explore the world of auditing and secret rotation.</p>
+<p>Imagine you're a detective on a <strong>TV show</strong>, and you've got a case full of evidence. To solve the mystery, you need to look at <strong>each piece of evidence</strong> carefully, figure out what it tells you. In the world of cloud infrastructure, this is akin to auditing.</p>
+<p>Regular auditing is like regularly checking that evidence room, making sure nothing's out of place, and everything's accounted for. You're <strong>reviewing logs</strong>, <strong>looking for any suspicious activity</strong>, and verifying <strong>who accessed what and when</strong>.</p>
+<p><strong>In Terraform, you might want to audit your state file</strong> - The state file is like a treasure map - it tells you what resources you have and their configurations. It can contain <strong>sensitive information</strong>, so it's crucial to know who's accessing it.</p>
+<p>For example, if you're using <strong>S3</strong> as your <strong>remote backend</strong>, you can enable <strong>access logging</strong> and use <strong>CloudTrail</strong> to track access to your state file. This will give you valuable insights, like who accessed the state file, when they accessed it, and what actions they performed.</p>
+<br/>
+<h3>4.2 Regular rotation of secrets</h3>
+<p>Just like a master of disguise changes their appearance regularly to avoid detection, we need to <strong>rotate our secrets regularly</strong>. This could be your <strong>database passwords, API keys, or tokens</strong> - anything that provides access to your resources.</p>
+<p>Rotating secrets reduces the risk of them being misused. <strong>If a secret is exposed but you rotate it soon after, the exposed secret becomes useless.</strong></p>
+<p><strong>Terraform doesn't directly help with secret rotation</strong>, but <a href="https://www.vaultproject.io/">Vault</a>, a tool we discussed earlier, shines here. Vault has a feature called dynamic secrets. It can generate secrets on-the-fly and automatically revoke them after a certain period. You can use this feature to regularly rotate your secrets.</p>
+<br/>
+<h2>5. Conclusion</h2>
+<p>First, we embarked on the noble path of <strong>&quot;Understanding sensitive data in Terraform&quot;</strong>, where we grasped why it's critical to protect sensitive data and the risks if we don't. Our quest then led us to decipher the enigma of <strong>&quot;Encrypting sensitive data in transit and at rest&quot;</strong>, unveiling the twin shields of <strong>SSL/TLS</strong> and <strong>AWS Key Management Service (KMS)</strong>.</p>
+<p>Next, our journey took a slightly esoteric turn as we delved into the cosmos of Terraform to discover the magic of <strong>&quot;sensitive&quot; argument</strong>, an incantation that prevents our secrets from appearing in Terraform's output.</p>
+<p>Our path then led us to the heart of the Terraform kingdom - <strong>the &quot;State File&quot;</strong>. We learnt how to secure it by using <strong>remote backends</strong> and <strong>encryption</strong>, storing it far away from prying eyes, and protecting our precious map to the treasure.</p>
+<p>We then navigated the labyrinth of <strong>environment variables</strong>, turning them into our allies to handle <strong>sensitive data securely and elegantly</strong>.</p>
+<p>Barely pausing for breath, we ventured into the world of <strong>AWS Key Management Service (KMS)</strong>, learning to wield it as a sword that encrypts our data with unbreakable cryptographic keys.</p>
+<p>Our next destination was the <a href="https://www.vaultproject.io/"><strong>HashiCorp Vault</strong></a>, an impregnable fortress that safely stores our secrets, only releasing them to those deemed worthy.</p>
+<p>Our journey was nearing its end, but not before we unravelled the mystery of encrypting <strong><a href="../terraform-manage-state/index.html">Terraform state files</a></strong>. We learnt how to make our treasure map indecipherable to anyone but us.</p>
+<p>Finally, we took on the role of vigilant watchmen, keeping a sharp eye on our infrastructure through regular auditing and changing our secret codes frequently by rotating secrets.</p>
+
+    </div>
+  </div>
+
+  <script>
+      function cpy(){
+            let content = document.querySelector(".cp1");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy1(){
+            let content = document.querySelector(".cp2");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy2(){
+            let content = document.querySelector(".cp3");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy3(){
+            let content = document.querySelector(".cp4");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy4(){
+            let content = document.querySelector(".cp5");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy5(){
+            let content = document.querySelector(".cp6");
+            navigator.clipboard.writeText(content.innerText)
+        }     function cpy6(){
+            let content = document.querySelector(".cp7");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy7(){
+            let content = document.querySelector(".cp8");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy8(){
+            let content = document.querySelector(".cp9");
+            navigator.clipboard.writeText(content.innerText)
+        }     function cpy9(){
+            let content = document.querySelector(".cp10");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy10(){
+            let content = document.querySelector(".cp11");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy11(){
+            let content = document.querySelector(".cp12");
+            navigator.clipboard.writeText(content.innerText)
+        }     function cpy12(){
+            let content = document.querySelector(".cp13");
+            navigator.clipboard.writeText(content.innerText)
+        }
+  </script>
+  </body>
+</html>

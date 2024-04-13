@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+<style>
+    body{
+        padding: 20px;
+    }
+    body h2{
+      font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        margin-bottom: 20px;
+    }
+    body p{
+      font-size: 15px;
+      font-family: "Poppins", sans-serif;
+        font-weight: 300;
+        margin-bottom: 20px;
+    }
+    .highlight{
+        border-radius: 20px;
+        background-color: rgb(57, 58, 79);
+        height: fit-content;
+        font-weight: bold;
+        padding: 20px;
+        position: relative;
+    }
+    .highlight i{
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 20px;
+      top: 10px;
+      right: 10px;
+      color: white;
+    }
+    .highlight i:hover{
+      background-color: rgb(37, 20, 20);
+      box-shadow: 0px 0px 23px white;
+      cursor: pointer;
+    }
+    .highlight:hover{
+        box-shadow: 0px 0px 23px black;
+        transition: 0.5s;
+    }
+    .highlight span{
+      color: rgb(244, 163, 12);
+    }
+    .highlight span .ln{
+      margin: 0 10px;
+      color: white;
+    }
+    .highlight span .kr{
+      color: greenyellow;
+    }
+</style>
+<body>
+<div class="container">
+    <h2>1. Virtualization Platforms(VMware, vSphere)</h2>
+    <p><a href="https://www.vmware.com/nordics/products/vsphere.html">VMware vSphere</a> is a popular virtualization platform used in many on-premises environments. Terraform can interact with vSphere through its vSphere provider, which allows you to <strong>create, read, update,</strong> and <strong>delete</strong> various vSphere resources such as -</p>
+    <ul>
+    <li>Virtual machines</li>
+    <li>Datastores</li>
+    <li>Networks</li>
+    </ul>
+    <p>Here's an example of how you might use <strong>Terraform</strong> to create a virtual machine in <strong>vSphere</strong>:</p>
+    <h3>Step 1: Configure the vSphere Provider</h3>
+    <p>This is where you tell <strong>Terraform</strong> how to connect to your <strong><a href="https://www.vmware.com/nordics/products/vcenter.html">vSphere vCenter server</a></strong>. Just pop in your user and password details like so:</p>
+    <div class="highlight cp1"><i onclick="cpy()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="c1"># maint.tf
+    </span></span></span><span><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kr">
+    </span></span></span><span><span class="ln"> 3</span><span class="cl"><span class="kr">provider</span> <span class="s2">&#34;vsphere&#34;</span> <span class="p">{</span>
+    </span></span><span><span class="ln"> 4</span><span class="cl">  <span>user</span>           = <span class="s2">&#34;your-username&#34;</span>
+    </span></span><span><span class="ln"> 5</span><span class="cl">  <span>password</span>       = <span class="s2">&#34;your-password&#34;</span>
+    </span></span><span><span class="ln"> 6</span><span class="cl">  <span>vsphere_server</span> = <span class="s2">&#34;vcenter.your-domain.com&#34;</span><span class="c1">
+    </span></span></span><span><span class="ln"> 7</span><span class="cl"><span class="c1">
+    </span></span></span><span><span class="ln"> 8</span><span class="cl"><span class="c1">  # If your cert is self-signed, you might want to include this:
+    </span></span></span><span><span class="ln"> 9</span><span class="cl"><span class="c1"></span>  <span>allow_unverified_ssl</span> = <span class="kc">true</span>
+    </span></span><span><span class="ln">10</span><span class="cl"><span class="p">}</span>
+    </span></span><span><span class="ln">11</span><span class="cl"> 
+    </span></span></code></pre></div><br/>
+    <h3>Step 2: Map Out Your Environment</h3>
+    <p>You'll likely need to define some <strong>data sources</strong> so <strong>Terraform</strong> knows more about your <strong>vSphere environment</strong>. For instance, it might need to know the <strong>ID</strong> of a datacenter or a template to clone.</p>
+    <div class="highlight cp2"><i onclick="cpy1()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="c1"># datasource.tf
+    </span></span></span><span><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kr">
+    </span></span></span><span><span class="ln"> 3</span><span class="cl"><span class="kr">data</span> <span class="s2">&#34;vsphere_datacenter&#34;</span> <span class="s2">&#34;dc&#34;</span> <span class="p">{</span>
+    </span></span><span><span class="ln"> 4</span><span class="cl">  <span>name</span> = <span class="s2">&#34;dc1&#34;</span>
+    </span></span><span><span class="ln"> 5</span><span class="cl"><span class="p">}</span>
+    </span></span><span><span class="ln"> 6</span><span class="cl"><span class="kr">
+    </span></span></span><span><span class="ln"> 7</span><span class="cl"><span class="kr">data</span> <span class="s2">&#34;vsphere_datastore&#34;</span> <span class="s2">&#34;datastore&#34;</span> <span class="p">{</span>
+    </span></span><span><span class="ln"> 8</span><span class="cl">  <span>name</span>          = <span class="s2">&#34;datastore1&#34;</span>
+    </span></span><span><span class="ln"> 9</span><span class="cl">  <span>datacenter_id</span> = <span class="s2">&#34;</span><span class="si">${</span><span class="nb">data</span><span class="p">.</span><span class="nx">vsphere_datacenter</span><span class="p">.</span><span class="nx">dc</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="s2">&#34;</span>
+    </span></span><span><span class="ln">10</span><span class="cl"><span class="p">}</span>
+    </span></span><span><span class="ln">11</span><span class="cl"><span class="kr">
+    </span></span></span><span><span class="ln">12</span><span class="cl"><span class="kr">data</span> <span class="s2">&#34;vsphere_network&#34;</span> <span class="s2">&#34;network&#34;</span> <span class="p">{</span>
+    </span></span><span><span class="ln">13</span><span class="cl">  <span>name</span>          = <span class="s2">&#34;public&#34;</span>
+    </span></span><span><span class="ln">14</span><span class="cl">  <span>datacenter_id</span> = <span class="s2">&#34;</span><span class="si">${</span><span class="nb">data</span><span class="p">.</span><span class="nx">vsphere_datacenter</span><span class="p">.</span><span class="nx">dc</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="s2">&#34;</span>
+    </span></span><span><span class="ln">15</span><span class="cl"><span class="p">}</span>
+    </span></span><span><span class="ln">16</span><span class="cl"><span class="kr">
+    </span></span></span><span><span class="ln">17</span><span class="cl"><span class="kr">data</span> <span class="s2">&#34;vsphere_virtual_machine&#34;</span> <span class="s2">&#34;template&#34;</span> <span class="p">{</span>
+    </span></span><span><span class="ln">18</span><span class="cl">  <span>name</span>          = <span class="s2">&#34;centos-7-template&#34;</span>
+    </span></span><span><span class="ln">19</span><span class="cl">  <span>datacenter_id</span> = <span class="s2">&#34;</span><span class="si">${</span><span class="nb">data</span><span class="p">.</span><span class="nx">vsphere_datacenter</span><span class="p">.</span><span class="nx">dc</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="s2">&#34;</span>
+    </span></span><span><span class="ln">20</span><span class="cl"><span class="p">}</span>
+    </span></span></code></pre></div><br/>
+    <h3>Step 3: Define Your Virtual Machine</h3>
+    <p>Here's the fun part - setting up your <strong>virtual machine!</strong> You'll tell <strong>Terraform</strong>  -</p>
+    <ol>
+    <li>How many <strong>CPUs</strong> you want</li>
+    <li>How much <strong>memory</strong></li>
+    <li>Which <strong>network</strong> to connect to and other important details.</li>
+    </ol>
+    <div class="highlight cp3"><i onclick="cpy2()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"># vm_infra.tf
+    </span></span><span><span class="ln"> 2</span><span class="cl">
+    </span></span><span><span class="ln"> 3</span><span class="cl">resource &#34;vsphere_virtual_machine&#34; &#34;vm&#34; {
+    </span></span><span><span class="ln"> 4</span><span class="cl">  name             = &#34;terraform-test&#34;
+    </span></span><span><span class="ln"> 5</span><span class="cl">  resource_pool_id = &#34;${data.vsphere_resource_pool.pool.id}&#34;
+    </span></span><span><span class="ln"> 6</span><span class="cl">  datastore_id     = &#34;${data.vsphere_datastore.datastore.id}&#34;
+    </span></span><span><span class="ln"> 7</span><span class="cl">
+    </span></span><span><span class="ln"> 8</span><span class="cl">  num_cpus = 2
+    </span></span><span><span class="ln"> 9</span><span class="cl">  memory   = 1024
+    </span></span><span><span class="ln">10</span><span class="cl">  guest_id = &#34;${data.vsphere_virtual_machine.template.guest_id}&#34;
+    </span></span><span><span class="ln">11</span><span class="cl">
+    </span></span><span><span class="ln">12</span><span class="cl">  network_interface {
+    </span></span><span><span class="ln">13</span><span class="cl">    network_id = &#34;${data.vsphere_network.network.id}&#34;
+    </span></span><span><span class="ln">14</span><span class="cl">  }
+    </span></span><span><span class="ln">15</span><span class="cl">
+    </span></span><span><span class="ln">16</span><span class="cl">  disk {
+    </span></span><span><span class="ln">17</span><span class="cl">    label            = &#34;disk0&#34;
+    </span></span><span><span class="ln">18</span><span class="cl">    size             = &#34;${data.vsphere_virtual_machine.template.disks.0.size}&#34;
+    </span></span><span><span class="ln">19</span><span class="cl">    thin_provisioned = &#34;${data.vsphere_virtual_machine.template.disks.0.thin_provisioned}&#34;
+    </span></span><span><span class="ln">20</span><span class="cl">  }
+    </span></span><span><span class="ln">21</span><span class="cl">
+    </span></span><span><span class="ln">22</span><span class="cl">  clone {
+    </span></span><span><span class="ln">23</span><span class="cl">    template_uuid = &#34;${data.vsphere_virtual_machine.template.id}&#34;
+    </span></span><span><span class="ln">24</span><span class="cl">
+    </span></span><span><span class="ln">25</span><span class="cl">    customize {
+    </span></span><span><span class="ln">26</span><span class="cl">      linux_options {
+    </span></span><span><span class="ln">27</span><span class="cl">        host_name = &#34;terraform-test&#34;
+    </span></span><span><span class="ln">28</span><span class="cl">        domain    = &#34;yourdomain.com&#34;
+    </span></span><span><span class="ln">29</span><span class="cl">      }
+    </span></span><span><span class="ln">30</span><span class="cl">
+    </span></span><span><span class="ln">31</span><span class="cl">      network_interface {
+    </span></span><span><span class="ln">32</span><span class="cl">        ipv4_address = &#34;10.0.0.10&#34;
+    </span></span><span><span class="ln">33</span><span class="cl">        ipv4_netmask = 24
+    </span></span><span><span class="ln">34</span><span class="cl">      }
+    </span></span><span><span class="ln">35</span><span class="cl">
+    </span></span><span><span class="ln">36</span><span class="cl">      ipv4_gateway = &#34;10.0.0.1&#34;
+    </span></span><span><span class="ln">37</span><span class="cl">    }
+    </span></span><span><span class="ln">38</span><span class="cl">  }
+    </span></span><span><span class="ln">39</span><span class="cl">}
+    </span></span><span><span class="ln">40</span><span class="cl"> 
+    </span></span></code></pre></div><p>The above example will create a clone of an existing <strong>VM template</strong>, and set it up on a specific network.</p>
+    <br/>
+    <h3>Step 4: Provision Terraform infra</h3>
+    <p>Once you've set everything up, fire up your terminal and use the following terraform commands -</p>
+    <ol>
+    <li><strong>terraform init -</strong> To get Terraform ready to go and initialize the <em>VMware vSphere</em> provider</li>
+    <li><strong>terraform plan -</strong> To see exactly what changes Terraform will make</li>
+    <li><strong>terraform apply -</strong> If you're happy with the plan, use <em>terraform apply</em> to make it happen.</li>
+    </ol>
+    <p>Just a friendly reminder to replace placeholders in the code (like <strong>&quot;your-username&quot;, &quot;your-password&quot;, &quot;vcenter.your-domain.com&quot;, &quot;dc1&quot;, etc.</strong>) with your actual <strong>vSphere environment</strong> details.</p>
+    <p>And always remember to <strong>handle your sensitive info (like passwords) with care</strong>. Using <strong>environment variables</strong> or <strong>input variables</strong> is a secure way to pass these values to your Terraform configuration.</p>
+    <p>Dealing with vSphere environments in Terraform can be a bit tricky, so be sure to spend some time with the <a href="https://registry.terraform.io/providers/hashicorp/vsphere/latest/docs">vSphere provider documentation</a>. It's a well of knowledge and will help you get the most out of <strong>Terraform</strong> and <strong>vSphere</strong>.</p>
+    <br/>
+    <h2>2. Bare Metal Servers with a Management Layer</h2>
+    <p>Let's dive into how we can use <strong>Terraform</strong> with <strong>bare metal servers</strong> using an approach that involves a management layer, with <strong><a href="https://maas.io/">MAAS (Metal as a Service)</a></strong> as an example.</p>
+    <p><strong>MAAS</strong> is a fantastic tool that provides a way to manage <strong>bare metal servers</strong> as if they were <strong>virtual machines</strong> in the <strong>cloud</strong>. It gives you an <strong>API</strong> to interact with, and that's the sweet spot <strong>Terraform</strong> needs to work its magic.</p>
+    <p>First thing to know is, unfortunately, <strong>there is no official MAAS provider for Terraform</strong>. But don't worry, the open source community has our back. There's a third-party MAAS provider you can use.</p>
+    <p>You can use this Terraform provider for MAAS to define your infrastructure in a Terraform configuration file. You'll define resources just like you would for any other kind of infrastructure, and then use the Terraform commands to create, update, or destroy resources as needed.</p>
+    <p>Here's a sample configuration that might give you an idea:</p>
+    <h3>Step 1: Configure the MAAS Provider</h3>
+    <p>You'll start off by telling Terraform how to connect to your MAAS server.</p>
+    <div class="highlight cp4"><i onclick="cpy3()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1">#main.tf
+    </span></span></span><span><span class="ln">2</span><span class="cl"><span class="c1"># maas provider
+    </span></span></span><span><span class="ln">3</span><span class="cl"><span class="c1"></span><span class="kr">
+    </span></span></span><span><span class="ln">4</span><span class="cl"><span class="kr">provider</span> <span class="s2">&#34;maas&#34;</span> <span class="p">{</span>
+    </span></span><span><span class="ln">5</span><span class="cl">  <span>api_version</span> = <span class="s2">&#34;2.0&#34;</span>
+    </span></span><span><span class="ln">6</span><span class="cl">  <span>api_url</span>     = <span class="s2">&#34;http://192.168.1.1:5240/MAAS&#34;</span>
+    </span></span><span><span class="ln">7</span><span class="cl">  <span>api_key</span>     = <span class="s2">&#34;your-api-key&#34;</span>
+    </span></span><span><span class="ln">8</span><span class="cl"><span class="p">}</span>
+    </span></span></code></pre></div><br/>
+    <h2>Step 2: Define a Resource</h2>
+    <p>Next, let's create a machine using Terraform. You'll be defining the machine parameters here.</p>
+    <div class="highlight cp5"><i onclick="cpy4()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="c1">#Create resource in maas
+    </span></span></span><span><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kr">
+    </span></span></span><span><span class="ln"> 3</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;maas_instance&#34;</span> <span class="s2">&#34;server1&#34;</span> <span class="p">{</span>
+    </span></span><span><span class="ln"> 4</span><span class="cl">  <span>hostname</span>      = <span class="s2">&#34;server1&#34;</span>
+    </span></span><span><span class="ln"> 5</span><span class="cl">  <span>domain</span>        = <span class="s2">&#34;local&#34;</span>
+    </span></span><span><span class="ln"> 6</span><span class="cl">  <span>architecture</span>  = <span class="s2">&#34;amd64/generic&#34;</span>
+    </span></span><span><span class="ln"> 7</span><span class="cl">  <span>min_cpu_count</span> = <span class="m">2</span>
+    </span></span><span><span class="ln"> 8</span><span class="cl">  <span>min_mem_mb</span>    = <span class="m">1024</span>
+    </span></span><span><span class="ln"> 9</span><span class="cl">
+    </span></span><span><span class="ln">10</span><span class="cl">  <span class="nx">interface</span> <span class="p">{</span>
+    </span></span><span><span class="ln">11</span><span class="cl">    <span>name</span>   = <span class="s2">&#34;eth0&#34;</span>
+    </span></span><span><span class="ln">12</span><span class="cl">    <span>subnet</span> = <span class="s2">&#34;192.168.1.0/24&#34;</span>
+    </span></span><span><span class="ln">13</span><span class="cl">  <span class="p">}</span>
+    </span></span><span><span class="ln">14</span><span class="cl">
+    </span></span><span><span class="ln">15</span><span class="cl">  <span class="nx">storage</span> <span class="p">{</span>
+    </span></span><span><span class="ln">16</span><span class="cl">    <span>id</span>    = <span class="m">0</span>
+    </span></span><span><span class="ln">17</span><span class="cl">    <span>size</span>  = <span class="s2">&#34;20G&#34;</span>
+    </span></span><span><span class="ln">18</span><span class="cl">    <span>mount</span> = <span class="s2">&#34;/&#34;</span>
+    </span></span><span><span class="ln">19</span><span class="cl">  <span class="p">}</span>
+    </span></span><span><span class="ln">20</span><span class="cl"><span class="p">}</span>
+    </span></span></code></pre></div><p>This configuration tells MAAS to provision -</p>
+    <ol>
+    <li>New server with at least <strong>2 CPUs</strong> and <strong>1GB</strong> of memory</li>
+    <li>It should also have an interface connected to the specified subnet and a storage device with at least <strong>20GB</strong> of space mounted at <strong>&quot;/&quot;</strong></li>
+    </ol>
+    <br/>
+    <h3>Step 4: Provision Terraform infra</h3>
+    <p>Once you have this configuration in place, you're ready to let Terraform do its thing. Run the following terraform command -</p>
+    <ol>
+    <li><em><strong>terraform init</strong></em> to initialize your configuration, and</li>
+    <li><em><strong>terraform apply</strong></em> to create your resources.</li>
+    </ol>
+    <p>Keep in mind, though, that working with bare metal infrastructure has its unique challenges compared to cloud-based infrastructure. <em>For instance, 'destroying' a bare metal server is a physical task that can't be undone with a command</em>.</p>
+    <p>Remember to replace the placeholders in the above example with your actual <strong>MAAS environment details</strong>. And as always, treat your sensitive information (like API keys) with the utmost care.</p>
+    <p>Also, be aware that while the <strong>Terraform</strong> provider for <strong>MAAS</strong> exists, it's not officially supported or maintained by <strong>HashiCorp</strong> or <strong>Canonical</strong> (the company behind MAAS). You might encounter bugs or limitations, and updates might not come as frequently as for official providers.</p>
+    <p>Don't forget to check out the provider's documentation and resources available on GitHub or other platforms for more detailed information and community support.</p>
+    <br/>
+    <h2>3. Containers and Kubernetes</h2>
+    <p>Imagine you're running a <strong>Kubernetes cluster</strong> on your <strong>on-premises infrastructure</strong>. Terraform can be your best buddy here.</p>
+    <p>With its Kubernetes provider, Terraform can help manage resources within your cluster. Let's run through how that might look.</p>
+    <h3>Step 1: Configure the Kubernetes Provider</h3>
+    <p>Kick things off by setting up the <strong>Kubernetes provider</strong> in your Terraform configuration file. You're essentially telling <strong>Terraform</strong> how to chat with your <strong>Kubernetes cluster</strong>.</p>
+    <p>Here's how it could look:</p>
+    <div class="highlight cp6"><i onclick="cpy5()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="c1"># main.tf
+    </span></span></span><span><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kr">
+    </span></span></span><span><span class="ln"> 3</span><span class="cl"><span class="kr">provider</span> <span class="s2">&#34;kubernetes&#34;</span> <span class="p">{</span>
+    </span></span><span><span class="ln"> 4</span><span class="cl">  <span>host</span>     = <span class="s2">&#34;https://your-k8s-cluster-endpoint:port&#34;</span>
+    </span></span><span><span class="ln"> 5</span><span class="cl">  <span>username</span> = <span class="s2">&#34;your-username&#34;</span>
+    </span></span><span><span class="ln"> 6</span><span class="cl">  <span>password</span> = <span class="s2">&#34;your-password&#34;</span>
+    </span></span><span><span class="ln"> 7</span><span class="cl">
+    </span></span><span><span class="ln"> 8</span><span class="cl">  <span>client_certificate</span>     = <span class="s2">&#34;</span><span class="si">${</span><span class="nb">file</span><span class="p">(</span><span class="s2">&#34;~/.kube/client-cert.pem&#34;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span>
+    </span></span><span><span class="ln"> 9</span><span class="cl">  <span>client_key</span>             = <span class="s2">&#34;</span><span class="si">${</span><span class="nb">file</span><span class="p">(</span><span class="s2">&#34;~/.kube/client-key.pem&#34;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span>
+    </span></span><span><span class="ln">10</span><span class="cl">  <span>cluster_ca_certificate</span> = <span class="s2">&#34;</span><span class="si">${</span><span class="nb">file</span><span class="p">(</span><span class="s2">&#34;~/.kube/cluster-ca-cert.pem&#34;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span>
+    </span></span><span><span class="ln">11</span><span class="cl"><span class="p">}</span>
+    </span></span></code></pre></div><p>You're specifying the endpoint of your Kubernetes cluster and credentials to connect to it. Remember to replace the placeholders with your actual details.</p>
+    <br/>
+    <h3>Step 2: Define a Kubernetes Resource</h3>
+    <p>Next, let's define a Kubernetes resource. How about a simple nginx deployment?</p>
+    <div class="highlight cp7"><i onclick="cpy6()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="c1"># nginx deployment inside 
+    </span></span></span><span><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kr">
+    </span></span></span><span><span class="ln"> 3</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;kubernetes_deployment&#34;</span> <span class="s2">&#34;nginx&#34;</span> <span class="p">{</span>
+    </span></span><span><span class="ln"> 4</span><span class="cl">  <span class="nx">metadata</span> <span class="p">{</span>
+    </span></span><span><span class="ln"> 5</span><span class="cl">    <span>name</span> = <span class="s2">&#34;nginx-deployment&#34;</span>
+    </span></span><span><span class="ln"> 6</span><span class="cl">    <span>labels</span> = <span class="p">{</span>
+    </span></span><span><span class="ln"> 7</span><span class="cl">      <span>App</span> = <span class="s2">&#34;nginx&#34;</span>
+    </span></span><span><span class="ln"> 8</span><span class="cl">    <span class="p">}</span>
+    </span></span><span><span class="ln"> 9</span><span class="cl">  <span class="p">}</span>
+    </span></span><span><span class="ln">10</span><span class="cl">
+    </span></span><span><span class="ln">11</span><span class="cl">  <span class="nx">spec</span> <span class="p">{</span>
+    </span></span><span><span class="ln">12</span><span class="cl">    <span>replicas</span> = <span class="m">3</span>
+    </span></span><span><span class="ln">13</span><span class="cl">    <span class="nx">selector</span> <span class="p">{</span>
+    </span></span><span><span class="ln">14</span><span class="cl">      <span>match_labels</span> = <span class="p">{</span>
+    </span></span><span><span class="ln">15</span><span class="cl">        <span>App</span> = <span class="s2">&#34;nginx&#34;</span>
+    </span></span><span><span class="ln">16</span><span class="cl">      <span class="p">}</span>
+    </span></span><span><span class="ln">17</span><span class="cl">    <span class="p">}</span>
+    </span></span><span><span class="ln">18</span><span class="cl">    <span class="nx">template</span> <span class="p">{</span>
+    </span></span><span><span class="ln">19</span><span class="cl">      <span class="nx">metadata</span> <span class="p">{</span>
+    </span></span><span><span class="ln">20</span><span class="cl">        <span>labels</span> = <span class="p">{</span>
+    </span></span><span><span class="ln">21</span><span class="cl">          <span>App</span> = <span class="s2">&#34;nginx&#34;</span>
+    </span></span><span><span class="ln">22</span><span class="cl">        <span class="p">}</span>
+    </span></span><span><span class="ln">23</span><span class="cl">      <span class="p">}</span>
+    </span></span><span><span class="ln">24</span><span class="cl">      <span class="nx">spec</span> <span class="p">{</span>
+    </span></span><span><span class="ln">25</span><span class="cl">        <span class="nx">container</span> <span class="p">{</span>
+    </span></span><span><span class="ln">26</span><span class="cl">          <span>image</span> = <span class="s2">&#34;nginx:1.7.8&#34;</span>
+    </span></span><span><span class="ln">27</span><span class="cl">          <span>name</span>  = <span class="s2">&#34;nginx&#34;</span>
+    </span></span><span><span class="ln">28</span><span class="cl">        <span class="p">}</span>
+    </span></span><span><span class="ln">29</span><span class="cl">      <span class="p">}</span>
+    </span></span><span><span class="ln">30</span><span class="cl">    <span class="p">}</span>
+    </span></span><span><span class="ln">31</span><span class="cl">  <span class="p">}</span>
+    </span></span><span><span class="ln">32</span><span class="cl"><span class="p">}</span>
+    </span></span><span><span class="ln">33</span><span class="cl"> 
+    </span></span></code></pre></div><p>In the above example, <strong>Terraform</strong> creates a <strong>Deployment</strong> on your <strong>Kubernetes cluster for nginx</strong>. It sets up 3 replicas of nginx (version 1.7.8).</p>
+    <br/>
+    <h3>Step 4: Provision Terraform infra</h3>
+    <p>Once you have this configuration in place, you're ready to let Terraform do its thing. Run the following terraform command -</p>
+    <ol>
+    <li><em><strong>terraform init</strong></em> to initialize your configuration, and</li>
+    <li><em><strong>terraform apply</strong></em> to create your resources.</li>
+    </ol>
+    <p>Make sure you're replacing placeholders with your actual <strong>Kubernetes cluster details</strong>. And, like always, keep your sensitive information (like passwords) safe. Consider using environment variables or input variables for this.</p>
+    <p><strong>Now, one thing to remember:</strong> Terraform is fantastic for creating and managing Kubernetes resources, but when it comes to deploying complex, multi-resource applications, Helm might be a better choice. Terraform does have a <a href="../getting-start-with-helm-chart/index.html">Helm</a> provider, which you can use to deploy Helm charts. So you get the best of both worlds!</p>
+    <p>Finally, don't forget to check out the official Terraform documentation for the Kubernetes provider. It’s chock-full of useful info and will help you unlock all the cool stuff you can do with Terraform and Kubernetes.</p>
+    <br/>
+    <h2>4. Configuration Management Tools(Ansible, Chef, Puppet, or SaltStack)</h2>
+    <p>First, let's clarify the roles that <strong>Terraform</strong> and a configuration management tool play. Terraform, as you know, is an infrastructure provisioning tool - it excels at creating, modifying, and tearing down infrastructure.</p>
+    <p>On the other hand, configuration management tools like <strong>Ansible, Chef, Puppet,</strong> or <strong>SaltStack</strong> handle the job of configuring this infrastructure.</p>
+    <p>In simpler words, Terraform lays the foundation and the configuration management tools build the house on top.</p>
+    <p>Now, let's see how Terraform and Ansible can work together. The most common way is using the <a href="../terraform-null-resource/index.html">'null_resource'</a> and <a href="../terraform-provisioner/index.html#2-local-exec-provisioner">'local-exec'</a> or <a href="../terraform-provisioner/index.html#3-remote-exec-provisioner">'remote-exec'</a> provisioners in Terraform to trigger <a href="../ansible-video-index/index.html">Ansible</a>.</p>
+    <h3>Step 1: Setting Up Terraform</h3>
+    <p>Here's an example of how you could define a VM using Terraform:</p>
+    <div class="highlight cp8"><i onclick="cpy7()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="c1">#main.tf
+    </span></span></span><span><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kr">
+    </span></span></span><span><span class="ln"> 3</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_instance&#34;</span> <span class="s2">&#34;web&#34;</span> <span class="p">{</span>
+    </span></span><span><span class="ln"> 4</span><span class="cl">  <span>ami</span>           = <span class="s2">&#34;ami-0c94855ba95c574c8&#34;</span>
+    </span></span><span><span class="ln"> 5</span><span class="cl">  <span>instance_type</span> = <span class="s2">&#34;t2.micro&#34;</span>
+    </span></span><span><span class="ln"> 6</span><span class="cl">  <span>key_name</span>      = <span class="s2">&#34;my_key_pair&#34;</span>
+    </span></span><span><span class="ln"> 7</span><span class="cl"><span class="kr">
+    </span></span></span><span><span class="ln"> 8</span><span class="cl"><span class="kr">  provisioner</span> <span class="s2">&#34;local-exec&#34;</span> <span class="p">{</span>
+    </span></span><span><span class="ln"> 9</span><span class="cl">    <span>command</span> = <span class="s2">&#34;echo </span><span class="si">${</span><span class="nx">self</span><span class="p">.</span><span class="nx">private_ip</span><span class="si">}</span><span class="s2"> &gt; inventory.ini&#34;</span>
+    </span></span><span><span class="ln">10</span><span class="cl">  <span class="p">}</span>
+    </span></span><span><span class="ln">11</span><span class="cl"><span class="p">}</span>
+    </span></span></code></pre></div><p>In the above example, <strong>Terraform</strong> is provisioning an <strong>EC2 instance</strong> and creating an inventory file with the instance's <strong>private IP address</strong> for <strong>Ansible</strong> to use later.</p>
+    <p>The <strong>local-exec provisioner</strong> is executing a local command after the instance is created.</p>
+    <br/>
+    <h3>Step 2: Triggering Ansible from Terraform</h3>
+    <p>You can then add another 'null_resource' to trigger the Ansible playbook:</p>
+    <div class="highlight cp9"><i onclick="cpy8()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;null_resource&#34;</span> <span class="s2">&#34;ansible_provisioning&#34;</span> <span class="p">{</span>
+    </span></span><span><span class="ln">2</span><span class="cl">  <span>depends_on</span> = <span class="p">[</span><span class="nx">aws_instance</span><span class="p">.</span><span class="nx">web</span><span class="p">]</span>
+    </span></span><span><span class="ln">3</span><span class="cl"><span class="kr">
+    </span></span></span><span><span class="ln">4</span><span class="cl"><span class="kr">  provisioner</span> <span class="s2">&#34;local-exec&#34;</span> <span class="p">{</span>
+    </span></span><span><span class="ln">5</span><span class="cl">    <span>command</span> = <span class="s2">&#34;ansible-playbook -i inventory.ini setup.yml&#34;</span>
+    </span></span><span><span class="ln">6</span><span class="cl">  <span class="p">}</span>
+    </span></span><span><span class="ln">7</span><span class="cl"><span class="p">}</span>
+    </span></span></code></pre></div><p>This <strong>null_resource</strong> uses another <strong>local-exec provisioner</strong> to execute the Ansible playbook called <strong>'setup.yml'</strong> on the instance we just created.</p>
+    <br/>
+    <h3>Step 3: How the infra will be provisioned</h3>
+    <ol>
+    <li>As you run <strong>terraform apply</strong>, Terraform will first create the <strong>EC2 instance</strong>,</li>
+    <li>After that Ansible will pick up from there, using the inventory file generated by Terraform to configure the newly created instance.</li>
+    </ol>
+    <p>Remember to replace the placeholders in these examples with your actual data.</p>
+    <p><strong>One thing to note:</strong> while this approach works, it does somewhat go against the philosophy of Terraform being declarative, and it could lead to issues with idempotency.</p>
+    <p>Using Terraform and Ansible separately - Terraform for provisioning, Ansible for configuration - could give you a cleaner, more maintainable setup. This isn't a hard and fast rule, though, and how you choose to use these tools will depend on your specific use case and requirements.</p>
+    <br/>
+    <h2>Conclusion</h2>
+    <p>I hope you've enjoyed our journey through Terraform for on-premises infrastructure. We've covered a lot of ground, right?</p>
+    <p>From managing <strong>VMware vSphere</strong> infrastructure to treating bare metal servers like cloud instances with <strong>MAAS</strong>, you've seen how versatile Terraform can be. And who could forget how smoothly it interacts with <strong>Kubernetes</strong> and configures things with <strong>Ansible</strong>?</p>
+    <p>This blog post is just the tip of the iceberg, there's so much more Terraform can do. And remember, it's okay to take your time, learning doesn't have to be a race. Always feel free to explore the official Terraform documentation whenever you need.</p>
+    <p>I truly hope you've found this exciting and enlightening. Always here if you need more guidance. Keep exploring, and as always, Happy Terraforming!</p>
+    
+        </div>
+</div>
+
+<script>
+     function cpy(){
+            let content = document.querySelector(".cp1");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy1(){
+            let content = document.querySelector(".cp2");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy2(){
+            let content = document.querySelector(".cp3");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy3(){
+            let content = document.querySelector(".cp4");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy4(){
+            let content = document.querySelector(".cp5");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy5(){
+            let content = document.querySelector(".cp6");
+            navigator.clipboard.writeText(content.innerText)
+        }     function cpy6(){
+            let content = document.querySelector(".cp7");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy7(){
+            let content = document.querySelector(".cp8");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy8(){
+            let content = document.querySelector(".cp9");
+            navigator.clipboard.writeText(content.innerText)
+        }  
+</script>
+</body>
+</html>

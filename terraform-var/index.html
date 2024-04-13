@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+<style>
+         body{
+        padding: 20px;
+    }
+    body h2{
+      font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        margin-bottom: 20px;
+    }
+    body p{
+      font-size: 15px;
+      font-family: "Poppins", sans-serif;
+        font-weight: 300;
+        margin-bottom: 20px;
+    }
+    .highlight{
+        border-radius: 20px;
+        background-color: rgb(57, 58, 79);
+        height: fit-content;
+        font-weight: bold;
+        padding: 20px;
+        position: relative;
+    }
+    .highlight i{
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 20px;
+      top: 10px;
+      right: 10px;
+      color: white;
+    }
+    .highlight i:hover{
+      background-color: rgb(37, 20, 20);
+      box-shadow: 0px 0px 23px white;
+      cursor: pointer;
+    }
+    .highlight:hover{
+        box-shadow: 0px 0px 23px black;
+        transition: 0.5s;
+    }
+    .highlight span{
+      color: rgb(244, 163, 12);
+    }
+    .highlight span .ln{
+      margin: 0 10px;
+      color: white;
+    }
+    .highlight span .kr{
+      color: greenyellow;
+    }
+</style>
+<body>
+  <div class="container">
+    <h1 class="post_title">How to use Terraform variable within variable</h1>
+
+    <div class="post_body"><h2 id="1-terraform-variables">1. Terraform Variables</h2>
+<p><a href="https://developer.hashicorp.com/terraform/language/values/variables">Variables</a> are an important part of <a href="https://www.terraform.io/">Terraform</a> because they let users change settings and make them more flexible and reusable.</p>
+<p>You can avoid hardcoding values in your Terraform configuration files by using variables. This makes your code more flexible.</p>
+<p>In this blog post we will focus on how to use <em><strong>Variables within variables</strong></em> and what the practices you should follow in such scenarios.</p>
+<li><a href="#3-best-practices">Best Practices</a></li>
+</ol>
+<p><strong>!Important-</strong> Terraform does not support variable withing variable implementation. You have to choose either of the following alternative to implement this behavior -</p>
+<ol>
+<li><a href="#221-use-lookup-function-to-fetch-variable-value-from-another-variable">Use lookup function to fetch variable value from another variable</a></li>
+<li><a href="#222-using-locals-and-variable-to-implement-variable-within-variable">Using locals and variable to implement variable within variable</a></li>
+</ol>
+<p>But first let's take a look on type of Terraform variables -</p>
+<h3>1.1 Types of Terraform Variables</h3>
+<p>There are three types of Terraform variables:</p>
+<p><strong>1. Input variables:</strong> These variables let users pass values into a Terraform setup, so the infrastructure can be changed without having to change the configuration.</p>
+<p><strong>Example -</strong></p>
+<div class="highlight cp1"><i onclick="cpy()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="c1">#main.tf 
+</span></span></span><span><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span class="cl"><span class="kr">provider</span> <span class="s2">&#34;aws&#34;</span> <span class="p">{</span><span class="c1">
+</span></span></span><span><span class="ln"> 4</span><span class="cl"><span class="c1">  # Input variable - var.aws_region
+</span></span></span><span><span class="ln"> 5</span><span class="cl"><span class="c1"></span>  <span class="na">region</span> = <span class="nb">var</span><span class="p">.</span><span class="nx">aws_region</span>
+</span></span><span><span class="ln"> 6</span><span class="cl"><span class="p">}</span>
+</span></span><span><span class="ln"> 7</span><span class="cl"><span class="kr">
+</span></span></span><span><span class="ln"> 8</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_instance&#34;</span> <span class="s2">&#34;example&#34;</span> <span class="p">{</span><span class="c1">
+</span></span></span><span><span class="ln"> 9</span><span class="cl"><span class="c1">  # Input variable - var.ami_id
+</span></span></span><span><span class="ln">10</span><span class="cl"><span class="c1"></span>  <span class="na">ami</span>           = <span class="nb">var</span><span class="p">.</span><span class="nx">ami_id</span>
+</span></span><span><span class="ln">11</span><span class="cl">  <span class="na">instance_type</span> = <span class="s2">&#34;t2.micro&#34;</span>
+</span></span><span><span class="ln">12</span><span class="cl">  <span class="na">tags</span> = <span class="p">{</span>
+</span></span><span><span class="ln">13</span><span class="cl">    <span class="na">Name</span>        = <span class="s2">&#34;example-instance&#34;</span>
+</span></span><span><span class="ln">14</span><span class="cl">    <span class="na">Environment</span> = <span class="s2">&#34;dev&#34;</span>
+</span></span><span><span class="ln">15</span><span class="cl">  <span class="p">}</span>
+</span></span><span><span class="ln">16</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Here is the Input variable for above example -</p>
+<div class="highlight cp2"><i onclick="cpy1()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="c1"># variables.tf
+</span></span></span><span><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kr">variable</span> <span class="s2">&#34;aws_region&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln"> 3</span><span class="cl">  <span class="na">description</span> = <span class="s2">&#34;The AWS region to deploy the resources in&#34;</span>
+</span></span><span><span class="ln"> 4</span><span class="cl">  <span class="na">type</span>        = <span class="nx">string</span>
+</span></span><span><span class="ln"> 5</span><span class="cl">  <span class="na">default</span>     = <span class="s2">&#34;us-west-2&#34;</span>
+</span></span><span><span class="ln"> 6</span><span class="cl"><span class="p">}</span>
+</span></span><span><span class="ln"> 7</span><span class="cl"><span class="kr">
+</span></span></span><span><span class="ln"> 8</span><span class="cl"><span class="kr">variable</span> <span class="s2">&#34;ami_id&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln"> 9</span><span class="cl">  <span class="na">description</span> = <span class="s2">&#34;The Amazon Machine Image (AMI) ID to use for the instance&#34;</span>
+</span></span><span><span class="ln">10</span><span class="cl">  <span class="na">type</span>        = <span class="nx">string</span>
+</span></span><span><span class="ln">11</span><span class="cl">  <span class="na">default</span>     = <span class="s2">&#34;ami-0c55b159cbfafe1f0&#34;</span>
+</span></span><span><span class="ln">12</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Here is one detailed post on <a href="../how-to-use-terraform-locals/index.html">How to use Terraform locals?</a></p>
+<p><strong>2. Output variables:</strong> These variables are used to pull values out of the Terraform state. This makes it easy for resources or modules to access and share information.</p>
+<p><strong>Example-</strong></p>
+<div class="highlight cp3"><i onclick="cpy2()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="c1">#main.tf 
+</span></span></span><span><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_vpc&#34;</span> <span class="s2">&#34;example&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln"> 4</span><span class="cl">  <span class="na">cidr_block</span> = <span class="s2">&#34;10.0.0.0/16&#34;</span>
+</span></span><span><span class="ln"> 5</span><span class="cl">
+</span></span><span><span class="ln"> 6</span><span class="cl">  <span class="na">tags</span> = <span class="p">{</span>
+</span></span><span><span class="ln"> 7</span><span class="cl">    <span class="na">Name</span> = <span class="s2">&#34;example-vpc&#34;</span>
+</span></span><span><span class="ln"> 8</span><span class="cl">  <span class="p">}</span>
+</span></span><span><span class="ln"> 9</span><span class="cl"><span class="p">}</span><span class="c1">
+</span></span></span><span><span class="ln">10</span><span class="cl"><span class="c1">
+</span></span></span><span><span class="ln">11</span><span class="cl"><span class="c1"># outputs.tf
+</span></span></span><span><span class="ln">12</span><span class="cl"><span class="c1"></span><span class="kr">output</span> <span class="s2">&#34;vpc_id&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln">13</span><span class="cl">  <span class="na">description</span> = <span class="s2">&#34;The ID of the created VPC&#34;</span>
+</span></span><span><span class="ln">14</span><span class="cl">  <span class="na">value</span>       = <span class="nx">aws_vpc</span><span class="p">.</span><span class="nx">example</span><span class="p">.</span><span class="nx">id</span>
+</span></span><span><span class="ln">15</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
+<li>In this case, we use the <code>main.tf</code> file to make an <em><strong>AWS VPC</strong></em> resource.</li>
+<li>We set up one output variable in the <code>outputs.tf</code> file: <em><strong>vpc_id</strong></em></li>
+<li>The ID of the newly formed VPC are shown in these output variables.</li>
+</ul>
+<p>When Terraform applies this configuration, it will show the values of these output variables at the end of the process. This makes it easy for users to access and use this information in other tools or configurations.</p>
+<p>Here is one detailed post on <a href="../how-to-use-terraform-output-values/index.html">How to use Terraform output values</a></p>
+<p><strong>3. Local variables:</strong> These are used within a Terraform configuration to simplify complicated expressions or store intermediate values that can be used later.</p>
+<p><strong>Example -</strong></p>
+<div class="highlight cp4"><i onclick="cpy3()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="c1">#main.tf
+</span></span></span><span><span class="ln"> 2</span><span class="cl"><span class="c1">
+</span></span></span><span><span class="ln"> 3</span><span class="cl"><span class="c1"># local variable
+</span></span></span><span><span class="ln"> 4</span><span class="cl"><span class="c1"></span><span class="nx">locals</span> <span class="p">{</span>
+</span></span><span><span class="ln"> 5</span><span class="cl">  <span class="na">staging_env</span> = <span class="s2">&#34;staging&#34;</span>
+</span></span><span><span class="ln"> 6</span><span class="cl"><span class="p">}</span><span class="c1">
+</span></span></span><span><span class="ln"> 7</span><span class="cl"><span class="c1">
+</span></span></span><span><span class="ln"> 8</span><span class="cl"><span class="c1"># aws vpc resource
+</span></span></span><span><span class="ln"> 9</span><span class="cl"><span class="c1"></span><span class="kr">resource</span> <span class="s2">&#34;aws_vpc&#34;</span> <span class="s2">&#34;staging-vpc&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln">10</span><span class="cl">  <span class="na">cidr_block</span> = <span class="s2">&#34;10.5.0.0/16&#34;</span>
+</span></span><span><span class="ln">11</span><span class="cl">
+</span></span><span><span class="ln">12</span><span class="cl">  <span class="na">tags</span> = <span class="p">{</span>
+</span></span><span><span class="ln">13</span><span class="cl">    <span class="na">Name</span> = <span class="s2">&#34;</span><span class="si">${</span><span class="nx">local</span><span class="p">.</span><span class="nx">staging_env</span><span class="si">}</span><span class="s2">-vpc-tag&#34;</span>
+</span></span><span><span class="ln">14</span><span class="cl">  <span class="p">}</span>
+</span></span><span><span class="ln">15</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>You can read in-depth on this post <a href="../how-to-use-terraform-locals/index.html">How to use Terraform locals?
+</a></p>
+<br/>
+<h2>2. Terraform Variable within Variable</h2>
+<h3>2.1 The Concept</h3>
+<p>In the [first section][1] you have seen how to create terraform variables. Let's use those concepts and explore the idea of using <em><strong>nested variables(variables within variables)</strong></em> in Terraform.</p>
+<p>This <em><strong>idea(variables within variables)</strong></em> makes it possible to make configurations that are more dynamic and flexible, which makes it easier to handle complex infrastructures.</p>
+<br/>
+<h3>2.2 Use Cases</h3>
+<h4>2.2.1 Use lookup function to fetch variable value from another variable</h4>
+<p>Let's take a look on one simple example which demonstrates the use of a variable within a variable:</p>
+<div class="highlight cp5"><i onclick="cpy4()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="c1"># variable.tf
+</span></span></span><span><span class="ln"> 2</span><span class="cl"><span class="c1">
+</span></span></span><span><span class="ln"> 3</span><span class="cl"><span class="c1"># var-1 : region
+</span></span></span><span><span class="ln"> 4</span><span class="cl"><span class="c1"></span><span class="kr">variable</span> <span class="s2">&#34;region&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln"> 5</span><span class="cl">  <span class="na">description</span> = <span class="s2">&#34;The AWS region where resources will be created&#34;</span>
+</span></span><span><span class="ln"> 6</span><span class="cl">  <span class="na">type</span>        = <span class="nx">string</span>
+</span></span><span><span class="ln"> 7</span><span class="cl">  <span class="na">default</span>     = <span class="s2">&#34;us-west-2&#34;</span>
+</span></span><span><span class="ln"> 8</span><span class="cl"><span class="p">}</span><span class="c1">
+</span></span></span><span><span class="ln"> 9</span><span class="cl"><span class="c1">
+</span></span></span><span><span class="ln">10</span><span class="cl"><span class="c1"># var-2 : instance_types
+</span></span></span><span><span class="ln">11</span><span class="cl"><span class="c1"></span><span class="kr">variable</span> <span class="s2">&#34;instance_types&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln">12</span><span class="cl">  <span class="na">description</span> = <span class="s2">&#34;A map of instance types for different environments&#34;</span>
+</span></span><span><span class="ln">13</span><span class="cl">  <span class="na">type</span>        =<span class="nb"> map</span><span class="p">(</span><span class="nx">string</span><span class="p">)</span>
+</span></span><span><span class="ln">14</span><span class="cl">  <span class="na">default</span> = <span class="p">{</span>
+</span></span><span><span class="ln">15</span><span class="cl">    <span class="na">dev</span>  = <span class="s2">&#34;t2.micro&#34;</span>
+</span></span><span><span class="ln">16</span><span class="cl">    <span class="na">prod</span> = <span class="s2">&#34;m5.large&#34;</span>
+</span></span><span><span class="ln">17</span><span class="cl">  <span class="p">}</span>
+</span></span><span><span class="ln">18</span><span class="cl"><span class="p">}</span><span class="c1">
+</span></span></span><span><span class="ln">19</span><span class="cl"><span class="c1">
+</span></span></span><span><span class="ln">20</span><span class="cl"><span class="c1"># var-3 : environment
+</span></span></span><span><span class="ln">21</span><span class="cl"><span class="c1"></span><span class="kr">variable</span> <span class="s2">&#34;environment&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln">22</span><span class="cl">  <span class="na">description</span> = <span class="s2">&#34;The environment for the infrastructure (e.g., dev, prod)&#34;</span>
+</span></span><span><span class="ln">23</span><span class="cl">  <span class="na">type</span>        = <span class="nx">string</span>
+</span></span><span><span class="ln">24</span><span class="cl">  <span class="na">default</span>     = <span class="s2">&#34;dev&#34;</span>
+</span></span><span><span class="ln">25</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Let's write <code>main.tf</code> and use those variables which we have created inside <code>variable.tf</code>.</p>
+<p>In this case, we've set up three variables:</p>
+<ul>
+<li>region</li>
+<li>instance_types</li>
+<li>environment</li>
+</ul>
+<ol>
+<li>The <em><strong>instance_types</strong></em> variable is a map that links different instance types to different environments, such as testing and production.</li>
+<li>Based on the value of the environment variable, the <em><strong>aws_instance</strong></em> resource uses the <a href="../terraform-lookup-function/index.html">lookup function</a> to choose the right instance type.</li>
+<li>This shows how the value of one variable <em><strong>(var.environment)</strong></em> is used in the description of another variable <em><strong>(var.instance_types)</strong></em>.</li>
+</ol>
+<div class="highlight cp6"><i onclick="cpy5()" class="fa-regular fa-copy"></i><pre><code class="language-main.tf" data-lang="main.tf"><span><span class="ln"> 1</span><span class="cl"><span class="c1"># main.tf
+</span></span></span><span><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kr"> 
+</span></span></span><span><span class="ln"> 3</span><span class="cl"><span class="kr">
+</span></span></span><span><span class="ln"> 4</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_instance&#34;</span> <span class="s2">&#34;example&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln"> 5</span><span class="cl">  <span class="na">ami</span>           = <span class="s2">&#34;ami-0c55b159cbfafe1f0&#34;</span><span class="c1">
+</span></span></span><span><span class="ln"> 6</span><span class="cl"><span class="c1">  
+</span></span></span><span><span class="ln"> 7</span><span class="cl"><span class="c1">  # Using variable value to fetch another variable
+</span></span></span><span><span class="ln"> 8</span><span class="cl"><span class="c1"></span>  <span class="na">instance_type</span> =<span class="nb"> lookup</span><span class="p">(</span><span class="nb">var</span><span class="p">.</span><span class="nx">instance_types</span><span class="p">,</span> <span class="nb">var</span><span class="p">.</span><span class="nx">environment</span><span class="p">)</span>
+</span></span><span><span class="ln"> 9</span><span class="cl">  <span class="na">availability_zone</span> = <span class="s2">&#34;</span><span class="si">${</span><span class="nb">var</span><span class="p">.</span><span class="nx">region</span><span class="si">}</span><span class="s2">a&#34;</span>
+</span></span><span><span class="ln">10</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><br/>
+<h4>2.2.2 Using locals and variable to implement variable within variable</h4>
+<p>As terraform does not support variable within variable, so another alternate would be to combine <em><strong>locals</strong></em> and <em><strong>variables</strong></em> to implement variable within variable.</p>
+<p>Here is how this implementation would work -</p>
+<ol>
+<li>First we will create a variable named <em><strong>env</strong></em> with default value <em><strong>dev</strong></em> in <em><strong>variable.tf</strong></em></li>
+</ol>
+<div class="highlight cp7"><i onclick="cpy6()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1"># variable.tf
+</span></span></span><span><span class="ln">2</span><span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span><span class="ln">3</span><span class="cl"><span class="kr">variable</span> <span class="s2">&#34;env&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln">4</span><span class="cl">  <span class="na">description</span> = <span class="s2">&#34;Tags for dev environment&#34;</span>
+</span></span><span><span class="ln">5</span><span class="cl">  <span class="na">type</span>        = <span class="nx">string</span>
+</span></span><span><span class="ln">6</span><span class="cl">  <span class="na">default</span>     = <span class="s2">&#34;dev&#34;</span>
+</span></span><span><span class="ln">7</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ol start="2">
+<li>Second we will create <em><strong>main.tf</strong></em> file and inside the file we will create a <em><strong>local</strong></em> and use the expression <em><strong>${var.env}</strong></em> to create a local named <em><strong>tag</strong></em></li>
+</ol>
+<div class="highlight cp8"><i onclick="cpy7()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="c1"># main.tf 
+</span></span></span><span><span class="ln"> 2</span><span class="cl"><span class="c1"></span>
+</span></span><span><span class="ln"> 3</span><span class="cl"><span class="nx">locals</span> <span class="p">{</span>
+</span></span><span><span class="ln"> 4</span><span class="cl">  <span class="na">tags</span> = <span class="p">{</span>
+</span></span><span><span class="ln"> 5</span><span class="cl">    <span class="na">Name</span> = <span class="s2">&#34;</span><span class="si">${</span><span class="nb">var</span><span class="p">.</span><span class="nx">env</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span><span class="ln"> 6</span><span class="cl">  <span class="p">}</span>
+</span></span><span><span class="ln"> 7</span><span class="cl"><span class="p">}</span>
+</span></span><span><span class="ln"> 8</span><span class="cl"><span class="kr">
+</span></span></span><span><span class="ln"> 9</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_vpc&#34;</span> <span class="s2">&#34;staging-vpc&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln">10</span><span class="cl">  <span class="na">cidr_block</span> = <span class="s2">&#34;10.5.0.0/16&#34;</span>
+</span></span><span><span class="ln">11</span><span class="cl">
+</span></span><span><span class="ln">12</span><span class="cl">  <span class="na">tags</span> = <span class="p">{</span>
+</span></span><span><span class="ln">13</span><span class="cl">    <span class="na">Name</span> = <span class="s2">&#34;</span><span class="si">${</span><span class="nx">local</span><span class="p">.</span><span class="nx">tags</span><span class="si">}</span><span class="s2">-vpc-tag&#34;</span>
+</span></span><span><span class="ln">14</span><span class="cl">  <span class="p">}</span>
+</span></span><span><span class="ln">15</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><br/>
+<h3>2.3 Advantages</h3>
+<p>Using variables within variables in Terraform has a number of benefits:</p>
+<ol>
+<li><strong>Flexibility:</strong> It lets you make configurations that are more dynamic, which makes it easier to adapt to changes in the system.</li>
+<li><strong>Modularity:</strong> You can make reusable parts that can be changed to fit your needs by nesting variables.</li>
+<li><strong>Simplicity:</strong> It cuts down on duplicate code and makes the codebase cleaner and easier to manage.</li>
+</ol>
+<br/>
+<h2>3. Best Practices</h2>
+<p>When using a Terraform variable inside another Terraform variable, it's important to follow best practices to make sure your code is easy to read and maintain:</p>
+<ol>
+<li><strong>Use descriptive variable names:</strong> Use variable names that explain what they are for. Give your variables names that are clear and explain what they are for.</li>
+<li><strong>Document your variables:</strong> Include a description for each variable in your configuration to give context and show how it should be used.</li>
+<li><strong>Validate variable values:</strong> Use the built-in validation tools in Terraform to make sure that the numbers you pass to your variables meet the criteria you want.</li>
+<li><strong>Organize your variables:</strong> Use consistent name rules and group variables that are similar together to make your code easier to read and understand.</li>
+<li><strong>Avoid deep nesting:</strong> Nesting factors can be helpful, but don't make structures that are too complicated and hard to understand and keep up with.
+<br/></li>
+</ol>
+
+    </div>
+    </div>
+
+    <script>
+        function cpy(){
+            let content = document.querySelector(".cp1");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy1(){
+            let content = document.querySelector(".cp2");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy2(){
+            let content = document.querySelector(".cp3");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy3(){
+            let content = document.querySelector(".cp4");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy4(){
+            let content = document.querySelector(".cp5");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy5(){
+            let content = document.querySelector(".cp6");
+            navigator.clipboard.writeText(content.innerText)
+        }     function cpy6(){
+            let content = document.querySelector(".cp7");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy7(){
+            let content = document.querySelector(".cp8");
+            navigator.clipboard.writeText(content.innerText)
+        }
+    </script>
+    </body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+<style>
+        body{
+        padding: 20px;
+    }
+    body h2{
+      font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        margin-bottom: 20px;
+    }
+    body p{
+      font-size: 15px;
+      font-family: "Poppins", sans-serif;
+        font-weight: 300;
+        margin-bottom: 20px;
+    }
+    .highlight{
+        border-radius: 20px;
+        background-color: rgb(57, 58, 79);
+        height: fit-content;
+        font-weight: bold;
+        padding: 20px;
+        position: relative;
+    }
+    .highlight i{
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 20px;
+      top: 10px;
+      right: 10px;
+      color: white;
+    }
+    .highlight i:hover{
+      background-color: rgb(37, 20, 20);
+      box-shadow: 0px 0px 23px white;
+      cursor: pointer;
+    }
+    .highlight:hover{
+        box-shadow: 0px 0px 23px black;
+        transition: 0.5s;
+    }
+    .highlight span{
+      color: rgb(244, 163, 12);
+    }
+    .highlight span .ln{
+      margin: 0 10px;
+      color: white;
+    }
+    .highlight span .kr{
+      color: greenyellow;
+    }
+</style>
+<body>
+  <div class="container">
+    <div class="post_body"><p>There are various ways in <a href="https://www.jenkins.io/">Jenkins</a> for using the SSH credentials to perform <strong>SSH, SCP or SFTP</strong>. You have to choose which one is more suitable for your need and project setup.</p>
+<p>In this blog post I will walk you through the couple of options with which you can accomplish the <strong>SSH, SCP or SFTP</strong></p>
+<h2>Table of Content</h2>
+<ol>
+<li><a href="#1-using-ssh-agent-plugin">Using SSH Agent Plugin</a></li>
+<li><a href="#2-credentials-binding-plugin">Credentials Binding Plugin</a></li>
+</ol>
+<h2>1. Using SSH Agent Plugin</h2>
+<h3>1.1 Install necessary plugins</h3>
+<p>Make sure that you've installed the &quot;<a href="https://plugins.jenkins.io/ssh-agent/">SSH Agent Plugin</a>&quot; and &quot;Pipeline: Groovy Plugin&quot; in Jenkins. These plugins will allow Jenkins to use SSH credentials in your pipeline.</p>
+<h3>1.2 Add SSH credentials</h3>
+<p>Go to Jenkins dashboard, then click <em><strong>Credentials -&gt; System -&gt; Global credentials (unrestricted) -&gt; Add Credentials</strong></em>.</p>
+<p>Choose <em><strong>&quot;SSH Username with private key&quot;</strong></em> in Kind. Put your <em><strong>SSH username</strong></em> in <em><strong>Username</strong></em> and paste your <em><strong>SSH private key</strong></em> in <em><strong>Private Key</strong></em>. Give a unique ID for this credential set in ID field, this ID will be used in your pipeline script.</p>
+<p><figure>
+  <picture>
+
+    
+      
+        
+        
+        
+        
+        
+        
+    <img
+      loading="lazy"
+      decoding="async"
+      alt=""
+      
+        class="image_figure image_internal image_unprocessed"
+        src="../wp-content/uploads/aws/aws-jenkins/jenkins-secret-text-for-docker.webp"
+      
+      
+        title="Jenkins add credentials under global credentials"
+      
+    />
+
+    <figcaption class="caption_figure caption_internal">Jenkins add credentials under global credentials</figcaption></picture>
+</figure>
+</p>
+<p>The above example shows only one type of credentials which is getting stored in Jenkins. But you can follow above steps for storing multiple credentials in jenkins.</p>
+<h3>1.3 Use SSH credentials in Jenkins Pipeline</h3>
+<p>In your Jenkins pipeline, you can use these SSH credentials as follows:</p>
+<div class="highlight cp1"><i onclick="cpy()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="c1"># We will use the docker credentials to push the docker image</span>
+</span></span><span><span class="ln"> 2</span><span class="cl">
+</span></span><span><span class="ln"> 3</span><span class="cl">node <span class="o">{</span>
+</span></span><span><span class="ln"> 4</span><span class="cl">
+</span></span><span><span class="ln"> 5</span><span class="cl">    stage<span class="o">(</span><span class="s2">&#34;Docker build&#34;</span><span class="o">){</span>
+</span></span><span><span class="ln"> 6</span><span class="cl">        sh <span class="s1">&#39;docker version&#39;</span>
+</span></span><span><span class="ln"> 7</span><span class="cl">        sh <span class="s1">&#39;docker build -t jhooq-docker-demo .&#39;</span>
+</span></span><span><span class="ln"> 8</span><span class="cl">        sh <span class="s1">&#39;docker image list&#39;</span>
+</span></span><span><span class="ln"> 9</span><span class="cl">        sh <span class="s1">&#39;docker tag jhooq-docker-demo rahulwagh17/jhooq-docker-demo:jhooq-docker-demo&#39;</span>
+</span></span><span><span class="ln">10</span><span class="cl">    <span class="o">}</span>
+</span></span><span><span class="ln">11</span><span class="cl">    
+</span></span><span><span class="ln">12</span><span class="cl">    <span class="c1"># Use docker credentials to push the docker image</span>
+</span></span><span><span class="ln">13</span><span class="cl">    withCredentials<span class="o">([</span>string<span class="o">(</span>credentialsId: <span class="s1">&#39;DOCKER_HUB_PASSWORD&#39;</span>, variable: <span class="s1">&#39;PASSWORD&#39;</span><span class="o">)])</span> <span class="o">{</span>
+</span></span><span><span class="ln">14</span><span class="cl">        sh <span class="s1">&#39;docker login -u rahulwagh17 -p $PASSWORD&#39;</span>
+</span></span><span><span class="ln">15</span><span class="cl">    <span class="o">}</span>
+</span></span><span><span class="ln">16</span><span class="cl"><span class="o">}</span> 
+</span></span><span><span class="ln">17</span><span class="cl"> 
+</span></span></code></pre></div><h3>1.4 Implement SSH, SCP and SFTP using SSH Agent Plugin</h3>
+<p>Here are few more examples to refer where I have done the <em><strong>SSH, SCP and SFTP</strong></em> -</p>
+<div class="highlight cp2"><i onclick="cpy1()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl">pipeline <span class="o">{</span>
+</span></span><span><span class="ln"> 2</span><span class="cl">    agent any
+</span></span><span><span class="ln"> 3</span><span class="cl">    
+</span></span><span><span class="ln"> 4</span><span class="cl">    
+</span></span><span><span class="ln"> 5</span><span class="cl">    stages <span class="o">{</span>
+</span></span><span><span class="ln"> 6</span><span class="cl">        <span class="c1"># Using withCredentials to perform SCP operation</span>
+</span></span><span><span class="ln"> 7</span><span class="cl">        stage<span class="o">(</span><span class="s1">&#39;SCP copy&#39;</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span><span class="ln"> 8</span><span class="cl">            steps <span class="o">{</span>
+</span></span><span><span class="ln"> 9</span><span class="cl">                withCredentials<span class="o">([</span>sshUserPrivateKey<span class="o">(</span>credentialsId: <span class="s1">&#39;my-ssh-credentials-id&#39;</span>, keyFileVariable: <span class="s1">&#39;MY_SSH_KEY&#39;</span><span class="o">)])</span> <span class="o">{</span>
+</span></span><span><span class="ln">10</span><span class="cl">                    sh <span class="s1">&#39;&#39;&#39;
+</span></span></span><span><span class="ln">11</span><span class="cl"><span class="s1">                    scp -i $MY_SSH_KEY your-file.txt username@your-remote-server:/path/to/directory/
+</span></span></span><span><span class="ln">12</span><span class="cl"><span class="s1">                    &#39;&#39;&#39;</span>
+</span></span><span><span class="ln">13</span><span class="cl">                <span class="o">}</span>
+</span></span><span><span class="ln">14</span><span class="cl">            <span class="o">}</span>
+</span></span><span><span class="ln">15</span><span class="cl">        <span class="o">}</span>
+</span></span><span><span class="ln">16</span><span class="cl">        
+</span></span><span><span class="ln">17</span><span class="cl">        <span class="c1"># Using withCredentials to perform SSH operation</span>
+</span></span><span><span class="ln">18</span><span class="cl">        stage<span class="o">(</span><span class="s1">&#39;SSH commands&#39;</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span><span class="ln">19</span><span class="cl">            steps <span class="o">{</span>
+</span></span><span><span class="ln">20</span><span class="cl">                withCredentials<span class="o">([</span>sshUserPrivateKey<span class="o">(</span>credentialsId: <span class="s1">&#39;my-ssh-credentials-id&#39;</span>, keyFileVariable: <span class="s1">&#39;MY_SSH_KEY&#39;</span><span class="o">)])</span> <span class="o">{</span>
+</span></span><span><span class="ln">21</span><span class="cl">                    sh <span class="s1">&#39;&#39;&#39;
+</span></span></span><span><span class="ln">22</span><span class="cl"><span class="s1">                    ssh -i $MY_SSH_KEY username@your-remote-server &#34;commands to execute&#34;
+</span></span></span><span><span class="ln">23</span><span class="cl"><span class="s1">                    &#39;&#39;&#39;</span>
+</span></span><span><span class="ln">24</span><span class="cl">                <span class="o">}</span>
+</span></span><span><span class="ln">25</span><span class="cl">            <span class="o">}</span>
+</span></span><span><span class="ln">26</span><span class="cl">        <span class="o">}</span>
+</span></span><span><span class="ln">27</span><span class="cl">        
+</span></span><span><span class="ln">28</span><span class="cl">        <span class="c1"># Using withCredentials to perform SFTP operation</span>
+</span></span><span><span class="ln">29</span><span class="cl">        stage<span class="o">(</span><span class="s1">&#39;SFTP commands&#39;</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span><span class="ln">30</span><span class="cl">            steps <span class="o">{</span>
+</span></span><span><span class="ln">31</span><span class="cl">                withCredentials<span class="o">([</span>sshUserPrivateKey<span class="o">(</span>credentialsId: <span class="s1">&#39;my-ssh-credentials-id&#39;</span>, keyFileVariable: <span class="s1">&#39;MY_SSH_KEY&#39;</span><span class="o">)])</span> <span class="o">{</span>
+</span></span><span><span class="ln">32</span><span class="cl">                    sh <span class="s1">&#39;&#39;&#39;
+</span></span></span><span><span class="ln">33</span><span class="cl"><span class="s1">                    sftp -i $MY_SSH_KEY username@your-remote-server &lt;&lt;EOF
+</span></span></span><span><span class="ln">34</span><span class="cl"><span class="s1">                    cd /path/to/directory
+</span></span></span><span><span class="ln">35</span><span class="cl"><span class="s1">                    put your-file.txt
+</span></span></span><span><span class="ln">36</span><span class="cl"><span class="s1">                    bye
+</span></span></span><span><span class="ln">37</span><span class="cl"><span class="s1">                    EOF
+</span></span></span><span><span class="ln">38</span><span class="cl"><span class="s1">                    &#39;&#39;&#39;</span>
+</span></span><span><span class="ln">39</span><span class="cl">                <span class="o">}</span>
+</span></span><span><span class="ln">40</span><span class="cl">            <span class="o">}</span>
+</span></span><span><span class="ln">41</span><span class="cl">        <span class="o">}</span>
+</span></span><span><span class="ln">42</span><span class="cl">    <span class="o">}</span>
+</span></span><span><span class="ln">43</span><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><br/>
+<h2>2. Credentials Binding Plugin</h2>
+<p>There is one more plugin which is more popular in the Jenkins community and it is very well known by the name <em><strong><a href="https://plugins.jenkins.io/credentials-binding/">Credentials Binding Plugin</a></strong></em>.</p>
+<p>Here are steps which you need to follow to install that plugin -</p>
+<h3>2.1 Install Credentials Binding Plugin</h3>
+<p><strong>1. Login to Jenkins -</strong> Log in to your Jenkins server dashboard. You need to have administrative rights.</p>
+<p><strong>2. Go to &quot;Manage Jenkins -</strong> On your Jenkins dashboard, click on &quot;Manage Jenkins&quot; in the left-hand side navigation menu.</p>
+<p><strong>3. Go to &quot;Manage Plugins -</strong> In the Manage Jenkins page, look for &quot;Manage Plugins&quot; and click on it. It's generally towards the bottom of the options.</p>
+<p><strong>4. Search for the Credentials Binding Plugin -</strong> You'll be presented with a list of tabs for managing plugins: Updates, Available, Installed, and Advanced. Click on the <em>&quot;Available&quot;</em> tab and use the <em>&quot;Filter&quot;</em> search box to find <em>&quot;Credentials Binding Plugin&quot;</em>.</p>
+<p><strong>5. Install the Plugin -</strong> Once you've found the &quot;Credentials Binding Plugin&quot; in the list, check the checkbox next to it and then click either &quot;Install without restart&quot; or &quot;Download now and install after restart&quot;.</p>
+<ul>
+<li><em>&quot;Install without restart&quot;</em> will attempt to install the plugin immediately but some of its functionality may not be available until after a restart.</li>
+<li><em>&quot;Download now and install after restart&quot;</em> will download the plugin and install it when you next restart Jenkins.</li>
+</ul>
+<p><strong>6. Restart Jenkins (If necessary) -</strong> If you chose to install after restart or if the plugin requires it, you should restart your Jenkins server.</p>
+<br/>
+<h3>2.2 Add SSH credentials</h3>
+<p>Go to Jenkins dashboard, then click <em><strong>Credentials -&gt; System -&gt; Global credentials (unrestricted) -&gt; Add Credentials</strong></em>.</p>
+<p>Choose <em><strong>&quot;SSH Username with private key&quot;</strong></em> in Kind. Put your SSH username in Username and paste your SSH private key in Private Key. Give a unique ID for this credential set in ID field, this ID will be used in your pipeline script.</p>
+<br/>
+<h3>2.3 Use SSH credentials in Jenkins Pipeline</h3>
+<p>In your Jenkins pipeline, you can use these SSH credentials as follows:</p>
+<div class="highlight cp3"><i onclick="cpy2()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl">pipeline <span class="o">{</span>
+</span></span><span><span class="ln"> 2</span><span class="cl">    agent any
+</span></span><span><span class="ln"> 3</span><span class="cl">
+</span></span><span><span class="ln"> 4</span><span class="cl">    stages <span class="o">{</span>
+</span></span><span><span class="ln"> 5</span><span class="cl">        <span class="c1"># For performing the SCP</span>
+</span></span><span><span class="ln"> 6</span><span class="cl">        stage<span class="o">(</span><span class="s1">&#39;SCP copy&#39;</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span><span class="ln"> 7</span><span class="cl">            steps <span class="o">{</span>
+</span></span><span><span class="ln"> 8</span><span class="cl">                sshagent<span class="o">([</span><span class="s1">&#39;my-ssh-credentials-id&#39;</span><span class="o">])</span> <span class="o">{</span>
+</span></span><span><span class="ln"> 9</span><span class="cl">                    sh <span class="s1">&#39;&#39;&#39;
+</span></span></span><span><span class="ln">10</span><span class="cl"><span class="s1">                    scp your-file.txt username@your-remote-server:/path/to/directory/
+</span></span></span><span><span class="ln">11</span><span class="cl"><span class="s1">                    &#39;&#39;&#39;</span>
+</span></span><span><span class="ln">12</span><span class="cl">                <span class="o">}</span>
+</span></span><span><span class="ln">13</span><span class="cl">            <span class="o">}</span>
+</span></span><span><span class="ln">14</span><span class="cl">        <span class="o">}</span>
+</span></span><span><span class="ln">15</span><span class="cl">        
+</span></span><span><span class="ln">16</span><span class="cl">        <span class="c1"># For performing the SSH</span>
+</span></span><span><span class="ln">17</span><span class="cl">        stage<span class="o">(</span><span class="s1">&#39;SSH commands&#39;</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span><span class="ln">18</span><span class="cl">            steps <span class="o">{</span>
+</span></span><span><span class="ln">19</span><span class="cl">                sshagent<span class="o">([</span><span class="s1">&#39;my-ssh-credentials-id&#39;</span><span class="o">])</span> <span class="o">{</span>
+</span></span><span><span class="ln">20</span><span class="cl">                    sh <span class="s1">&#39;&#39;&#39;
+</span></span></span><span><span class="ln">21</span><span class="cl"><span class="s1">                    ssh username@your-remote-server &#34;commands to execute&#34;
+</span></span></span><span><span class="ln">22</span><span class="cl"><span class="s1">                    &#39;&#39;&#39;</span>
+</span></span><span><span class="ln">23</span><span class="cl">                <span class="o">}</span>
+</span></span><span><span class="ln">24</span><span class="cl">            <span class="o">}</span>
+</span></span><span><span class="ln">25</span><span class="cl">        <span class="o">}</span>
+</span></span><span><span class="ln">26</span><span class="cl">        
+</span></span><span><span class="ln">27</span><span class="cl">        <span class="c1"># For performing the SFTP</span>
+</span></span><span><span class="ln">28</span><span class="cl">        stage<span class="o">(</span><span class="s1">&#39;SFTP commands&#39;</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span><span class="ln">29</span><span class="cl">            steps <span class="o">{</span>
+</span></span><span><span class="ln">30</span><span class="cl">                sshagent<span class="o">([</span><span class="s1">&#39;my-ssh-credentials-id&#39;</span><span class="o">])</span> <span class="o">{</span>
+</span></span><span><span class="ln">31</span><span class="cl">                    sh <span class="s1">&#39;&#39;&#39;
+</span></span></span><span><span class="ln">32</span><span class="cl"><span class="s1">                    sftp username@your-remote-server &lt;&lt;EOF
+</span></span></span><span><span class="ln">33</span><span class="cl"><span class="s1">                    cd /path/to/directory
+</span></span></span><span><span class="ln">34</span><span class="cl"><span class="s1">                    put your-file.txt
+</span></span></span><span><span class="ln">35</span><span class="cl"><span class="s1">                    bye
+</span></span></span><span><span class="ln">36</span><span class="cl"><span class="s1">                    EOF
+</span></span></span><span><span class="ln">37</span><span class="cl"><span class="s1">                    &#39;&#39;&#39;</span>
+</span></span><span><span class="ln">38</span><span class="cl">                <span class="o">}</span>
+</span></span><span><span class="ln">39</span><span class="cl">            <span class="o">}</span>
+</span></span><span><span class="ln">40</span><span class="cl">        <span class="o">}</span>
+</span></span><span><span class="ln">41</span><span class="cl">    <span class="o">}</span>
+</span></span><span><span class="ln">42</span><span class="cl"><span class="o">}</span>
+</span></span><span><span class="ln">43</span><span class="cl"> 
+</span></span></code></pre></div><p>Remember to replace <strong>'my-ssh-credentials-id'</strong> with the ID you provided when adding the SSH credentials, and replace <strong>'username@your-remote-server'</strong>, <strong>'/path/to/directory'</strong>, and <strong>'commands to execute'</strong> with your specific values.</p>
+<p>This <strong>sshagent</strong> step provided by the SSH Agent plugin will automatically handle key management and disposal for you, so you don't need to worry about securely storing and cleaning up after the keys.</p>
+
+    </div>
+  </div>
+  <script>
+      function cpy(){
+            let content = document.querySelector(".cp1");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy1(){
+            let content = document.querySelector(".cp2");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy2(){
+            let content = document.querySelector(".cp3");
+            navigator.clipboard.writeText(content.innerText)
+        }
+  </script>
+  </body>
+</html>

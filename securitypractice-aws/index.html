@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+<style>
+    body{
+        padding: 20px;
+    }
+    body h2{
+      font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        margin-bottom: 20px;
+    }
+    body p{
+      font-size: 15px;
+      font-family: "Poppins", sans-serif;
+        font-weight: 300;
+        margin-bottom: 20px;
+    }
+    .highlight{
+        border-radius: 20px;
+        background-color: rgb(57, 58, 79);
+        height: fit-content;
+        font-weight: bold;
+        padding: 20px;
+        position: relative;
+    }
+    .highlight i{
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 20px;
+      top: 10px;
+      right: 10px;
+      color: white;
+    }
+    .highlight i:hover{
+      background-color: rgb(37, 20, 20);
+      box-shadow: 0px 0px 23px white;
+      cursor: pointer;
+    }
+    .highlight:hover{
+        box-shadow: 0px 0px 23px black;
+        transition: 0.5s;
+    }
+    .highlight span{
+      color: rgb(244, 163, 12);
+    }
+    .highlight span .ln{
+      margin: 0 10px;
+      color: white;
+    }
+    .highlight span .kr{
+      color: greenyellow;
+    }
+</style>
+  <body>
+    <div class="container">
+
+    <div class="post_body"><h2>1. Introduction</h2>
+<p>Security in the cloud is not just an option; it's an imperative. Much like a well-guarded fortress, your cloud infrastructure needs robust, scalable defenses. <a href="https://aws.com/"><strong>AWS</strong></a> provides us with a wealth of tools and best practices for this task, but managing them manually can feel like trying to organize an unruly group of knights.</p>
+<p>Enter <strong>Terraform</strong></a>, our trusted steward, enabling us to manage our defenses in a structured, efficient, and version-controlled manner. Together, <strong>AWS</strong> and <strong>Terraform</strong> can help us establish a fortress that's not only secure but also scalable, efficient, and cost-effective.</p>
+<p><strong>In this blog post</strong>, we'll embark on a journey to do just that. We'll delve into -</p>
+<ol>
+<li><strong>AWS's security best practices</strong></li>
+<li><strong>Exploring key areas like the shared responsibility model</strong></li>
+<li><strong>IAM best practices</strong></li>
+<li><strong>Network and data security</strong></li>
+<li><strong>Logging and monitoring</strong></li>
+</ol>
+<p>Then, we'll roll up our sleeves and dive into the world of Terraform, learning how to set up a secure <strong>AWS environment</strong>, manage secrets, and establish continuous security practices.</p>
+<p>Whether you're a seasoned cloud professional or just starting your cloud journey, this post aims to provide valuable insights and practical knowledge.</p>
+<br/>
+<h2>2. Basics of Terraform and AWS</h2>
+<h3>2.1 Diving into Terraform</h3>
+<p>Let's kick things off by diving into the world of <strong>Terraform</strong>, an absolute game-changer in infrastructure management. Terraform is an open-source <strong>Infrastructure as Code (IaC)</strong> tool, developed by <a href="https://hashicorp.com/">HashiCorp</a>, that allows developers to build, change, and version infrastructure safely and efficiently. In other words, Terraform allows you to treat infrastructure as if it were software.</p>
+<p>Imagine you're constructing a building. Rather than manually assembling the bricks and cement, what if you could write a blueprint that automatically assembles it for you? That's essentially what Terraform enables you to do with your IT infrastructure.</p>
+<p>A fundamental aspect of Terraform is its declarative language. You declare what you want, and Terraform figures out how to achieve it.</p>
+<p><strong>For example :</strong> If you wanted to create an <strong>AWS S3 bucket</strong>, you would write a simple configuration like this:</p>
+<div class="highlight cp1"><i onclick="cpy()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span><span># main.tf 
+</span></span></span><span><span class="ln"> 2</span><span><span></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span><span class="kr">resource</span> <span>&#34;aws_s3_bucket&#34;</span> <span>&#34;my_bucket&#34;</span> <span>{</span>
+</span></span><span><span class="ln"> 4</span><span><span>bucket</span> = <span>&#34;bucket-name&#34;</span>
+</span></span><span><span class="ln"> 5</span><span><span>acl</span>    = <span>&#34;private&#34;</span>
+</span></span><span><span class="ln"> 6</span><span>
+</span></span><span><span class="ln"> 7</span><span><span>tags</span> = <span>{</span>
+</span></span><span><span class="ln"> 8</span><span><span>Name</span>        = <span>&#34;My bucket&#34;</span>
+</span></span><span><span class="ln"> 9</span><span><span>Environment</span> = <span>&#34;Dev&#34;</span>
+</span></span><span><span class="ln">10</span><span><span>}</span>
+</span></span><span><span class="ln">11</span><span><span>}</span>
+</span></span><span><span class="ln">12</span><span> 
+</span></span></code></pre></div><p>With jus of code, you've defined an <strong>AWS S3 bucket</strong>!</p>
+<br/>
+<h3>2.2 A Glimpse into AWS</h3>
+<p>Next, we step into the expansive universe of <strong>Amazon Web Services (AWS)</strong>. <a href="https://aws.com/">AWS</a> is a comprehensive cloud services platform that offers computing power, storage, content delivery, and other functionalities to help businesses scale and grow.</p>
+<p>When we say AWS is expansive, we mean it. As of my writing, AWS offers more than <strong>200 fully-featured services</strong> from data centers globally (and they're continually expanding). These services range from foundational services like <a href="https://aws.amazon.com/ec2/">Compute (EC2)</a>, <a href="https://aws.amazon.com/s3/">Storage (S3)</a>, and <a href="https://aws.amazon.com/rds/">Databases (RDS)</a> to advanced machine learning and artificial intelligence services.</p>
+<p>For example, if you wanted to <a href="../terraform-ec2-instance-setup/index.html">launch an EC2 instance</a> manually, you'd have to navigate through a series of options regarding instance type, storage, security groups, and more. It can be a lengthy process, especially if you're doing this for multiple instances.</p>
+<br/>
+<h3>2.3 The Terraform and AWS Duo</h3>
+<p>Now, let's talk about how <strong>Terraform</strong> and <strong>AWS</strong> come together. As we've established, managing resources in <strong>AWS</strong> can be a complicated task, particularly in large environments.</p>
+<p>Terraform's power shines in its ability to manage and orchestrate complex architectures in <strong>AWS (or any cloud provider, for that matter)</strong> through simple, human-readable configuration files.</p>
+<p>Using Terraform, you can write code to create, modify, and delete AWS resources. This not only makes infrastructure management easier, but it also ensures consistency, avoids human error, and enables versioning and collaboration.</p>
+<p>For instance, if we wanted to <a href="../terraform-ec2-instance-setup/index.html">create an EC2 instance using Terraform</a>, our configuration file might look something like this:</p>
+<div class="highlight cp2"><i onclick="cpy1()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span><span># main.tf - Setup EC2 instance using terraform 
+</span></span></span><span><span class="ln"> 2</span><span><span></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span><span class="kr">provider</span> <span>&#34;aws&#34;</span> <span>{</span>
+</span></span><span><span class="ln"> 4</span><span>  <span>region</span> = <span>&#34;us-west-2&#34;</span>
+</span></span><span><span class="ln"> 5</span><span><span>}</span>
+</span></span><span><span class="ln"> 6</span><span><span class="kr">
+</span></span></span><span><span class="ln"> 7</span><span><span class="kr">resource</span> <span>&#34;aws_instance&#34;</span> <span>&#34;example&#34;</span> <span>{</span>
+</span></span><span><span class="ln"> 8</span><span>  <span>ami</span>           = <span>&#34;ami-0c55b159cbfafe1f0&#34;</span>
+</span></span><span><span class="ln"> 9</span><span>  <span>instance_type</span> = <span>&#34;t2.micro&#34;</span>
+</span></span><span><span class="ln">10</span><span>
+</span></span><span><span class="ln">11</span><span>  <span>tags</span> = <span>{</span>
+</span></span><span><span class="ln">12</span><span>    <span>Name</span> = <span>&#34;example-instance&#34;</span>
+</span></span><span><span class="ln">13</span><span>  <span>}</span>
+</span></span><span><span class="ln">14</span><span><span>}</span>
+</span></span><span><span class="ln">15</span><span> 
+</span></span></code></pre></div><p>Once we apply this configuration using the command <strong>terraform apply</strong>, Terraform will handle the provisioning of an <strong>EC2 instance on AWS</strong>.</p>
+<p>In this way, Terraform serves as the bridge between your architectural needs and AWS's services, allowing you to manage your AWS infrastructure effectively.</p>
+<p>If you like doing practical hands-on then here is YouTube Lab Session which will really help you to understand those initial terraform concepts -</p>
+
+
+<div class="ratio ratio-16x9">
+    <iframe src="https://www.youtube.com/embed/44f2zqQGCjg"></iframe>
+  </div>
+<br/>
+<h2 id="3-understanding-aws-security-best-practices">3. Understanding AWS Security Best Practices</h2>
+<p><strong>Exploring the Shared Responsibility Model :</strong> Before we delve into the specifics of <strong>AWS security</strong>, let's talk about an essential principle in cloud security - the <strong><a href="https://aws.amazon.com/compliance/shared-responsibility-model/">Shared Responsibility Model</a></strong>.</p>
+<p>AWS describes this as <strong>&quot;Security of the Cloud&quot; vs. &quot;Security in the Cloud&quot;</strong>. AWS, as a cloud service provider, is responsible for protecting the infrastructure that runs all of the services offered in the AWS Cloud. This infrastructure is composed of the <strong>hardware, software, networking,</strong> and <strong>facilities</strong> that run AWS Cloud services.</p>
+<p>On the other hand, customers - that's us - are responsible for managing our secure use of these services. This includes our data, individual AWS service configurations, and management of sensitive credentials. Understanding this shared responsibility is fundamental to our journey in securing <strong>AWS</strong> with <strong>Terraform</strong>.</p>
+<br/>
+<h3 id="31-aws-identity-and-access-management-iam-best-practices">3.1 AWS Identity and Access Management (IAM) Best Practices</h3>
+<p>Let's explore <a href="https://aws.amazon.com/iam/">AWS Identity and Access Management (IAM)</a> next. Think of <strong>IAM</strong> as the security guard at the entrance of your office building, verifying the identities and granting permissions to people as they enter.</p>
+<p><strong>1. Understanding IAM</strong></p>
+<p><a href="https://aws.amazon.com/iam/">AWS Identity and Access Management (IAM)</a> allows you to manage access to your AWS resources securely. Using IAM, you can create  -</p>
+<ol>
+<li>Users</li>
+<li>Groups</li>
+<li>Roles</li>
+<li>And you can grant permissions to access your AWS resources.</li>
+</ol>
+<p><strong>2. IAM Users and Groups: The Basics</strong></p>
+<p>IAM users are identities with specific permissions that determine what the identity can and can't do in AWS. Typically, you create IAM users for people accessing your AWS environment.</p>
+<p>Meanwhile, IAM groups are collections of IAM users that you manage as a single unit. For example, you could have an 'Admins' group for users who need administrative access and a 'Developers' group for users who need access to development tools.</p>
+<p>Here's how you can create an IAM user and group in Terraform:</p>
+<div class="highlight cp3"><i onclick="cpy2()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span><span># AWS IAM use, group, aws_iam_group_membership
+</span></span></span><span><span class="ln"> 2</span><span><span></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span><span class="kr">resource</span> <span>&#34;aws_iam_user&#34;</span> <span>&#34;developer&#34;</span> <span>{</span>
+</span></span><span><span class="ln"> 4</span><span>  <span>name</span> = <span>&#34;developer&#34;</span>
+</span></span><span><span class="ln"> 5</span><span>  <span>path</span> = <span>&#34;/developers/&#34;</span>
+</span></span><span><span class="ln"> 6</span><span><span>}</span>
+</span></span><span><span class="ln"> 7</span><span><span class="kr">
+</span></span></span><span><span class="ln"> 8</span><span><span class="kr">resource</span> <span>&#34;aws_iam_group&#34;</span> <span>&#34;developers&#34;</span> <span>{</span>
+</span></span><span><span class="ln"> 9</span><span>  <span>name</span> = <span>&#34;developers&#34;</span>
+</span></span><span><span class="ln">10</span><span>  <span>path</span> = <span>&#34;/developers/&#34;</span>
+</span></span><span><span class="ln">11</span><span><span>}</span>
+</span></span><span><span class="ln">12</span><span><span class="kr">
+</span></span></span><span><span class="ln">13</span><span><span class="kr">resource</span> <span>&#34;aws_iam_group_membership&#34;</span> <span>&#34;developer_membership&#34;</span> <span>{</span>
+</span></span><span><span class="ln">14</span><span>  <span>name</span> = <span>&#34;developer_membership&#34;</span>
+</span></span><span><span class="ln">15</span><span>
+</span></span><span><span class="ln">16</span><span>  <span>users</span> = <span>[</span>
+</span></span><span><span class="ln">17</span><span>    <span>aws_iam_user</span><span>.</span><span>developer</span><span>.</span><span>name</span><span>,</span>
+</span></span><span><span class="ln">18</span><span>  <span>]</span>
+</span></span><span><span class="ln">19</span><span>
+</span></span><span><span class="ln">20</span><span>  <span>group</span> = <span>aws_iam_group</span><span>.</span><span>developers</span><span>.</span><span>name</span>
+</span></span><span><span class="ln">21</span><span><span>}</span>
+</span></span><span><span class="ln">22</span><span> 
+</span></span></code></pre></div><p>In the above code, we create an IAM user named <strong>developer</strong> and an <strong>IAM group</strong> named <strong>developers</strong>. We then add the developer user to the developers group.</p>
+<p><strong>3. IAM Roles: Delegating Permissions</strong></p>
+<p><strong><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html">IAM roles</a></strong> are a secure way to delegate permissions with defined duration to trusted entities (AWS services, users, or applications). Unlike IAM users, roles don't have long-term credentials (passwords or access keys) associated with them. Instead, when a <a href="https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html">role is assumed</a>, it provides temporary security credentials.</p>
+<p>Here's an example of creating an IAM role for an AWS Lambda function:</p>
+<div class="highlight cp4"><i onclick="cpy3()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span><span># AWS IAM role example  
+</span></span></span><span><span class="ln"> 2</span><span><span></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span><span class="kr"> resource</span> <span>&#34;aws_iam_role&#34;</span> <span>&#34;lambda_role&#34;</span> <span>{</span>
+</span></span><span><span class="ln"> 4</span><span>  <span>name</span> = <span>&#34;lambda_role&#34;</span>
+</span></span><span><span class="ln"> 5</span><span>
+</span></span><span><span class="ln"> 6</span><span>  <span>assume_role_policy</span> = <span class="o">&lt;&lt;EOF</span><span>
+</span></span></span><span><span class="ln"> 7</span><span><span>{
+</span></span></span><span><span class="ln"> 8</span><span><span>&#34;Version&#34;: &#34;2012-10-17&#34;,
+</span></span></span><span><span class="ln"> 9</span><span><span>&#34;Statement&#34;: [
+</span></span></span><span><span class="ln">10</span><span><span>{
+</span></span></span><span><span class="ln">11</span><span><span>&#34;Action&#34;: &#34;sts:AssumeRole&#34;,
+</span></span></span><span><span class="ln">12</span><span><span>&#34;Principal&#34;: {
+</span></span></span><span><span class="ln">13</span><span><span>&#34;Service&#34;: &#34;lambda.amazonaws.com&#34;
+</span></span></span><span><span class="ln">14</span><span><span>},
+</span></span></span><span><span class="ln">15</span><span><span>&#34;Effect&#34;: &#34;Allow&#34;,
+</span></span></span><span><span class="ln">16</span><span><span>&#34;Sid&#34;: &#34;&#34;
+</span></span></span><span><span class="ln">17</span><span><span>}
+</span></span></span><span><span class="ln">18</span><span><span>]
+</span></span></span><span><span class="ln">19</span><span><span>}
+</span></span></span><span><span class="ln">20</span><span><span></span><span class="o">EOF</span>
+</span></span><span><span class="ln">21</span><span><span>}</span>
+</span></span></code></pre></div><p>This code creates an IAM role that can be assumed by a <strong>Lambda function</strong>, as defined in the <strong>assume_role_policy</strong>.</p>
+<p><strong>4. IAM Policies: Defining Permissions</strong></p>
+<p><strong><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html">IAM policies</a></strong> define permissions for an identity or resource. AWS evaluates these policies when a request is made. Passing a request depends on you having permissions for the requested action and resource.</p>
+<p>Here's how you can attach a managed policy to an IAM role:</p>
+<div class="highlight cp5"><i onclick="cpy4()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span><span># Create IAM role, Policy attachment
+</span></span></span><span><span class="ln">2</span><span><span></span><span class="kr">resource</span> <span>&#34;aws_iam_role_policy_attachment&#34;</span> <span>&#34;lambda_s3_read&#34;</span> <span>{</span>
+</span></span><span><span class="ln">3</span><span>  <span>role</span>       = <span>aws_iam_role</span><span>.</span><span>lambda_role</span><span>.</span><span>name</span>
+</span></span><span><span class="ln">4</span><span>  <span>policy_arn</span> = <span>&#34;arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess&#34;</span>
+</span></span><span><span class="ln">5</span><span><span>}</span>
+</span></span><span><span class="ln">6</span><span> 
+</span></span></code></pre></div><p>In this code, we're attaching the <strong>AmazonS3ReadOnlyAccess</strong> managed policy to the <strong>lambda_role</strong> we created earlier. This will give any Lambda function that assumes this role <strong>read-only</strong> access to <strong>S3</strong>.</p>
+<p>Remember, with IAM, <strong>'least privilege'</strong> is the rule of thumb - grant only the permissions required to perform a task. And regularly review and revise these permissions as necessary.</p>
+<br/>
+<h3>3.2 Network Security Best Practices</h3>
+<p>Network security is like the walls and fences of a house - it is thof defense against potential intruders. By establishing robust network security, you're ensuring that only authorized traffic can access your AWS resources, while unwanted traffic is kept out.</p>
+<p><strong>1. VPC: Your Personal AWS Environment</strong></p>
+<p>A <strong><a href="https://aws.amazon.com/vpc/">Virtual Private Cloud (VPC)</a></strong> is like your private portion of the AWS cloud where you can launch your resources in a virtual network that you define. Consider it your own gated community where you control access, layout, and visibility.</p>
+<p>Here's a basic example of a VPC setup in Terraform:</p>
+<div class="highlight cp6"><i onclick="cpy5()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span><span># Create a VPC
+</span></span></span><span><span class="ln">2</span><span><span></span><span class="kr">
+</span></span></span><span><span class="ln">3</span><span><span class="kr">resource</span> <span>&#34;aws_vpc&#34;</span> <span>&#34;my_vpc&#34;</span> <span>{</span>
+</span></span><span><span class="ln">4</span><span>  <span>cidr_block</span> = <span>&#34;10.0.0.0/16&#34;</span>
+</span></span><span><span class="ln">5</span><span><span>}</span>
+</span></span></code></pre></div><p>This code creates a <strong>VPC</strong> with a <strong>CIDR</strong> block of <strong>10.0.0.0/16</strong>, providing up to <strong>65,536</strong> private IPv4 addresses.</p>
+<p><strong>2. Subnets: Dividing Your VPC</strong></p>
+<p>Within a VPC, you can divide your network range into one or more <a href="https://docs.aws.amazon.com/vpc/latest/userguide/configure-subnets.html">subnets</a>, similar to how a large community might be divided into individual neighborhoods. This allows you to organize your resources based on their function and security requirements.</p>
+<p>Here's how you can create a public subnet within your VPC using Terraform:</p>
+<div class="highlight cp7"><i onclick="cpy6()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span><span># Create public subnet
+</span></span></span><span><span class="ln">2</span><span><span></span><span class="kr">
+</span></span></span><span><span class="ln">3</span><span><span class="kr">resource</span> <span>&#34;aws_subnet&#34;</span> <span>&#34;public_subnet&#34;</span> <span>{</span>
+</span></span><span><span class="ln">4</span><span>  <span>vpc_id</span>     = <span>aws_vpc</span><span>.</span><span>my_vpc</span><span>.</span><span>id</span>
+</span></span><span><span class="ln">5</span><span>  <span>cidr_block</span> = <span>&#34;10.0.1.0/24&#34;</span>
+</span></span><span><span class="ln">6</span><span>  <span>map_public_ip_on_launch</span> = <span class="kc">true</span>
+</span></span><span><span class="ln">7</span><span><span>}</span> 
+</span></span></code></pre></div><p>In the above code, we're creating a subnet with a <strong>CIDR</strong> block of <strong>10.0.1.0/24</strong>, providing up to <strong>256</strong> addresses. The <strong>map_public_ip_on_launch attribute</strong> is set to <strong>true</strong>, making this subnet public.</p>
+<p><strong>3. Security Groups and NACLs: Regulating Traffic</strong></p>
+<p><strong><a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html">Security Groups</a></strong> and <strong><a href="https://docs.aws.amazon.com/managedservices/latest/userguide/restrict-nacl.html">Network Access Control Lists (NACLs)</a></strong> are your gatekeepers. They control inbound and outbound traffic to your instances and subnets respectively.</p>
+<p>Here's an example of a security group that allows inbound <strong>HTTP</strong> and <strong>HTTPS</strong> traffic, and all outbound traffic:</p>
+<div class="highlight cp8"><i onclick="cpy7()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span><span># Setup security group to allow the inbound and outbound traffic
+</span></span></span><span><span class="ln"> 2</span><span><span></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span><span class="kr">resource</span> <span>&#34;aws_security_group&#34;</span> <span>&#34;web_sg&#34;</span> <span>{</span>
+</span></span><span><span class="ln"> 4</span><span>  <span>vpc_id</span> = <span>aws_vpc</span><span>.</span><span>my_vpc</span><span>.</span><span>id</span>
+</span></span><span><span class="ln"> 5</span><span>  <span>name</span>   = <span>&#34;web_sg&#34;</span>
+</span></span><span><span class="ln"> 6</span><span>
+</span></span><span><span class="ln"> 7</span><span>  <span>ingress</span> <span>{</span>
+</span></span><span><span class="ln"> 8</span><span>    <span>from_port</span>   = <span>80</span>
+</span></span><span><span class="ln"> 9</span><span>    <span>to_port</span>     = <span>80</span>
+</span></span><span><span class="ln">10</span><span>    <span>protocol</span>    = <span>&#34;tcp&#34;</span>
+</span></span><span><span class="ln">11</span><span>    <span>cidr_blocks</span> = <span>[</span><span>&#34;0.0.0.0/0&#34;</span><span>]</span>
+</span></span><span><span class="ln">12</span><span>  <span>}</span>
+</span></span><span><span class="ln">13</span><span>
+</span></span><span><span class="ln">14</span><span>  <span>ingress</span> <span>{</span>
+</span></span><span><span class="ln">15</span><span>    <span>from_port</span>   = <span>443</span>
+</span></span><span><span class="ln">16</span><span>    <span>to_port</span>     = <span>443</span>
+</span></span><span><span class="ln">17</span><span>    <span>protocol</span>    = <span>&#34;tcp&#34;</span>
+</span></span><span><span class="ln">18</span><span>    <span>cidr_blocks</span> = <span>[</span><span>&#34;0.0.0.0/0&#34;</span><span>]</span>
+</span></span><span><span class="ln">19</span><span>  <span>}</span>
+</span></span><span><span class="ln">20</span><span>
+</span></span><span><span class="ln">21</span><span>  <span>egress</span> <span>{</span>
+</span></span><span><span class="ln">22</span><span>    <span>from_port</span>   = <span>0</span>
+</span></span><span><span class="ln">23</span><span>    <span>to_port</span>     = <span>0</span>
+</span></span><span><span class="ln">24</span><span>    <span>protocol</span>    = <span>&#34;-1&#34;</span>
+</span></span><span><span class="ln">25</span><span>    <span>cidr_blocks</span> = <span>[</span><span>&#34;0.0.0.0/0&#34;</span><span>]</span>
+</span></span><span><span class="ln">26</span><span>  <span>}</span>
+</span></span><span><span class="ln">27</span><span><span>}</span>
+</span></span><span><span class="ln">28</span><span> 
+</span></span></code></pre></div><p>In this code, the ingress blocks define the rules for <strong>incoming traffic</strong> - we're allowing <strong>HTTP</strong> and <strong>HTTPS</strong> traffic from any IP address. The egress block sets the rule for outgoing traffic - we're allowing all outbound traffic.</p>
+<p>Just like a well-constructed fence or a secure front door adds a layer of security to your home, implementing these network security best practices adds a crucial layer of protection to your AWS environment.</p>
+<br/>
+<h3>3.3 Data Security and Encryption Best Practices</h3>
+<p>Let's take a closer look at the data security and encryption best practices in <strong><a href="https://aws.com/">AWS</a></strong>. It's like protecting your valuables. You wouldn't leave your front door wide open, would you? Similarly, we need to ensure that our data is well-protected and securely locked away.</p>
+<p><strong>Understanding the Importance of Data Security</strong></p>
+<blockquote>
+<p><em><strong>Firstly, why is data security crucial?</strong></em></p>
+<p>Data is often considered the most valuable asset in the digital world. It can contain sensitive information about your customers, your financial details, or even your proprietary algorithms and strategies. Just like you wouldn't leave your valuables unattended in a public place, you can't afford to be careless with your data.</p>
+</blockquote>
+<p><strong>Data Encryption: A Key to Secure Data</strong></p>
+<p>One of the fundamental ways to ensure data security is through <strong>encryption</strong>. <strong>Encryption</strong> converts your data into an <strong>unreadable format</strong> that can only be converted back to its original form (or &quot;decrypted&quot;) with a specific decryption key.</p>
+<p>AWS offers several services that support encryption both at rest (when data is stored) and in transit (when data is being transferred). Let's take a look at how you can ensure data encryption with some of AWS's popular services:</p>
+<p><strong>1. Amazon S3:</strong></p>
+<p><strong>Amazon S3</strong> is a widely-used service for storing and retrieving data. You can ensure your data is encrypted at rest in <strong>S3</strong> by enabling server-side <strong>encryption</strong> on the bucket. Here's a sample Terraform configuration for creating an S3 bucket with server-side encryption enabled:</p>
+<div class="highlight cp9"><i onclick="cpy8()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span><span># Enabled server side encryption in AWS S3 bucket 
+</span></span></span><span><span class="ln"> 2</span><span><span></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span><span class="kr">resource</span> <span>&#34;aws_s3_bucket&#34;</span> <span>&#34;encrypted_bucket&#34;</span> <span>{</span>
+</span></span><span><span class="ln"> 4</span><span>  <span>bucket</span> = <span>&#34;my-encrypted-bucket&#34;</span>
+</span></span><span><span class="ln"> 5</span><span>  <span>acl</span>    = <span>&#34;private&#34;</span>
+</span></span><span><span class="ln"> 6</span><span>
+</span></span><span><span class="ln"> 7</span><span>  <span>server_side_encryption_configuration</span> <span>{</span>
+</span></span><span><span class="ln"> 8</span><span>    <span>rule</span> <span>{</span>
+</span></span><span><span class="ln"> 9</span><span>      <span>apply_server_side_encryption_by_default</span> <span>{</span>
+</span></span><span><span class="ln">10</span><span>        <span>sse_algorithm</span> = <span>&#34;AES256&#34;</span>
+</span></span><span><span class="ln">11</span><span>      <span>}</span>
+</span></span><span><span class="ln">12</span><span>    <span>}</span>
+</span></span><span><span class="ln">13</span><span>  <span>}</span>
+</span></span><span><span class="ln">14</span><span><span>}</span>
+</span></span></code></pre></div><p>In the above code, the <strong>server_side_encryption_configuration</strong> block ensures that any data uploaded to the <strong>my-encrypted-bucket</strong> bucket is automatically encrypted using the <strong>AES-256 algorithm</strong>.</p>
+<p><strong>2. Amazon RDS:</strong></p>
+<p><a href="https://aws.amazon.com/rds/">Amazon RDS</a> is a managed relational database service provided by AWS. Just like S3, RDS also supports encryption at rest. Here's how you can create an encrypted RDS instance with Terraform:</p>
+<div class="highlight cp10"><i onclick="cpy9()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span><span># Setting up the RDS Encryption 
+</span></span></span><span><span class="ln"> 2</span><span><span></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span><span class="kr">resource</span> <span>&#34;aws_kms_key&#34;</span> <span>&#34;rds_encryption&#34;</span> <span>{</span>
+</span></span><span><span class="ln"> 4</span><span>  <span>description</span> = <span>&#34;KMS key for RDS encryption&#34;</span>
+</span></span><span><span class="ln"> 5</span><span><span>}</span>
+</span></span><span><span class="ln"> 6</span><span><span class="kr">
+</span></span></span><span><span class="ln"> 7</span><span><span class="kr">resource</span> <span>&#34;aws_db_instance&#34;</span> <span>&#34;encrypted_db&#34;</span> <span>{</span>
+</span></span><span><span class="ln"> 8</span><span>  <span>identifier</span>           = <span>&#34;my-encrypted-db&#34;</span>
+</span></span><span><span class="ln"> 9</span><span>  <span>allocated_storage</span>    = <span>20</span>
+</span></span><span><span class="ln">10</span><span>  <span>engine</span>               = <span>&#34;mysql&#34;</span>
+</span></span><span><span class="ln">11</span><span>  <span>engine_version</span>       = <span>&#34;5.7&#34;</span>
+</span></span><span><span class="ln">12</span><span>  <span>instance_class</span>       = <span>&#34;db.t2.micro&#34;</span>
+</span></span><span><span class="ln">13</span><span>  <span>username</span>             = <span>&#34;dbadmin&#34;</span>
+</span></span><span><span class="ln">14</span><span>  <span>password</span>             = <span>&#34;yoursecurepassword&#34;</span>
+</span></span><span><span class="ln">15</span><span>  <span>parameter_group_name</span> = <span>&#34;default.mysql5.7&#34;</span>
+</span></span><span><span class="ln">16</span><span>
+</span></span><span><span class="ln">17</span><span>  <span>storage_encrypted</span> = <span class="kc">true</span>
+</span></span><span><span class="ln">18</span><span>  <span>kms_key_id</span>        = <span>aws_kms_key</span><span>.</span><span>rds_encryption</span><span>.</span><span>arn</span>
+</span></span><span><span class="ln">19</span><span><span>}</span>
+</span></span><span><span class="ln">20</span><span> 
+</span></span></code></pre></div><p>In this example -</p>
+<ol>
+<li>We first create a KMS key <strong>(rds_encryption)</strong> that we'll use for encrypting our RDS instance.</li>
+<li>Then create an RDS instance <strong>(encrypted_db)</strong> with the storage_encrypted argument set to true.</li>
+<li>Then <strong>kms_key_id</strong> set to the <strong>ARN</strong> of our KMS key.</li>
+</ol>
+<p><strong>3. Amazon EBS:</strong></p>
+<p><a href="https://aws.amazon.com/ebs/">Amazon EBS</a> provides block-level storage volumes for use with <a href="(/terraform-ec2-instance-setup).html">EC2 instances</a>.</p>
+<p><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volumes.html">EBS volumes</a> can also be encrypted at rest. Here's a sample Terraform configuration for creating an encrypted EBS volume:</p>
+<div class="highlight cp11"><i onclick="cpy10()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span><span># 
+</span></span></span><span><span class="ln"> 2</span><span><span></span><span class="kr">resource</span> <span>&#34;aws_ebs_volume&#34;</span> <span>&#34;encrypted_volume&#34;</span> <span>{</span>
+</span></span><span><span class="ln"> 3</span><span>  <span>availability_zone</span> = <span>&#34;us-west-2a&#34;</span>
+</span></span><span><span class="ln"> 4</span><span>  <span>size</span>              = <span>40</span>
+</span></span><span><span class="ln"> 5</span><span>
+</span></span><span><span class="ln"> 6</span><span>  <span>kms_key_id</span>            = <span>aws_kms_key</span><span>.</span><span>ebs_encryption</span><span>.</span><span>arn</span>
+</span></span><span><span class="ln"> 7</span><span>  <span>encrypted</span>             = <span class="kc">true</span>
+</span></span><span><span class="ln"> 8</span><span><span>}</span>
+</span></span><span><span class="ln"> 9</span><span><span class="kr">
+</span></span></span><span><span class="ln">10</span><span><span class="kr">resource</span> <span>&#34;aws_kms_key&#34;</span> <span>&#34;ebs_encryption&#34;</span> <span>{</span>
+</span></span><span><span class="ln">11</span><span>  <span>description</span> = <span>&#34;KMS key for EBS encryption&#34;</span>
+</span></span><span><span class="ln">12</span><span><span>}</span>
+</span></span><span><span class="ln">13</span><span> 
+</span></span></code></pre></div><p>In this code, we first create a <strong>KMS key (ebs_encryption)</strong> for our <strong>EBS encryption</strong>. We then create an <strong>EBS volume (encrypted_volume)</strong> with encryption enabled using our <strong>KMS key</strong>.</p>
+<p>Encryption is just one piece of the puzzle in ensuring data security.</p>
+<br/>
+<h3>3.4 AWS Logging and Monitoring Best Practices</h3>
+<p><strong>Logging and Monitoring: Why is it Essential?</strong></p>
+<p>Let's understand why logging and monitoring are so critical. Imagine driving a car without any gauges. You wouldn't know your speed, fuel level, engine temperature - it would be a disaster waiting to happen.</p>
+<p>Similarly, logging and monitoring are your &quot;gauges&quot; for your AWS infrastructure. They provide insight into what's happening within your environment, like who's doing what, when they're doing it, and how your resources are being utilized. This information is crucial for both detecting potential security threats and understanding your system's overall health.</p>
+<p><strong>AWS CloudTrail: Keeping Track of User Activity</strong></p>
+<p><strong><a href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-user-guide.html">AWS CloudTrail</a></strong> is a service that enables governance, compliance, operational auditing, and risk auditing of your AWS account. It does this by continuously monitoring and logging your AWS account activity, including actions taken through the AWS Management Console, AWS SDKs, tools, and other AWS services.</p>
+<p>Implementing CloudTrail with Terraform is straightforward. Here's a simple example:</p>
+<div class="highlight cp12"><i onclick="cpy11()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span><span class="kr">
+</span></span></span><span><span class="ln"> 2</span><span><span class="kr">resource</span> <span>&#34;aws_s3_bucket&#34;</span> <span>&#34;cloudtrail_bucket&#34;</span> <span>{</span>
+</span></span><span><span class="ln"> 3</span><span>  <span>bucket</span> = <span>&#34;my-cloudtrail-bucket&#34;</span>
+</span></span><span><span class="ln"> 4</span><span><span>}</span>
+</span></span><span><span class="ln"> 5</span><span><span class="kr">
+</span></span></span><span><span class="ln"> 6</span><span><span class="kr">resource</span> <span>&#34;aws_cloudtrail&#34;</span> <span>&#34;main&#34;</span> <span>{</span>
+</span></span><span><span class="ln"> 7</span><span>  <span>name</span>           = <span>&#34;main-trail&#34;</span>
+</span></span><span><span class="ln"> 8</span><span>  <span>s3_bucket_name</span> = <span>aws_s3_bucket</span><span>.</span><span>cloudtrail_bucket</span><span>.</span><span>bucket</span>
+</span></span><span><span class="ln"> 9</span><span>
+</span></span><span><span class="ln">10</span><span>  <span>event_selector</span> <span>{</span>
+</span></span><span><span class="ln">11</span><span>    <span>read_write_type</span>           = <span>&#34;All&#34;</span>
+</span></span><span><span class="ln">12</span><span>    <span>include_management_events</span> = <span class="kc">true</span>
+</span></span><span><span class="ln">13</span><span>
+</span></span><span><span class="ln">14</span><span>    <span class="nb">data</span><span class="err">_</span><span>resource</span> <span>{</span>
+</span></span><span><span class="ln">15</span><span>      <span>type</span> = <span>&#34;AWS::S3::Object&#34;</span>
+</span></span><span><span class="ln">16</span><span>      <span>values</span> = <span>[</span><span>&#34;arn:aws:s3:::</span><span class="si">${</span><span>aws_s3_bucket</span><span>.</span><span>cloudtrail_bucket</span><span>.</span><span>bucket</span><span class="si">}</span><span>&#34;</span><span>]</span>
+</span></span><span><span class="ln">17</span><span>    <span>}</span>
+</span></span><span><span class="ln">18</span><span>  <span>}</span>
+</span></span><span><span class="ln">19</span><span><span>}</span>
+</span></span></code></pre></div><p>In the above configuration, we first create an <strong><a href="https://aws.amazon.com/s3/">S3 bucket</a></strong> to store our <a href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-working-with-log-files.html">CloudTrail logs (cloudtrail_bucket)</a>. Then, we create the CloudTrail (main) that logs all read and write management events in our AWS account.</p>
+<p><strong>AWS Config: Monitoring Your Resource Configurations</strong></p>
+<p>Another vital component of AWS logging and monitoring is <strong>AWS Config</strong>. This service allows you to <strong>assess</strong>, <strong>audit</strong>, and <strong>evaluate</strong> the configurations of your AWS resources. AWS Config continuously monitors and records your AWS resource configurations, and it allows you to automate the evaluation of recorded configurations against desired configurations.</p>
+<p>Here is how you might set up AWS Config using Terraform:</p>
+<div class="highlight cp13"><i onclick="cpy12()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span><span># main.tf - AWS Config recorder to access the S3 Bucket based on the IAM policy
+</span></span></span><span><span class="ln"> 2</span><span><span></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span><span class="kr">resource</span> <span>&#34;aws_config_configuration_recorder&#34;</span> <span>&#34;main&#34;</span> <span>{</span>
+</span></span><span><span class="ln"> 4</span><span>  <span>name</span>     = <span>&#34;main&#34;</span>
+</span></span><span><span class="ln"> 5</span><span>  <span>role_arn</span> = <span>aws_iam_role</span><span>.</span><span>recorder</span><span>.</span><span>arn</span>
+</span></span><span><span class="ln"> 6</span><span>
+</span></span><span><span class="ln"> 7</span><span>  <span>recording_group</span> <span>{</span>
+</span></span><span><span class="ln"> 8</span><span>    <span>all_supported</span>                 = <span class="kc">true</span>
+</span></span><span><span class="ln"> 9</span><span>    <span>include_global_resource_types</span> = <span class="kc">true</span>
+</span></span><span><span class="ln">10</span><span>  <span>}</span>
+</span></span><span><span class="ln">11</span><span><span>}</span>
+</span></span><span><span class="ln">12</span><span><span class="kr">
+</span></span></span><span><span class="ln">13</span><span><span class="kr">resource</span> <span>&#34;aws_iam_role&#34;</span> <span>&#34;recorder&#34;</span> <span>{</span>
+</span></span><span><span class="ln">14</span><span>  <span>name</span> = <span>&#34;config-example&#34;</span>
+</span></span><span><span class="ln">15</span><span>
+</span></span><span><span class="ln">16</span><span>  <span>assume_role_policy</span> = <span class="o">&lt;&lt;POLICY</span><span>
+</span></span></span><span><span class="ln">17</span><span><span>{
+</span></span></span><span><span class="ln">18</span><span><span>  &#34;Version&#34;: &#34;2012-10-17&#34;,
+</span></span></span><span><span class="ln">19</span><span><span>  &#34;Statement&#34;: [
+</span></span></span><span><span class="ln">20</span><span><span>    {
+</span></span></span><span><span class="ln">21</span><span><span>      &#34;Action&#34;: &#34;sts:AssumeRole&#34;,
+</span></span></span><span><span class="ln">22</span><span><span>      &#34;Principal&#34;: {
+</span></span></span><span><span class="ln">23</span><span><span>        &#34;Service&#34;: &#34;config.amazonaws.com&#34;
+</span></span></span><span><span class="ln">24</span><span><span>      },
+</span></span></span><span><span class="ln">25</span><span><span>      &#34;Effect&#34;: &#34;Allow&#34;,
+</span></span></span><span><span class="ln">26</span><span><span>      &#34;Sid&#34;: &#34;&#34;
+</span></span></span><span><span class="ln">27</span><span><span>    }
+</span></span></span><span><span class="ln">28</span><span><span>  ]
+</span></span></span><span><span class="ln">29</span><span><span>}
+</span></span></span><span><span class="ln">30</span><span><span></span><span class="o">POLICY</span>
+</span></span><span><span class="ln">31</span><span><span>}</span>
+</span></span><span><span class="ln">32</span><span><span class="kr">
+</span></span></span><span><span class="ln">33</span><span><span class="kr">resource</span> <span>&#34;aws_iam_role_policy&#34;</span> <span>&#34;recorder&#34;</span> <span>{</span>
+</span></span><span><span class="ln">34</span><span>  <span>name</span> = <span>&#34;config-example&#34;</span>
+</span></span><span><span class="ln">35</span><span>  <span>role</span> = <span>aws_iam_role</span><span>.</span><span>recorder</span><span>.</span><span>id</span>
+</span></span><span><span class="ln">36</span><span>
+</span></span><span><span class="ln">37</span><span>  <span>policy</span> = <span class="o">&lt;&lt;POLICY</span><span>
+</span></span></span><span><span class="ln">38</span><span><span>{
+</span></span></span><span><span class="ln">39</span><span><span>  &#34;Version&#34;: &#34;2012-10-17&#34;,
+</span></span></span><span><span class="ln">40</span><span><span>  &#34;Statement&#34;: [
+</span></span></span><span><span class="ln">41</span><span><span>    {
+</span></span></span><span><span class="ln">42</span><span><span>      &#34;Action&#34;: &#34;s3:*&#34;,
+</span></span></span><span><span class="ln">43</span><span><span>      &#34;Effect&#34;: &#34;Allow&#34;,
+</span></span></span><span><span class="ln">44</span><span><span>      &#34;Resource&#34;: &#34;*&#34;
+</span></span></span><span><span class="ln">45</span><span><span>    }
+</span></span></span><span><span class="ln">46</span><span><span>  ]
+</span></span></span><span><span class="ln">47</span><span><span>}
+</span></span></span><span><span class="ln">48</span><span><span></span><span class="o">POLICY</span>
+</span></span><span><span class="ln">49</span><span><span>}</span> 
+</span></span></code></pre></div><p>This configuration sets up an <strong>AWS Config recorder</strong> that records all resource types, both region-specific and global. It also sets up an <strong>IAM role</strong> and <strong>policy</strong> necessary for <strong>AWS Config</strong> to access the <strong>S3 bucket</strong>.</p>
+<p>Remember, a car's gauges are only helpful if you check them regularly. Similarly, monitoring and logging tools like CloudTrail and AWS Config are valuable when you regularly review and act upon their insights.</p>
+<br/>
+<h2>4. Setting up a Secure AWS Environment using Terraform</h2>
+<p>Let's roll up our sleeves and dive into creating a secure <strong>AWS</strong> environment using <strong>Terraform</strong>. Imagine it's like we're building our own private, secure fortress from scratch. Let's get the blueprints out and start building!</p>
+<h3>4.1 Preparing the Terraform Environment</h3>
+<p>Just like you wouldn't start building your house without having your tools and materials ready, the first step is to set up our Terraform environment.</p>
+<p>To get started with Terraform, you'll need to install it on your machine. This can be done by downloading the appropriate package from the Terraform website and adding it to your system's PATH.</p>
+<p>Next, you need to configure your <strong>AWS credentials</strong>. There are various ways to do this (AWS CLI, environment variables, etc.), but for this post, we'll use the <a href="https://aws.amazon.com/cli/">AWS CLI</a>. Install the AWS CLI (if you haven't already), then run <strong>aws configure</strong> and follow the prompts.</p>
+<p>Now we can create a new directory for our Terraform project :</p>
+<div class="highlight cp14"><i onclick="cpy13()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span>mkdir terraform-project <span class="o">&amp;&amp;</span> <span class="nb">cd</span> terraform-project
+</span></span></code></pre></div><br/>
+<h3>4.2 Using Terraform to Create and Manage IAM Roles and Policies</h3>
+<p>Now that our work environment is ready, let's lay the foundation of our fortress - IAM roles and policies.</p>
+<p>First, we'll create an IAM role for EC2 instances:</p>
+<div class="highlight cp15"><i onclick="cpy14()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span><span># Create an EC2 instance 
+</span></span></span><span><span class="ln"> 2</span><span><span></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span><span class="kr">resource</span> <span>&#34;aws_iam_role&#34;</span> <span>&#34;ec2_role&#34;</span> <span>{</span>
+</span></span><span><span class="ln"> 4</span><span>  <span>name</span> = <span>&#34;ec2_role&#34;</span>
+</span></span><span><span class="ln"> 5</span><span>  
+</span></span><span><span class="ln"> 6</span><span>  <span>assume_role_policy</span> = <span class="o">&lt;&lt;EOF</span><span>
+</span></span></span><span><span class="ln"> 7</span><span><span>{
+</span></span></span><span><span class="ln"> 8</span><span><span>  &#34;Version&#34;: &#34;2012-10-17&#34;,
+</span></span></span><span><span class="ln"> 9</span><span><span>  &#34;Statement&#34;: [
+</span></span></span><span><span class="ln">10</span><span><span>    {
+</span></span></span><span><span class="ln">11</span><span><span>      &#34;Action&#34;: &#34;sts:AssumeRole&#34;,
+</span></span></span><span><span class="ln">12</span><span><span>      &#34;Principal&#34;: {
+</span></span></span><span><span class="ln">13</span><span><span>        &#34;Service&#34;: &#34;ec2.amazonaws.com&#34;
+</span></span></span><span><span class="ln">14</span><span><span>      },
+</span></span></span><span><span class="ln">15</span><span><span>      &#34;Effect&#34;: &#34;Allow&#34;,
+</span></span></span><span><span class="ln">16</span><span><span>      &#34;Sid&#34;: &#34;&#34;
+</span></span></span><span><span class="ln">17</span><span><span>    }
+</span></span></span><span><span class="ln">18</span><span><span>  ]
+</span></span></span><span><span class="ln">19</span><span><span>}
+</span></span></span><span><span class="ln">20</span><span><span></span><span class="o">EOF</span>
+</span></span><span><span class="ln">21</span><span><span>}</span>
+</span></span></code></pre></div><p>Next, let's attach the AWS managed policy <strong>AmazonS3ReadOnlyAccess</strong> to this role. This will grant any <strong>EC2 instance</strong> associated with this role <strong>read-only</strong> access to <strong>S3</strong>.</p>
+<div class="highlight cp16"><i onclick="cpy15()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span><span>#AWS Managed policy to allow only  AmazonS3ReadOnlyAccess
+</span></span></span><span><span class="ln">2</span><span><span></span><span class="kr">
+</span></span></span><span><span class="ln">3</span><span><span class="kr">resource</span> <span>&#34;aws_iam_role_policy_attachment&#34;</span> <span>&#34;ec2_s3_read&#34;</span> <span>{</span>
+</span></span><span><span class="ln">4</span><span>  <span>role</span>       = <span>aws_iam_role</span><span>.</span><span>ec2_role</span><span>.</span><span>name</span>
+</span></span><span><span class="ln">5</span><span>  <span>policy_arn</span> = <span>&#34;arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess&#34;</span>
+</span></span><span><span class="ln">6</span><span><span>}</span> 
+</span></span></code></pre></div><br/>
+<h3>4.3 Using Terraform to Set Up a Secure VPC, Subnets, and Security Groups</h3>
+<p>With our foundation ready, it's time to build the walls of our fortress - our VPC, subnets, and security groups.</p>
+<p>First, we'll create a VPC:</p>
+<div class="highlight cp17"><i onclick="cpy16()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span><span># Setup VPC
+</span></span></span><span><span class="ln">2</span><span><span></span><span class="kr">
+</span></span></span><span><span class="ln">3</span><span><span class="kr">resource</span> <span>&#34;aws_vpc&#34;</span> <span>&#34;main&#34;</span> <span>{</span>
+</span></span><span><span class="ln">4</span><span>  <span>cidr_block</span> = <span>&#34;10.0.0.0/16&#34;</span>
+</span></span><span><span class="ln">5</span><span><span>}</span>
+</span></span></code></pre></div><p>Then, we'll create a public subnet within this VPC:</p>
+<div class="highlight cp18"><i onclick="cpy17()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span><span># Setup Subnet
+</span></span></span><span><span class="ln">2</span><span><span></span><span class="kr">
+</span></span></span><span><span class="ln">3</span><span><span class="kr">resource</span> <span>&#34;aws_subnet&#34;</span> <span>&#34;public&#34;</span> <span>{</span>
+</span></span><span><span class="ln">4</span><span>  <span>vpc_id</span>     = <span>aws_vpc</span><span>.</span><span>main</span><span>.</span><span>id</span>
+</span></span><span><span class="ln">5</span><span>  <span>cidr_block</span> = <span>&#34;10.0.1.0/24&#34;</span>
+</span></span><span><span class="ln">6</span><span><span>}</span>
+</span></span></code></pre></div><p>Next, let's create a security group that allows inbound <strong>SSH</strong>, <strong>HTTP</strong> and <strong>HTTPS</strong> traffic, and all outbound traffic:</p>
+<div class="highlight cp19"><i onclick="cpy18()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span><span># Create a security group 
+</span></span></span><span><span class="ln"> 2</span><span><span></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span><span class="kr">resource</span> <span>&#34;aws_security_group&#34;</span> <span>&#34;web_sg&#34;</span> <span>{</span>
+</span></span><span><span class="ln"> 4</span><span>  <span>vpc_id</span> = <span>aws_vpc</span><span>.</span><span>main</span><span>.</span><span>id</span>
+</span></span><span><span class="ln"> 5</span><span>  <span>name</span>   = <span>&#34;web_sg&#34;</span>
+</span></span><span><span class="ln"> 6</span><span>
+</span></span><span><span class="ln"> 7</span><span>  <span>ingress</span> <span>{</span>
+</span></span><span><span class="ln"> 8</span><span>    <span>from_port</span>   = <span>22</span>
+</span></span><span><span class="ln"> 9</span><span>    <span>to_port</span>     = <span>22</span>
+</span></span><span><span class="ln">10</span><span>    <span>protocol</span>    = <span>&#34;tcp&#34;</span>
+</span></span><span><span class="ln">11</span><span>    <span>cidr_blocks</span> = <span>[</span><span>&#34;0.0.0.0/0&#34;</span><span>]</span>
+</span></span><span><span class="ln">12</span><span>  <span>}</span><span>
+</span></span></span><span><span class="ln">13</span><span><span>  #... Repeat similar blocks for ports 80 and 443 ...
+</span></span></span><span><span class="ln">14</span><span><span></span>
+</span></span><span><span class="ln">15</span><span>  <span>egress</span> <span>{</span>
+</span></span><span><span class="ln">16</span><span>    <span>from_port</span>   = <span>0</span>
+</span></span><span><span class="ln">17</span><span>    <span>to_port</span>     = <span>0</span>
+</span></span><span><span class="ln">18</span><span>    <span>protocol</span>    = <span>&#34;-1&#34;</span>
+</span></span><span><span class="ln">19</span><span>    <span>cidr_blocks</span> = <span>[</span><span>&#34;0.0.0.0/0&#34;</span><span>]</span>
+</span></span><span><span class="ln">20</span><span>  <span>}</span>
+</span></span><span><span class="ln">21</span><span><span>}</span>
+</span></span></code></pre></div><br/>
+<h3>4.4 Implementing Security Best Practices for EC2 Instances Using Terraform</h3>
+<p>With our fortress now having walls, it's time to secure the internal structures - our EC2 instances.</p>
+<p>We'll create an EC2 instance within our VPC and public subnet, using the IAM role we created earlier:</p>
+<div class="highlight cp20"><i onclick="cpy19()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span><span># Create EC2 instance with proper subnet, vpc, iam instance profile
+</span></span></span><span><span class="ln"> 2</span><span><span></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span><span class="kr">resource</span> <span>&#34;aws_instance&#34;</span> <span>&#34;web_server&#34;</span> <span>{</span>
+</span></span><span><span class="ln"> 4</span><span>  <span>ami</span>           = <span>&#34;ami-0c94855ba95c574c8&#34;</span><span> # This is the Amazon Linux 2 LTS AMI ID in the us-west-2 region; replace with the appropriate AMI ID for your region
+</span></span></span><span><span class="ln"> 5</span><span><span></span>  <span>instance_type</span> = <span>&#34;t2.micro&#34;</span>
+</span></span><span><span class="ln"> 6</span><span>
+</span></span><span><span class="ln"> 7</span><span>  <span>subnet_id</span>              = <span>aws_subnet</span><span>.</span><span>public</span><span>.</span><span>id</span>
+</span></span><span><span class="ln"> 8</span><span>  <span>vpc_security_group_ids</span> = <span>[</span><span>aws_security_group</span><span>.</span><span>web_sg</span><span>.</span><span>id</span><span>]</span>
+</span></span><span><span class="ln"> 9</span><span>  <span>iam_instance_profile</span>   = <span>aws_iam_role</span><span>.</span><span>ec2_role</span><span>.</span><span>name</span>
+</span></span><span><span class="ln">10</span><span><span>}</span>
+</span></span><span><span class="ln">11</span><span> 
+</span></span></code></pre></div><p>We're also associating our security group with this EC2 instance to regulate its traffic.</p>
+<br/>
+<h3>4.5 Implementing S3 Bucket Security with Terraform</h3>
+<p>Lastly, let's secure our vault of treasures - our S3 buckets. We'll create a new bucket with server-side encryption enabled:</p>
+<div class="highlight cp21"><i onclick="cpy20()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span><span># Setup S3 Bucket with server side encryption
+</span></span></span><span><span class="ln"> 2</span><span><span></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span><span class="kr">resource</span> <span>&#34;aws_s3_bucket&#34;</span> <span>&#34;my_bucket&#34;</span> <span>{</span>
+</span></span><span><span class="ln"> 4</span><span>  <span>bucket</span> = <span>&#34;my-bucket&#34;</span>
+</span></span><span><span class="ln"> 5</span><span>  <span>acl</span>    = <span>&#34;private&#34;</span>
+</span></span><span><span class="ln"> 6</span><span>
+</span></span><span><span class="ln"> 7</span><span>  <span>server_side_encryption_configuration</span> <span>{</span>
+</span></span><span><span class="ln"> 8</span><span>    <span>rule</span> <span>{</span>
+</span></span><span><span class="ln"> 9</span><span>      <span>apply_server_side_encryption_by_default</span> <span>{</span>
+</span></span><span><span class="ln">10</span><span>        <span>sse_algorithm</span> = <span>&#34;AES256&#34;</span>
+</span></span><span><span class="ln">11</span><span>      <span>}</span>
+</span></span><span><span class="ln">12</span><span>    <span>}</span>
+</span></span><span><span class="ln">13</span><span>  <span>}</span>
+</span></span><span><span class="ln">14</span><span><span>}</span>
+</span></span></code></pre></div><p>And there we have it - a secure AWS environment, all set up using Terraform!</p>
+<p>Remember, running <strong>terraform apply</strong> will create these resources in AWS. Always run <strong>terraform plan</strong> first to see what changes will be made.</p>
+<br/>
+<h2>5. Implementing AWS Logging and Monitoring securely using Terraform</h2>
+<p>Great, now that we've built and secured our fortress, we need a surveillance system to monitor its activities and keep it secure. In AWS terms, this surveillance system includes services like AWS <a href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-user-guide.html">CloudTrail</a>, <a href="https://aws.amazon.com/config/">AWS Config</a>, and <a href="https://aws.amazon.com/cloudwatch/">CloudWatch</a>.</p>
+<p>Let's discuss how to implement these logging and monitoring mechanisms in our environment using Terraform.</p>
+<h3>5.1 Using Terraform to Enable AWS CloudTrail and Configure It Properly</h3>
+<p>Think of AWS CloudTrail as our CCTV cameras, continuously monitoring and recording activities within our fortress (AWS environment).</p>
+<p>Let's first create a new S3 bucket to store our CloudTrail logs:</p>
+<div class="highlight cp22"><i onclick="cpy21()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span><span># S3 Bucket for storing the cloud trail logs
+</span></span></span><span><span class="ln"> 2</span><span><span></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span><span class="kr">resource</span> <span>&#34;aws_s3_bucket&#34;</span> <span>&#34;cloudtrail_bucket&#34;</span> <span>{</span>
+</span></span><span><span class="ln"> 4</span><span>  <span>bucket</span> = <span>&#34;my-cloudtrail-bucket&#34;</span>
+</span></span><span><span class="ln"> 5</span><span>  <span>acl</span>    = <span>&#34;private&#34;</span>
+</span></span><span><span class="ln"> 6</span><span>
+</span></span><span><span class="ln"> 7</span><span>  <span>versioning</span> <span>{</span>
+</span></span><span><span class="ln"> 8</span><span>    <span>enabled</span> = <span class="kc">true</span>
+</span></span><span><span class="ln"> 9</span><span>  <span>}</span>
+</span></span><span><span class="ln">10</span><span><span>}</span>
+</span></span></code></pre></div><p>Here we've also enabled versioning to keep an archive of all versions of an object (including all writes and deletes).</p>
+<p>Next, let's create a CloudTrail and configure it to log events to our newly created S3 bucket:</p>
+<div class="highlight cp23"><i onclick="cpy22()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span><span># Configure cloudtrail for log events
+</span></span></span><span><span class="ln"> 2</span><span><span></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span><span class="kr">resource</span> <span>&#34;aws_cloudtrail&#34;</span> <span>&#34;main&#34;</span> <span>{</span>
+</span></span><span><span class="ln"> 4</span><span>  <span>name</span>           = <span>&#34;main&#34;</span>
+</span></span><span><span class="ln"> 5</span><span>  <span>s3_bucket_name</span> = <span>aws_s3_bucket</span><span>.</span><span>cloudtrail_bucket</span><span>.</span><span>bucket</span>
+</span></span><span><span class="ln"> 6</span><span>
+</span></span><span><span class="ln"> 7</span><span>  <span>include_global_service_events</span> = <span class="kc">true</span>
+</span></span><span><span class="ln"> 8</span><span>  <span>is_multi_region_trail</span>         = <span class="kc">true</span>
+</span></span><span><span class="ln"> 9</span><span>  <span>enable_log_file_validation</span>    = <span class="kc">true</span>
+</span></span><span><span class="ln">10</span><span><span>}</span>
+</span></span><span><span class="ln">11</span><span> 
+</span></span></code></pre></div><br/>
+<h3>5.2 Using Terraform to Enable AWS Config and Setting Up Necessary Rules</h3>
+<p><strong><a href="https://aws.amazon.com/config/">AWS Config</a></strong> is like our security audit team, ensuring that the configurations of our resources comply with our security policies.</p>
+<p>First, we'll create an S3 bucket for AWS Config to store configuration history and snapshot files:</p>
+<div class="highlight cp24"><i onclick="cpy23()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span><span># S3 bucket for the AWS Config
+</span></span></span><span><span class="ln">2</span><span><span></span><span class="kr">
+</span></span></span><span><span class="ln">3</span><span><span class="kr">resource</span> <span>&#34;aws_s3_bucket&#34;</span> <span>&#34;config_bucket&#34;</span> <span>{</span>
+</span></span><span><span class="ln">4</span><span>  <span>bucket</span> = <span>&#34;my-config-bucket&#34;</span>
+</span></span><span><span class="ln">5</span><span>  <span>acl</span>    = <span>&#34;private&#34;</span>
+</span></span><span><span class="ln">6</span><span><span>}</span>
+</span></span></code></pre></div><p>Next, we'll set up AWS Config:</p>
+<div class="highlight cp25"><i onclick="cpy24()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span><span># Setup the AWS Config
+</span></span></span><span><span class="ln"> 2</span><span><span></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span><span class="kr">resource</span> <span>&#34;aws_config_configuration_recorder&#34;</span> <span>&#34;main&#34;</span> <span>{</span>
+</span></span><span><span class="ln"> 4</span><span>  <span>name</span>     = <span>&#34;main&#34;</span>
+</span></span><span><span class="ln"> 5</span><span>  <span>role_arn</span> = <span>aws_iam_role</span><span>.</span><span>config_role</span><span>.</span><span>arn</span>
+</span></span><span><span class="ln"> 6</span><span>
+</span></span><span><span class="ln"> 7</span><span>  <span>recording_group</span> <span>{</span>
+</span></span><span><span class="ln"> 8</span><span>    <span>all_supported</span> = <span class="kc">true</span>
+</span></span><span><span class="ln"> 9</span><span>  <span>}</span>
+</span></span><span><span class="ln">10</span><span><span>}</span>
+</span></span><span><span class="ln">11</span><span><span class="kr">
+</span></span></span><span><span class="ln">12</span><span><span class="kr">resource</span> <span>&#34;aws_config_delivery_channel&#34;</span> <span>&#34;main&#34;</span> <span>{</span>
+</span></span><span><span class="ln">13</span><span>  <span>name</span>           = <span>&#34;main&#34;</span>
+</span></span><span><span class="ln">14</span><span>  <span>s3_bucket_name</span> = <span>aws_s3_bucket</span><span>.</span><span>config_bucket</span><span>.</span><span>bucket</span>
+</span></span><span><span class="ln">15</span><span>
+</span></span><span><span class="ln">16</span><span>  <span>depends_on</span> = <span>[</span><span>aws_config_configuration_recorder</span><span>.</span><span>main</span><span>]</span>
+</span></span><span><span class="ln">17</span><span><span>}</span>
+</span></span><span><span class="ln">18</span><span><span class="kr">
+</span></span></span><span><span class="ln">19</span><span><span class="kr">resource</span> <span>&#34;aws_config_configuration_recorder_status&#34;</span> <span>&#34;main&#34;</span> <span>{</span>
+</span></span><span><span class="ln">20</span><span>  <span>name</span>   = <span>aws_config_configuration_recorder</span><span>.</span><span>main</span><span>.</span><span>name</span>
+</span></span><span><span class="ln">21</span><span>  <span>is_enabled</span> = <span class="kc">true</span>
+</span></span><span><span class="ln">22</span><span><span>}</span>
+</span></span></code></pre></div><p>In the above code, we first set up a configuration recorder to record configuration changes of supported AWS resources. We then set up a delivery channel to deliver configuration snapshots to our S3 bucket. Finally, we enable the configuration recorder.</p>
+<br/>
+<h3>5.3 Integrating CloudWatch with Terraform</h3>
+<p>CloudWatch is like our central security room, providing us with real-time monitoring and alarms.</p>
+<p>Let's set up a CloudWatch log group for our EC2 instances:</p>
+<div class="highlight cp26"><i onclick="cpy25()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span><span># Setup cloudwatch log group for EC2 
+</span></span></span><span><span class="ln">2</span><span><span></span><span class="kr">
+</span></span></span><span><span class="ln">3</span><span><span class="kr">resource</span> <span>&#34;aws_cloudwatch_log_group&#34;</span> <span>&#34;ec2_log_group&#34;</span> <span>{</span>
+</span></span><span><span class="ln">4</span><span>  <span>name</span> = <span>&#34;/aws/ec2/instances&#34;</span>
+</span></span><span><span class="ln">5</span><span><span>}</span>
+</span></span></code></pre></div><p>Here we're creating a CloudWatch log group. You can configure your <strong>EC2 instances</strong> to stream their logs to this group.</p>
+<p>And there we have it! Our surveillance system is set up and running, keeping our AWS environment secure and under close observation.</p>
+<p>Running <strong>terraform apply</strong> will create these resources in AWS. Don't forget to run <strong>terraform plan</strong> first to see what changes will be made.</p>
+<br/>
+<h2>6. Managing Secrets Securely in AWS using Terraform</h2>
+<p>In our fortress analogy, we have our walls, our internal structures, and our surveillance system. Now, let's talk about the vault where we keep our <strong>secrets safe</strong>. In AWS and Terraform terms, this is our <strong><a href="https://aws.amazon.com/secrets-manager/">secrets management system</a></strong>, where we securely handle sensitive data like API keys, passwords, and other credentials.</p>
+<h3>6.1 The Importance of Secret Management in AWS with Terraform</h3>
+<p>Managing secrets correctly is like having a secure, well-guarded vault in our fortress. Mismanagement can lead to breaches, and as you may know, a single secret exposed can lead to a massive data leak, costing time, money, and reputation.</p>
+<p>Just as you wouldn't tape the keys to your castle on its front door, you <strong>shouldn't hard-code secrets</strong> into your Terraform code or check them into source control. Not only does this practice pose a security risk, but it also makes it harder to rotate secrets regularly, a practice highly recommended to limit the impact if a secret is exposed.</p>
+<p>In the hands of a bad actor, your <strong>AWS access keys</strong> can lead to unauthorized access, data breaches, unexpected charges, and even total takeover of your AWS resources. Fortunately, AWS provides a robust service, <strong><a href="https://aws.amazon.com/secrets-manager/">AWS Secrets Manager</a></strong>, that lets us securely manage and automatically rotate our secrets.</p>
+<br/>
+<h3>6.2 How to Use AWS Secrets Manager or Other Similar Services with Terraform</h3>
+<p>Imagine AWS Secrets Manager as a secure vault within your fortress, managed by a trusted team (in this case, AWS). This vault automatically changes its locks <strong>(rotates secrets)</strong> and provides access to its contents only to authorized users.</p>
+<p>Let's see how to create a secret (a database password in this case) using Terraform:</p>
+<div class="highlight cp27"><i onclick="cpy26()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span><span># Setup AWS Secrete manager
+</span></span></span><span><span class="ln"> 2</span><span><span></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span><span class="kr">resource</span> <span>&#34;aws_secretsmanager_secret&#34;</span> <span>&#34;db_password&#34;</span> <span>{</span>
+</span></span><span><span class="ln"> 4</span><span>  <span>name</span> = <span>&#34;db_password&#34;</span>
+</span></span><span><span class="ln"> 5</span><span>
+</span></span><span><span class="ln"> 6</span><span>  <span>recovery_window_in_days</span> = <span>7</span>
+</span></span><span><span class="ln"> 7</span><span><span>}</span>
+</span></span><span><span class="ln"> 8</span><span><span class="kr">
+</span></span></span><span><span class="ln"> 9</span><span><span class="kr">resource</span> <span>&#34;aws_secretsmanager_secret_version&#34;</span> <span>&#34;db_password&#34;</span> <span>{</span>
+</span></span><span><span class="ln">10</span><span>  <span>secret_id</span>     = <span>aws_secretsmanager_secret</span><span>.</span><span>db_password</span><span>.</span><span>id</span>
+</span></span><span><span class="ln">11</span><span>  <span>secret_string</span> = <span>&#34;my_db_password&#34;</span>
+</span></span><span><span class="ln">12</span><span><span>}</span> 
+</span></span></code></pre></div><p>In the above code, we first create a secret, and then we create a secret version to specify the secret's value. The secret value should be something <strong>strong</strong> and <strong>hard-to-guess</strong>, and the name should be descriptive enough to let you know what the secret is used for.</p>
+<p>Now that our secret is stored securely, we can retrieve it in Terraform when needed:</p>
+<div class="highlight cp28"><i onclick="cpy27()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span><span># How to retrieve the secrets  
+</span></span></span><span><span class="ln"> 2</span><span><span></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span><span class="kr">data</span> <span>&#34;aws_secretsmanager_secret_version&#34;</span> <span>&#34;db_password&#34;</span> <span>{</span>
+</span></span><span><span class="ln"> 4</span><span>  <span>secret_id</span> = <span>aws_secretsmanager_secret</span><span>.</span><span>db_password</span><span>.</span><span>id</span>
+</span></span><span><span class="ln"> 5</span><span><span>}</span>
+</span></span><span><span class="ln"> 6</span><span><span class="kr">
+</span></span></span><span><span class="ln"> 7</span><span><span class="kr">output</span> <span>&#34;db_password&#34;</span> <span>{</span>
+</span></span><span><span class="ln"> 8</span><span>  <span>value</span> = <span class="nb">data</span><span>.</span><span>aws_secretsmanager_secret_version</span><span>.</span><span>db_password</span><span>.</span><span>secret_string</span>
+</span></span><span><span class="ln"> 9</span><span>  <span>sensitive</span> = <span class="kc">true</span>
+</span></span><span><span class="ln">10</span><span><span>}</span>
+</span></span></code></pre></div><p>Here we're using a data source to retrieve the secret's value. We can then use this value as an input to other resources.</p>
+<p>Please remember that storing and <strong>retrieving secrets</strong> in <strong>plaintext</strong> like we've done here is primarily for illustrative purposes. For actual use, consider using <strong>dynamic references</strong> or <strong>generating secrets</strong> directly within Secrets Manager.</p>
+<p>There you have it! We've built and secured our fortress, set up a robust surveillance system, and secured our secrets in a high-security vault. As always, make sure to check your changes using <strong>terraform plan</strong> before you <strong>terraform apply</strong>. Now, we're ready to rule our Terraform kingdom with confidence!</p>
+<br/>
+<h2>7. Continuous Security in AWS with Terraform</h2>
+<p>We've secured our fortress, set up our surveillance system, and protected our secrets. <em><strong>But is that the end? Not quite!</strong></em></p>
+<p>Like a thriving kingdom, your infrastructure is not static - it will change and grow over time. That's why we need to establish continuous security, our vigilant guards that keep an eye on <strong>everything 24/7</strong>.</p>
+<h3>7.1 Explanation of Continuous Security and Why It's Important in a DevOps Context</h3>
+<p>In the world of DevOps, continuous security means integrating security practices into every phase of your development and operations lifecycle. It's a proactive approach, like having well-trained guards who not only react to threats but also foresee them and take preventative measures. It aligns perfectly with the DevOps culture of rapid iterations and continuous delivery, ensuring that security isn't an afterthought, but a constant presence in every cycle.</p>
+<br/>
+<h3>7.2 How to Use Tools Like Checkov or Terrascan to Continuously Scan Your Terraform Code</h3>
+<p>Let's imagine <a href="https://www.checkov.io/">Checkov</a> and <a href="https://runterrascan.io/">Terrascan</a> as our dedicated security advisors, always reviewing our plans (Terraform scripts) for potential vulnerabilities and recommending improvements.</p>
+<p>Checkov is a static code analysis tool for infrastructure-as-code (IaC) that can scan Terraform scripts for security and compliance misconfigurations. Let's say we have our Terraform scripts in a directory called &quot;terraform_code&quot;. We can run a Checkov scan on this directory like so:</p>
+<div class="highlight cp29"><i onclick="cpy28()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span><span># checkov cli command to run security scan on terraform code </span>
+</span></span><span><span class="ln">2</span><span>
+</span></span><span><span class="ln">3</span><span>checkov -d /path/to/terraform_code 
+</span></span></code></pre></div><p>This command will output a report detailing any failed checks and providing recommendations for fixes.</p>
+<p>Similarly, <strong>Terrascan</strong> is another static code analysis tool for <strong>IaC</strong>. It supports a wide range of IaC tools, including Terraform, and comes with pre-built policies for security best practices. To scan our Terraform code with Terrascan, we would use:</p>
+<div class="highlight cp30"><i onclick="cpy29()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span><span># terrascan cli command to run security scan on terraform code</span>
+</span></span><span><span class="ln">2</span><span> 
+</span></span><span><span class="ln">3</span><span>terrascan scan -i terraform -d /path/to/terraform_code 
+</span></span></code></pre></div><p>This will also generate a report showing any violations against its pre-built policies.</p>
+<br/>
+<h3>7.3 Importance of Updating and Maintaining Terraform Scripts for Ongoing Security</h3>
+<p>Our fortress is ever-evolving, and so are the threats against it. Thus, our defense plans <strong>(Terraform scripts)</strong> need to adapt and evolve as well.</p>
+<p>Regularly updating and maintaining these scripts is like constantly training our guards with the latest tactics and strategies. It's also vital to keep up with the latest security best practices and to ensure your scripts are compatible with the <strong>latest versions</strong> of <strong>Terraform</strong> and <strong>AWS services</strong>.</p>
+<p>So there you have it. With vigilant guards <strong>(continuous security)</strong>, dedicated security advisors <strong>(Checkov, Terrascan)</strong>, and updated defense plans <strong>(maintained Terraform scripts)</strong>, we can keep our fortress secure and thriving.</p>
+<br/>
+<h2>8. Conclusion</h2>
+<p>And here we are, dear reader, standing on the ramparts of our well-guarded and thriving Terraform kingdom. As we gaze out across our secured landscape, let's reflect on our journey:</p>
+</div>
+</div>
+
+<script>
+  function cpy(){
+  let content = document.querySelector(".cp1");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy1(){
+  let content = document.querySelector(".cp2");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy2(){
+  let content = document.querySelector(".cp3");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy3(){
+  let content = document.querySelector(".cp");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy4(){
+  let content = document.querySelector(".cp5");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy5(){
+  let content = document.querySelector(".cp6");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy6(){
+  let content = document.querySelector(".cp7");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy7(){
+  let content = document.querySelector(".cp8");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy8(){
+  let content = document.querySelector(".cp9");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy9(){
+  let content = document.querySelector(".cp10");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy10(){
+  let content = document.querySelector(".cp11");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy11(){
+  let content = document.querySelector(".cp12");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy12(){
+  let content = document.querySelector(".cp13");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy13(){
+  let content = document.querySelector(".cp14");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy14(){
+  let content = document.querySelector(".cp15");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy15(){
+  let content = document.querySelector(".cp16");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy16(){
+  let content = document.querySelector(".cp17");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy17(){
+  let content = document.querySelector(".cp18");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy18(){
+  let content = document.querySelector(".cp19");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy19(){
+  let content = document.querySelector(".cp20");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy20(){
+  let content = document.querySelector(".cp21");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy21(){
+  let content = document.querySelector(".cp22");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy22(){
+  let content = document.querySelector(".cp23");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy23(){
+  let content = document.querySelector(".cp24");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy24(){
+  let content = document.querySelector(".cp25");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy25(){
+  let content = document.querySelector(".cp26");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy26(){
+  let content = document.querySelector(".cp27");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy27(){
+  let content = document.querySelector(".cp28");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy28(){
+  let content = document.querySelector(".cp29");
+  navigator.clipboard.writeText(content.innerText)
+}
+function cpy29(){
+  let content = document.querySelector(".cp30");
+  navigator.clipboard.writeText(content.innerText)
+}
+
+</script>
+
+  </body>
+</html>

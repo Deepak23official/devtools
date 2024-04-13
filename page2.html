@@ -1,0 +1,1336 @@
+
+
+<!DOCTYPE html>
+<html
+  lang="en"
+  data-figures=""
+  
+    class="page"
+  
+  
+    data-mode="lit"
+  
+  >
+  <head>
+<title>Can Terraform be used to provision on-premises infrastructure? | Jhooq</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-133303547-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-133303547-1');
+</script>
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="https://jhooq.com/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://jhooq.com/icons/favicon-32x32.png">
+<link rel="manifest" href="https://jhooq.com/icons/site.webmanifest">
+
+<link rel="canonical" href="https://jhooq.com/terraform-provision-on-premise-infra/">
+
+
+
+<link rel="preload" href="https://jhooq.com/css/styles.367129801480fead578d7a356a98fcb3bce794981ff18cee55868d198d0d2bf1eb4feac97319d0871c6255183b9fd27a7059e4632c785951f4c4f6953559c4d0.css" integrity = "sha512-NnEpgBSA/q1XjXo1apj8s7znlJgf8YzuVYaNGY0NK/HrT&#43;rJcxnQhxxiVRg7n9J6cFnkYyx4WVH0xPaVNVnE0A==" as="style" crossorigin="anonymous">
+
+
+
+<link rel="preload" href="https://jhooq.com/en/js/bundle.ee44eebd3344e13e959578f0f7de30a39ed2a3ca541d9ad5a10e7efeef0b2fee37870e266fd2a7b54c21d00d3e9fcade1c4f96357a69dceecbcdf771bbe76d5a.js" as="script" integrity=
+"sha512-7kTuvTNE4T6VlXjw994wo57So8pUHZrVoQ5&#43;/u8LL&#43;43hw4mb9KntUwh0A0&#43;n8reHE&#43;WNXpp3O7Lzfdxu&#43;dtWg==" crossorigin="anonymous">
+
+
+<link rel="stylesheet" type="text/css" href="https://jhooq.com/css/styles.367129801480fead578d7a356a98fcb3bce794981ff18cee55868d198d0d2bf1eb4feac97319d0871c6255183b9fd27a7059e4632c785951f4c4f6953559c4d0.css" integrity="sha512-NnEpgBSA/q1XjXo1apj8s7znlJgf8YzuVYaNGY0NK/HrT&#43;rJcxnQhxxiVRg7n9J6cFnkYyx4WVH0xPaVNVnE0A==" crossorigin="anonymous">
+
+  </head>
+  <body
+    data-code="50"
+    data-lines="true"
+    id="documentTop"
+    data-lang="en"
+  >
+
+<header class="nav_header" ><span data-ccpa-link="1"></span>
+
+
+<script data-cfasync="false">window.nitroAds=window.nitroAds||{createAd:function(){return new Promise(e=>{window.nitroAds.queue.push(["createAd",arguments,e])})},addUserToken:function(){window.nitroAds.queue.push(["addUserToken",arguments])},queue:[]};</script>
+<script data-cfasync="false" async src="https://s.nitropay.com/ads-1212.js"></script>
+
+
+<script>
+    window['nitroAds'].createAd('bottom-sticky-ad', {
+        "refreshLimit": 10,
+        "refreshTime": 30,
+        "format": "anchor",
+        "anchor": "bottom",
+        "anchorPersistClose": false,
+        "report": {
+            "enabled": true,
+            "wording": "Report Ad",
+            "position": "top-right"
+        },
+        "mediaQuery": "(min-width: 1025px), (min-width: 768px) and (max-width: 1024px), (min-width: 320px) and (max-width: 767px)"
+    });
+</script>
+  <nav class="nav"><a href='https://jhooq.com/' class="nav_brand nav_item" title="Jhooq">
+  <img src="https://jhooq.com/logos/logo.png" class="logo" alt="Jhooq">
+  <div class="nav_close">
+    <div><svg class="icon">
+  <title>open-menu</title>
+  <use xlink:href="#open-menu"></use>
+</svg>
+<svg class="icon">
+  <title>closeme</title>
+  <use xlink:href="#closeme"></use>
+</svg>
+</div>
+  </div>
+</a>
+
+    <div class='nav_body nav_body_left'>
+      
+      
+      
+        
+
+  <div class="nav_parent">
+    <a href="https://jhooq.com/" class="nav_item" title="Home">Home </a>
+  </div>
+  <div class="nav_parent">
+    <a href="https://jhooq.com/ansible-video-index/" class="nav_item" title="Ansible">Ansible </a>
+  </div>
+  <div class="nav_parent">
+    <a href="https://jhooq.com/kubernetes-index/" class="nav_item" title="Kubernetes">Kubernetes </a>
+  </div>
+  <div class="nav_parent">
+    <a href="https://jhooq.com/terraform-index/" class="nav_item" title="Terraform">Terraform </a>
+  </div>
+  <div class="nav_parent">
+    <a href="https://jhooq.com/youtube" class="nav_item" title="YouTube">YouTube </a>
+  </div>
+  <div class="nav_parent">
+    <a href="https://jhooq.com/about/" class="nav_item" title="About">About </a>
+  </div>
+  <div class="nav_parent">
+    <a href="https://jhooq.com/contact/" class="nav_item" title="Contact">Contact </a>
+  </div>
+      
+      <div class="nav_parent">
+        <a href="#" class="nav_item"></a>
+        <div class="nav_sub">
+          <span class="nav_child"></span>
+          
+          <a href="https://jhooq.com/" class="nav_child nav_item">English</a>
+          
+          <a href="https://jhooq.com/pt/" class="nav_child nav_item">Português</a>
+          
+        </div>
+      </div>
+<div class='follow'>
+  <a href="https://github.com/rahulwagh/">
+    <svg class="icon">
+  <title>github</title>
+  <use xlink:href="#github"></use>
+</svg>
+
+  </a>
+  <a href="https://twitter.com/wagh_rahul">
+    <svg class="icon">
+  <title>twitter</title>
+  <use xlink:href="#twitter"></use>
+</svg>
+
+  </a>
+  <a href="https://www.linkedin.com/in/rahul-wagh/">
+    <svg class="icon">
+  <title>linkedin</title>
+  <use xlink:href="#linkedin"></use>
+</svg>
+
+  </a>
+    
+  <a href="https://jhooq.com/index.xml">
+    <svg class="icon">
+  <title>rss</title>
+  <use xlink:href="#rss"></use>
+</svg>
+
+  </a>
+<div class="color_mode">
+  <input type="checkbox" class="color_choice" id="mode">
+</div>
+
+</div>
+
+    </div>
+  </nav>
+</header>
+
+    <main>
+  
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage":"https:\/\/jhooq.com\/terraform-provision-on-premise-infra\/",
+    "name": "Jhooq",
+    "headline": "Can Terraform be used to provision on-premises infrastructure?",
+    "description": " Yes, Terraform can be used to provision on-premises servers, but there are some differences compared to how it manages cloud resources. While Terraform can directly interact with the APIs of many cloud providers to manage their resources, it does not have direct access to an API for your on-premises infrastructure.\nTo provision on-premises servers, you would likely need to use an abstraction layer that Terraform can interface with. Here are a few examples which you can see in the table of content:",
+    "url": " https:\/\/jhooq.com\/terraform-provision-on-premise-infra\/",
+    "datePublished": "2023-20-06",
+    "dateModified": "2023-20-06",
+    "author": {
+    "@type": "Person",
+    "name": "Rahul Wagh",
+    "url": "https://www.linkedin.com/in/rahul-wagh/"
+    },
+    "image":{
+    "@type":"ImageObject",
+    "url": "https:\/\/jhooq.com\/wp-content\/uploads\/terraform\/logo\/Terraform_logo.webp"
+    },
+    "publisher": {
+    "@type": "Organization",
+    "name": "Jhooq",
+    "url" :"https://jhooq.com",
+    "logo": {
+    "@type":"ImageObject",
+    "url": "https://jhooq.com/logos/logo.png"
+    }
+    }
+  }
+</script>
+<div class="grid-inverse wrap content">
+  <article class="post_content">
+    <h1 class="post_title">Can Terraform be used to provision on-premises infrastructure?</h1>
+  <div class="post_meta">
+    <span><svg class="icon">
+  <title>calendar</title>
+  <use xlink:href="#calendar"></use>
+</svg>
+</span>
+    <span class="post_date">
+      Jun 20, 2023</span>
+    <span class="post_time"> · 10 min read</span>
+    <span class="page_only">&nbsp;·  <div class="post_share">
+    Last Modified :&nbsp;Jun 20, 2023
+  </div>
+  <div class="post_share">
+    Share on:
+    <a href="https://twitter.com/intent/tweet?text=Can%20Terraform%20be%20used%20to%20provision%20on-premises%20infrastructure%3f&url=https%3a%2f%2fjhooq.com%2fterraform-provision-on-premise-infra%2f&tw_p=tweetbutton" class="twitter" title="Share on Twitter" target="_blank" rel="nofollow">
+      <svg class="icon">
+  <title>twitter</title>
+  <use xlink:href="#twitter"></use>
+</svg>
+
+    </a>
+    <a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fjhooq.com%2fterraform-provision-on-premise-infra%2f&t=Can%20Terraform%20be%20used%20to%20provision%20on-premises%20infrastructure%3f" class="facebook" title="Share on Facebook" target="_blank" rel="nofollow">
+      <svg class="icon">
+  <title>facebook</title>
+  <use xlink:href="#facebook"></use>
+</svg>
+
+    </a>
+    <a href="#linkedinshare" id = "linkedinshare" class="linkedin" title="Share on LinkedIn" rel="nofollow">
+      <svg class="icon">
+  <title>linkedin</title>
+  <use xlink:href="#linkedin"></use>
+</svg>
+
+    </a>
+    <a href="https://jhooq.com/terraform-provision-on-premise-infra/" title="Copy Link" class="link link_yank">
+      <svg class="icon">
+  <title>copy</title>
+  <use xlink:href="#copy"></use>
+</svg>
+
+    </a>
+  </div>
+  <div class="post_share">
+    Author :&nbsp; <a href="https://www.linkedin.com/in/rahul-wagh/" title="Author"> Rahul Wagh</a>
+  </div>
+  </span>
+  </div>
+
+    <div class="post_body"><p>Yes, <a href="https://terraform.io">Terraform</a> can be used to provision on-premises servers, but there are some differences compared to how it manages cloud resources. While Terraform can directly interact with the <strong>APIs</strong> of many cloud providers to manage their resources, it does not have direct access to an API for your <strong>on-premises</strong> infrastructure.</p>
+<p>To provision on-premises servers, you would likely need to use an abstraction layer that Terraform can interface with. Here are a few examples which you can see in the table of content:</p>
+<h2 id="table-of-content">Table of Content</h2>
+<ol>
+<li><a href="#1-virtualization-platformsvmware-vsphere">Virtualization Platforms(VMware, vSphere)</a></li>
+<li><a href="#2-bare-metal-servers-with-a-management-layer">Bare Metal Servers with a Management Layer</a></li>
+<li><a href="#3-containers-and-kubernetes">Containers and Kubernetes</a></li>
+<li><a href="#4-configuration-management-toolsansible-chef-puppet-or-saltstack">Configuration Management Tools(Ansible, Chef, Puppet, or SaltStack)</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ol>
+<br/>
+<h2 id="1-virtualization-platformsvmware-vsphere">1. Virtualization Platforms(VMware, vSphere)</h2>
+<p><a href="https://www.vmware.com/nordics/products/vsphere.html">VMware vSphere</a> is a popular virtualization platform used in many on-premises environments. Terraform can interact with vSphere through its vSphere provider, which allows you to <strong>create, read, update,</strong> and <strong>delete</strong> various vSphere resources such as -</p>
+<ul>
+<li>Virtual machines</li>
+<li>Datastores</li>
+<li>Networks</li>
+</ul>
+<p>Here's an example of how you might use <strong>Terraform</strong> to create a virtual machine in <strong>vSphere</strong>:</p>
+<h3 id="step-1-configure-the-vsphere-provider">Step 1: Configure the vSphere Provider</h3>
+<p>This is where you tell <strong>Terraform</strong> how to connect to your <strong><a href="https://www.vmware.com/nordics/products/vcenter.html">vSphere vCenter server</a></strong>. Just pop in your user and password details like so:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-terraform" data-lang="terraform"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="c1"># maint.tf
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="kr">provider</span> <span class="s2">&#34;vsphere&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="na">user</span>           = <span class="s2">&#34;your-username&#34;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="na">password</span>       = <span class="s2">&#34;your-password&#34;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="na">vsphere_server</span> = <span class="s2">&#34;vcenter.your-domain.com&#34;</span><span class="c1">
+</span></span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="c1">
+</span></span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="c1">  # If your cert is self-signed, you might want to include this:
+</span></span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="c1"></span>  <span class="na">allow_unverified_ssl</span> = <span class="kc">true</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"> 
+</span></span></code></pre></div><br/>
+<h3 id="step-2-map-out-your-environment">Step 2: Map Out Your Environment</h3>
+<p>You'll likely need to define some <strong>data sources</strong> so <strong>Terraform</strong> knows more about your <strong>vSphere environment</strong>. For instance, it might need to know the <strong>ID</strong> of a datacenter or a template to clone.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-terraform" data-lang="terraform"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="c1"># datasource.tf
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="kr">data</span> <span class="s2">&#34;vsphere_datacenter&#34;</span> <span class="s2">&#34;dc&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="na">name</span> = <span class="s2">&#34;dc1&#34;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="kr">
+</span></span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="kr">data</span> <span class="s2">&#34;vsphere_datastore&#34;</span> <span class="s2">&#34;datastore&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="na">name</span>          = <span class="s2">&#34;datastore1&#34;</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="na">datacenter_id</span> = <span class="s2">&#34;</span><span class="si">${</span><span class="nb">data</span><span class="p">.</span><span class="nx">vsphere_datacenter</span><span class="p">.</span><span class="nx">dc</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="kr">
+</span></span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="kr">data</span> <span class="s2">&#34;vsphere_network&#34;</span> <span class="s2">&#34;network&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="na">name</span>          = <span class="s2">&#34;public&#34;</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="na">datacenter_id</span> = <span class="s2">&#34;</span><span class="si">${</span><span class="nb">data</span><span class="p">.</span><span class="nx">vsphere_datacenter</span><span class="p">.</span><span class="nx">dc</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="kr">
+</span></span></span><span class="line"><span class="ln">17</span><span class="cl"><span class="kr">data</span> <span class="s2">&#34;vsphere_virtual_machine&#34;</span> <span class="s2">&#34;template&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="na">name</span>          = <span class="s2">&#34;centos-7-template&#34;</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="na">datacenter_id</span> = <span class="s2">&#34;</span><span class="si">${</span><span class="nb">data</span><span class="p">.</span><span class="nx">vsphere_datacenter</span><span class="p">.</span><span class="nx">dc</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><br/>
+<h3 id="step-3-define-your-virtual-machine">Step 3: Define Your Virtual Machine</h3>
+<p>Here's the fun part - setting up your <strong>virtual machine!</strong> You'll tell <strong>Terraform</strong>  -</p>
+<ol>
+<li>How many <strong>CPUs</strong> you want</li>
+<li>How much <strong>memory</strong></li>
+<li>Which <strong>network</strong> to connect to and other important details.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="ln"> 1</span><span class="cl"># vm_infra.tf
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">resource &#34;vsphere_virtual_machine&#34; &#34;vm&#34; {
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  name             = &#34;terraform-test&#34;
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  resource_pool_id = &#34;${data.vsphere_resource_pool.pool.id}&#34;
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  datastore_id     = &#34;${data.vsphere_datastore.datastore.id}&#34;
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  num_cpus = 2
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  memory   = 1024
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  guest_id = &#34;${data.vsphere_virtual_machine.template.guest_id}&#34;
+</span></span><span class="line"><span class="ln">11</span><span class="cl">
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  network_interface {
+</span></span><span class="line"><span class="ln">13</span><span class="cl">    network_id = &#34;${data.vsphere_network.network.id}&#34;
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  }
+</span></span><span class="line"><span class="ln">15</span><span class="cl">
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  disk {
+</span></span><span class="line"><span class="ln">17</span><span class="cl">    label            = &#34;disk0&#34;
+</span></span><span class="line"><span class="ln">18</span><span class="cl">    size             = &#34;${data.vsphere_virtual_machine.template.disks.0.size}&#34;
+</span></span><span class="line"><span class="ln">19</span><span class="cl">    thin_provisioned = &#34;${data.vsphere_virtual_machine.template.disks.0.thin_provisioned}&#34;
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  }
+</span></span><span class="line"><span class="ln">21</span><span class="cl">
+</span></span><span class="line"><span class="ln">22</span><span class="cl">  clone {
+</span></span><span class="line"><span class="ln">23</span><span class="cl">    template_uuid = &#34;${data.vsphere_virtual_machine.template.id}&#34;
+</span></span><span class="line"><span class="ln">24</span><span class="cl">
+</span></span><span class="line"><span class="ln">25</span><span class="cl">    customize {
+</span></span><span class="line"><span class="ln">26</span><span class="cl">      linux_options {
+</span></span><span class="line"><span class="ln">27</span><span class="cl">        host_name = &#34;terraform-test&#34;
+</span></span><span class="line"><span class="ln">28</span><span class="cl">        domain    = &#34;yourdomain.com&#34;
+</span></span><span class="line"><span class="ln">29</span><span class="cl">      }
+</span></span><span class="line"><span class="ln">30</span><span class="cl">
+</span></span><span class="line"><span class="ln">31</span><span class="cl">      network_interface {
+</span></span><span class="line"><span class="ln">32</span><span class="cl">        ipv4_address = &#34;10.0.0.10&#34;
+</span></span><span class="line"><span class="ln">33</span><span class="cl">        ipv4_netmask = 24
+</span></span><span class="line"><span class="ln">34</span><span class="cl">      }
+</span></span><span class="line"><span class="ln">35</span><span class="cl">
+</span></span><span class="line"><span class="ln">36</span><span class="cl">      ipv4_gateway = &#34;10.0.0.1&#34;
+</span></span><span class="line"><span class="ln">37</span><span class="cl">    }
+</span></span><span class="line"><span class="ln">38</span><span class="cl">  }
+</span></span><span class="line"><span class="ln">39</span><span class="cl">}
+</span></span><span class="line"><span class="ln">40</span><span class="cl"> 
+</span></span></code></pre></div><p>The above example will create a clone of an existing <strong>VM template</strong>, and set it up on a specific network.</p>
+<br/>
+<h3 id="step-4-provision-terraform-infra">Step 4: Provision Terraform infra</h3>
+<p>Once you've set everything up, fire up your terminal and use the following terraform commands -</p>
+<ol>
+<li><strong>terraform init -</strong> To get Terraform ready to go and initialize the <em>VMware vSphere</em> provider</li>
+<li><strong>terraform plan -</strong> To see exactly what changes Terraform will make</li>
+<li><strong>terraform apply -</strong> If you're happy with the plan, use <em>terraform apply</em> to make it happen.</li>
+</ol>
+<p>Just a friendly reminder to replace placeholders in the code (like <strong>&quot;your-username&quot;, &quot;your-password&quot;, &quot;vcenter.your-domain.com&quot;, &quot;dc1&quot;, etc.</strong>) with your actual <strong>vSphere environment</strong> details.</p>
+<p>And always remember to <strong>handle your sensitive info (like passwords) with care</strong>. Using <strong>environment variables</strong> or <strong>input variables</strong> is a secure way to pass these values to your Terraform configuration.</p>
+<p>Dealing with vSphere environments in Terraform can be a bit tricky, so be sure to spend some time with the <a href="https://registry.terraform.io/providers/hashicorp/vsphere/latest/docs">vSphere provider documentation</a>. It's a well of knowledge and will help you get the most out of <strong>Terraform</strong> and <strong>vSphere</strong>.</p>
+<br/>
+<h2 id="2-bare-metal-servers-with-a-management-layer">2. Bare Metal Servers with a Management Layer</h2>
+<p>Let's dive into how we can use <strong>Terraform</strong> with <strong>bare metal servers</strong> using an approach that involves a management layer, with <strong><a href="https://maas.io/">MAAS (Metal as a Service)</a></strong> as an example.</p>
+<p><strong>MAAS</strong> is a fantastic tool that provides a way to manage <strong>bare metal servers</strong> as if they were <strong>virtual machines</strong> in the <strong>cloud</strong>. It gives you an <strong>API</strong> to interact with, and that's the sweet spot <strong>Terraform</strong> needs to work its magic.</p>
+<p>First thing to know is, unfortunately, <strong>there is no official MAAS provider for Terraform</strong>. But don't worry, the open source community has our back. There's a third-party MAAS provider you can use.</p>
+<p>You can use this Terraform provider for MAAS to define your infrastructure in a Terraform configuration file. You'll define resources just like you would for any other kind of infrastructure, and then use the Terraform commands to create, update, or destroy resources as needed.</p>
+<p>Here's a sample configuration that might give you an idea:</p>
+<h3 id="step-1-configure-the-maas-provider">Step 1: Configure the MAAS Provider</h3>
+<p>You'll start off by telling Terraform how to connect to your MAAS server.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-terraform" data-lang="terraform"><span class="line"><span class="ln">1</span><span class="cl"><span class="c1">#main.tf
+</span></span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="c1"># maas provider
+</span></span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="kr">provider</span> <span class="s2">&#34;maas&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl">  <span class="na">api_version</span> = <span class="s2">&#34;2.0&#34;</span>
+</span></span><span class="line"><span class="ln">6</span><span class="cl">  <span class="na">api_url</span>     = <span class="s2">&#34;http://192.168.1.1:5240/MAAS&#34;</span>
+</span></span><span class="line"><span class="ln">7</span><span class="cl">  <span class="na">api_key</span>     = <span class="s2">&#34;your-api-key&#34;</span>
+</span></span><span class="line"><span class="ln">8</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><br/>
+<h2 id="step-2-define-a-resource">Step 2: Define a Resource</h2>
+<p>Next, let's create a machine using Terraform. You'll be defining the machine parameters here.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-terraform" data-lang="terraform"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="c1">#Create resource in maas
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;maas_instance&#34;</span> <span class="s2">&#34;server1&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="na">hostname</span>      = <span class="s2">&#34;server1&#34;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="na">domain</span>        = <span class="s2">&#34;local&#34;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="na">architecture</span>  = <span class="s2">&#34;amd64/generic&#34;</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="na">min_cpu_count</span> = <span class="m">2</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="na">min_mem_mb</span>    = <span class="m">1024</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="nx">interface</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl">    <span class="na">name</span>   = <span class="s2">&#34;eth0&#34;</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl">    <span class="na">subnet</span> = <span class="s2">&#34;192.168.1.0/24&#34;</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl">
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="nx">storage</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl">    <span class="na">id</span>    = <span class="m">0</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl">    <span class="na">size</span>  = <span class="s2">&#34;20G&#34;</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl">    <span class="na">mount</span> = <span class="s2">&#34;/&#34;</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>This configuration tells MAAS to provision -</p>
+<ol>
+<li>New server with at least <strong>2 CPUs</strong> and <strong>1GB</strong> of memory</li>
+<li>It should also have an interface connected to the specified subnet and a storage device with at least <strong>20GB</strong> of space mounted at <strong>&quot;/&quot;</strong></li>
+</ol>
+<br/>
+<h3 id="step-4-provision-terraform-infra-1">Step 4: Provision Terraform infra</h3>
+<p>Once you have this configuration in place, you're ready to let Terraform do its thing. Run the following terraform command -</p>
+<ol>
+<li><em><strong>terraform init</strong></em> to initialize your configuration, and</li>
+<li><em><strong>terraform apply</strong></em> to create your resources.</li>
+</ol>
+<p>Keep in mind, though, that working with bare metal infrastructure has its unique challenges compared to cloud-based infrastructure. <em>For instance, 'destroying' a bare metal server is a physical task that can't be undone with a command</em>.</p>
+<p>Remember to replace the placeholders in the above example with your actual <strong>MAAS environment details</strong>. And as always, treat your sensitive information (like API keys) with the utmost care.</p>
+<p>Also, be aware that while the <strong>Terraform</strong> provider for <strong>MAAS</strong> exists, it's not officially supported or maintained by <strong>HashiCorp</strong> or <strong>Canonical</strong> (the company behind MAAS). You might encounter bugs or limitations, and updates might not come as frequently as for official providers.</p>
+<p>Don't forget to check out the provider's documentation and resources available on GitHub or other platforms for more detailed information and community support.</p>
+<br/>
+<h2 id="3-containers-and-kubernetes">3. Containers and Kubernetes</h2>
+<p>Imagine you're running a <strong>Kubernetes cluster</strong> on your <strong>on-premises infrastructure</strong>. Terraform can be your best buddy here.</p>
+<p>With its Kubernetes provider, Terraform can help manage resources within your cluster. Let's run through how that might look.</p>
+<h3 id="step-1-configure-the-kubernetes-provider">Step 1: Configure the Kubernetes Provider</h3>
+<p>Kick things off by setting up the <strong>Kubernetes provider</strong> in your Terraform configuration file. You're essentially telling <strong>Terraform</strong> how to chat with your <strong>Kubernetes cluster</strong>.</p>
+<p>Here's how it could look:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-terraform" data-lang="terraform"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="c1"># main.tf
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="kr">provider</span> <span class="s2">&#34;kubernetes&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="na">host</span>     = <span class="s2">&#34;https://your-k8s-cluster-endpoint:port&#34;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="na">username</span> = <span class="s2">&#34;your-username&#34;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="na">password</span> = <span class="s2">&#34;your-password&#34;</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="na">client_certificate</span>     = <span class="s2">&#34;</span><span class="si">${</span><span class="nb">file</span><span class="p">(</span><span class="s2">&#34;~/.kube/client-cert.pem&#34;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="na">client_key</span>             = <span class="s2">&#34;</span><span class="si">${</span><span class="nb">file</span><span class="p">(</span><span class="s2">&#34;~/.kube/client-key.pem&#34;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="na">cluster_ca_certificate</span> = <span class="s2">&#34;</span><span class="si">${</span><span class="nb">file</span><span class="p">(</span><span class="s2">&#34;~/.kube/cluster-ca-cert.pem&#34;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>You're specifying the endpoint of your Kubernetes cluster and credentials to connect to it. Remember to replace the placeholders with your actual details.</p>
+<br/>
+<h3 id="step-2-define-a-kubernetes-resource">Step 2: Define a Kubernetes Resource</h3>
+<p>Next, let's define a Kubernetes resource. How about a simple nginx deployment?</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-terraform" data-lang="terraform"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="c1"># nginx deployment inside 
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;kubernetes_deployment&#34;</span> <span class="s2">&#34;nginx&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="nx">metadata</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">    <span class="na">name</span> = <span class="s2">&#34;nginx-deployment&#34;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">    <span class="na">labels</span> = <span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">      <span class="na">App</span> = <span class="s2">&#34;nginx&#34;</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="nx">spec</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl">    <span class="na">replicas</span> = <span class="m">3</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl">    <span class="nx">selector</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl">      <span class="na">match_labels</span> = <span class="p">{</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl">        <span class="na">App</span> = <span class="s2">&#34;nginx&#34;</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl">    <span class="nx">template</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl">      <span class="nx">metadata</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl">        <span class="na">labels</span> = <span class="p">{</span>
+</span></span><span class="line"><span class="ln">21</span><span class="cl">          <span class="na">App</span> = <span class="s2">&#34;nginx&#34;</span>
+</span></span><span class="line"><span class="ln">22</span><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="ln">23</span><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="ln">24</span><span class="cl">      <span class="nx">spec</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">25</span><span class="cl">        <span class="nx">container</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">26</span><span class="cl">          <span class="na">image</span> = <span class="s2">&#34;nginx:1.7.8&#34;</span>
+</span></span><span class="line"><span class="ln">27</span><span class="cl">          <span class="na">name</span>  = <span class="s2">&#34;nginx&#34;</span>
+</span></span><span class="line"><span class="ln">28</span><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="ln">29</span><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="ln">30</span><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="ln">31</span><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="ln">32</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln">33</span><span class="cl"> 
+</span></span></code></pre></div><p>In the above example, <strong>Terraform</strong> creates a <strong>Deployment</strong> on your <strong>Kubernetes cluster for nginx</strong>. It sets up 3 replicas of nginx (version 1.7.8).</p>
+<br/>
+<h3 id="step-4-provision-terraform-infra-2">Step 4: Provision Terraform infra</h3>
+<p>Once you have this configuration in place, you're ready to let Terraform do its thing. Run the following terraform command -</p>
+<ol>
+<li><em><strong>terraform init</strong></em> to initialize your configuration, and</li>
+<li><em><strong>terraform apply</strong></em> to create your resources.</li>
+</ol>
+<p>Make sure you're replacing placeholders with your actual <strong>Kubernetes cluster details</strong>. And, like always, keep your sensitive information (like passwords) safe. Consider using environment variables or input variables for this.</p>
+<p><strong>Now, one thing to remember:</strong> Terraform is fantastic for creating and managing Kubernetes resources, but when it comes to deploying complex, multi-resource applications, Helm might be a better choice. Terraform does have a <a href="/getting-start-with-helm-chart">Helm</a> provider, which you can use to deploy Helm charts. So you get the best of both worlds!</p>
+<p>Finally, don't forget to check out the official Terraform documentation for the Kubernetes provider. It’s chock-full of useful info and will help you unlock all the cool stuff you can do with Terraform and Kubernetes.</p>
+<br/>
+<h2 id="4-configuration-management-toolsansible-chef-puppet-or-saltstack">4. Configuration Management Tools(Ansible, Chef, Puppet, or SaltStack)</h2>
+<p>First, let's clarify the roles that <strong>Terraform</strong> and a configuration management tool play. Terraform, as you know, is an infrastructure provisioning tool - it excels at creating, modifying, and tearing down infrastructure.</p>
+<p>On the other hand, configuration management tools like <strong>Ansible, Chef, Puppet,</strong> or <strong>SaltStack</strong> handle the job of configuring this infrastructure.</p>
+<p>In simpler words, Terraform lays the foundation and the configuration management tools build the house on top.</p>
+<p>Now, let's see how Terraform and Ansible can work together. The most common way is using the <a href="/terraform-null-resource">'null_resource'</a> and <a href="/terraform-provisioner/#2-local-exec-provisioner">'local-exec'</a> or <a href="/terraform-provisioner/#3-remote-exec-provisioner">'remote-exec'</a> provisioners in Terraform to trigger <a href="/ansible-video-index/">Ansible</a>.</p>
+<h3 id="step-1-setting-up-terraform">Step 1: Setting Up Terraform</h3>
+<p>Here's an example of how you could define a VM using Terraform:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-terraform" data-lang="terraform"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="c1">#main.tf
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_instance&#34;</span> <span class="s2">&#34;web&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="na">ami</span>           = <span class="s2">&#34;ami-0c94855ba95c574c8&#34;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="na">instance_type</span> = <span class="s2">&#34;t2.micro&#34;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="na">key_name</span>      = <span class="s2">&#34;my_key_pair&#34;</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="kr">
+</span></span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="kr">  provisioner</span> <span class="s2">&#34;local-exec&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">    <span class="na">command</span> = <span class="s2">&#34;echo </span><span class="si">${</span><span class="nx">self</span><span class="p">.</span><span class="nx">private_ip</span><span class="si">}</span><span class="s2"> &gt; inventory.ini&#34;</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>In the above example, <strong>Terraform</strong> is provisioning an <strong>EC2 instance</strong> and creating an inventory file with the instance's <strong>private IP address</strong> for <strong>Ansible</strong> to use later.</p>
+<p>The <strong>local-exec provisioner</strong> is executing a local command after the instance is created.</p>
+<br/>
+<h3 id="step-2-triggering-ansible-from-terraform">Step 2: Triggering Ansible from Terraform</h3>
+<p>You can then add another <a href="/terraform-null-resource">'null_resource'</a> to trigger the Ansible playbook:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-terraform" data-lang="terraform"><span class="line"><span class="ln">1</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;null_resource&#34;</span> <span class="s2">&#34;ansible_provisioning&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl">  <span class="na">depends_on</span> = <span class="p">[</span><span class="nx">aws_instance</span><span class="p">.</span><span class="nx">web</span><span class="p">]</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="kr">
+</span></span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="kr">  provisioner</span> <span class="s2">&#34;local-exec&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl">    <span class="na">command</span> = <span class="s2">&#34;ansible-playbook -i inventory.ini setup.yml&#34;</span>
+</span></span><span class="line"><span class="ln">6</span><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="ln">7</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>This <strong>null_resource</strong> uses another <strong>local-exec provisioner</strong> to execute the Ansible playbook called <strong>'setup.yml'</strong> on the instance we just created.</p>
+<br/>
+<h3 id="step-3-how-the-infra-will-be-provisioned">Step 3: How the infra will be provisioned</h3>
+<ol>
+<li>As you run <strong>terraform apply</strong>, Terraform will first create the <strong>EC2 instance</strong>,</li>
+<li>After that Ansible will pick up from there, using the inventory file generated by Terraform to configure the newly created instance.</li>
+</ol>
+<p>Remember to replace the placeholders in these examples with your actual data.</p>
+<p><strong>One thing to note:</strong> while this approach works, it does somewhat go against the philosophy of Terraform being declarative, and it could lead to issues with idempotency.</p>
+<p>Using Terraform and Ansible separately - Terraform for provisioning, Ansible for configuration - could give you a cleaner, more maintainable setup. This isn't a hard and fast rule, though, and how you choose to use these tools will depend on your specific use case and requirements.</p>
+<br/>
+<h2 id="conclusion">Conclusion</h2>
+<p>I hope you've enjoyed our journey through Terraform for on-premises infrastructure. We've covered a lot of ground, right?</p>
+<p>From managing <strong>VMware vSphere</strong> infrastructure to treating bare metal servers like cloud instances with <strong>MAAS</strong>, you've seen how versatile Terraform can be. And who could forget how smoothly it interacts with <strong>Kubernetes</strong> and configures things with <strong>Ansible</strong>?</p>
+<p>This blog post is just the tip of the iceberg, there's so much more Terraform can do. And remember, it's okay to take your time, learning doesn't have to be a race. Always feel free to explore the official Terraform documentation whenever you need.</p>
+<p>I truly hope you've found this exciting and enlightening. Always here if you need more guidance. Keep exploring, and as always, Happy Terraforming!</p>
+
+    </div><div class="post_comments">
+  
+  
+    
+ <script src="https://utteranc.es/client.js"
+         repo="rahulwagh/jhooq-comment-repo"
+         issue-term="pathname"
+         theme="github-light"
+         
+         crossorigin="anonymous"
+         async>
+ </script>
+ 
+  
+  
+</div>
+
+
+
+
+	<h2 class="post_related">Posts in this series</h2>
+	<ul>
+	  
+	      <li><a href="https://jhooq.com/terraform-secure-sensitive-data/" class="nav-link" title="Securing Sensitive Data in Terraform">Securing Sensitive Data in Terraform</a></li>
+	  
+	      <li><a href="https://jhooq.com/security-practices-aws-terraform/" class="nav-link" title="Boost Your AWS Security with Terraform : A Step-by-Step Guide">Boost Your AWS Security with Terraform : A Step-by-Step Guide</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-load-data-from-input-file/" class="nav-link" title="How to Load Input Data from a File in Terraform?">How to Load Input Data from a File in Terraform?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-provision-on-premise-infra/" class="nav-link" title="Can Terraform be used to provision on-premises infrastructure?">Can Terraform be used to provision on-premises infrastructure?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-malformed-policy-document/" class="nav-link" title="Fixing the Terraform Error creating IAM Role. MalformedPolicyDocument Has prohibited field Resource">Fixing the Terraform Error creating IAM Role. MalformedPolicyDocument Has prohibited field Resource</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-replace-null-value-with-default-value/" class="nav-link" title="In terraform how to handle null value with default value?">In terraform how to handle null value with default value?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-ouput-module-input-another-module/" class="nav-link" title="Terraform use module output variables as inputs for another module?">Terraform use module output variables as inputs for another module?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-reference-module-output/" class="nav-link" title="How to Reference a Resource Created by a Terraform Module?">How to Reference a Resource Created by a Terraform Module?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-escape-sequences/" class="nav-link" title="Understanding Terraform Escape Sequences">Understanding Terraform Escape Sequences</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-error-private-dbs-enabled/" class="nav-link" title="How to fix private-dns-enabled cannot be set because there is already a conflicting DNS domain?">How to fix private-dns-enabled cannot be set because there is already a conflicting DNS domain?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-manage-user-roles-policy/" class="nav-link" title="Use Terraform to manage AWS IAM Policies, Roles and Users">Use Terraform to manage AWS IAM Policies, Roles and Users</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-split-main-tf/" class="nav-link" title="How to split Your Terraform main.tf File into Multiple Files">How to split Your Terraform main.tf File into Multiple Files</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-var-within-var/" class="nav-link" title="How to use Terraform variable within variable">How to use Terraform variable within variable</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-lookup-function/" class="nav-link" title="Mastering the Terraform Lookup Function for Dynamic Keys">Mastering the Terraform Lookup Function for Dynamic Keys</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-copy-file-ec2-s3/" class="nav-link" title="Copy files to EC2 and S3 bucket using Terraform">Copy files to EC2 and S3 bucket using Terraform</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-invalid-subnet/" class="nav-link" title="Troubleshooting Error creating EC2 Subnet InvalidSubnet Range The CIDR is Invalid">Troubleshooting Error creating EC2 Subnet InvalidSubnet Range The CIDR is Invalid</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-security-group-with-different-subnet/" class="nav-link" title="Troubleshooting InvalidParameter Security group and subnet belong to different networks">Troubleshooting InvalidParameter Security group and subnet belong to different networks</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-string-handling/" class="nav-link" title="Managing strings in Terraform: A comprehensive guide">Managing strings in Terraform: A comprehensive guide</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-depends-on/" class="nav-link" title="How to use terraform depends_on meta argument?">How to use terraform depends_on meta argument?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-user-data/" class="nav-link" title="What is user_data in Terraform?">What is user_data in Terraform?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-do-not-store-tfstate-in-git/" class="nav-link" title="Why you should not store terraform state file(.tfstate) inside Git Repository?">Why you should not store terraform state file(.tfstate) inside Git Repository?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-import-resource/" class="nav-link" title="How to import existing resource using terraform import comand?">How to import existing resource using terraform import comand?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-guide-alb-ssl/" class="nav-link" title="Terraform - A detailed guide on setting up ALB(Application Load Balancer) and SSL?">Terraform - A detailed guide on setting up ALB(Application Load Balancer) and SSL?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-testing-infra-as-code/" class="nav-link" title="Testing Infrastructure as Code with Terraform?">Testing Infrastructure as Code with Terraform?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-remove-resource-from-state/" class="nav-link" title="How to remove a resource from Terraform state?">How to remove a resource from Terraform state?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-null-resource/" class="nav-link" title="What is Terraform null Resource?">What is Terraform null Resource?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-check-if-resource-exist/" class="nav-link" title="In terraform how to skip creation of resource if the resource already exist?">In terraform how to skip creation of resource if the resource already exist?</a></li>
+	  
+	      <li><a href="https://jhooq.com/how-to-setup-virtual-machine-on-google-cloud-platform/" class="nav-link" title="How to setup Virtual machine on Google Cloud Platform">How to setup Virtual machine on Google Cloud Platform</a></li>
+	  
+	      <li><a href="https://jhooq.com/how-to-use-terraform-locals/" class="nav-link" title="How to use Terraform locals?">How to use Terraform locals?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-docker-container-guide/" class="nav-link" title="Terraform Guide - Docker Containers &amp; AWS ECR(elastic container registry)?">Terraform Guide - Docker Containers &amp; AWS ECR(elastic container registry)?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-generate-ssh-key/" class="nav-link" title="How to generate SSH key in Terraform using tls_private_key?">How to generate SSH key in Terraform using tls_private_key?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-conidtional-check-failed/" class="nav-link" title="How to fix-Terraform Error acquiring the state lock ConditionalCheckFiledException?">How to fix-Terraform Error acquiring the state lock ConditionalCheckFiledException?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-template/" class="nav-link" title="Terraform Template - A complete guide?">Terraform Template - A complete guide?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terragrunt-guide/" class="nav-link" title="How to use Terragrunt?">How to use Terragrunt?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-aws-multi-account/" class="nav-link" title="Terraform and AWS Multi account Setup?">Terraform and AWS Multi account Setup?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-aws-credentials-handling/" class="nav-link" title="Terraform and AWS credentials handling?">Terraform and AWS credentials handling?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-error-config-s3/" class="nav-link" title="How to fix-error configuring S3 Backend no valid credential sources for S3 Backend found?">How to fix-error configuring S3 Backend no valid credential sources for S3 Backend found?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-state-file-locking/" class="nav-link" title="Terraform state locking using DynamoDB (aws_dynamodb_table)?">Terraform state locking using DynamoDB (aws_dynamodb_table)?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-manage-state/" class="nav-link" title="Managing Terraform states?">Managing Terraform states?</a></li>
+	  
+	      <li><a href="https://jhooq.com/hashi-vault-aws-secret-terraform/" class="nav-link" title="Securing AWS secrets using HashiCorp Vault with Terraform?">Securing AWS secrets using HashiCorp Vault with Terraform?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-workspaces/" class="nav-link" title="How to use Workspaces in Terraform?">How to use Workspaces in Terraform?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-run-specific-resource/" class="nav-link" title="How to run specific terraform resource, module, target?">How to run specific terraform resource, module, target?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-module/" class="nav-link" title="How Terraform modules works?">How Terraform modules works?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-ssh-into-aws-ec2/" class="nav-link" title="Secure AWS EC2s &amp; GCP VMs with Terraform SSH Keys!">Secure AWS EC2s &amp; GCP VMs with Terraform SSH Keys!</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-provisioner/" class="nav-link" title="What is terraform provisioner?">What is terraform provisioner?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-destroy-before-apply/" class="nav-link" title="Is terraform destroy needed before terraform apply?">Is terraform destroy needed before terraform apply?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-your-query-returned-no-results/" class="nav-link" title="How to fix terraform error Your query returned no results. Please change your search criteria and try again?">How to fix terraform error Your query returned no results. Please change your search criteria and try again?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-data-sources/" class="nav-link" title="How to use Terraform Data sources?">How to use Terraform Data sources?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-resource-meta-argument/" class="nav-link" title="How to use Terraform resource meta arguments?">How to use Terraform resource meta arguments?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-dynamic-block/" class="nav-link" title="How to use Terraform Dynamic blocks?">How to use Terraform Dynamic blocks?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-nuke/" class="nav-link" title="Terraform - How to nuke AWS resources and save additional AWS infrastructure cost?">Terraform - How to nuke AWS resources and save additional AWS infrastructure cost?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-for-and-for-each-loop/" class="nav-link" title="Understanding terraform count, for_each and for loop?">Understanding terraform count, for_each and for loop?</a></li>
+	  
+	      <li><a href="https://jhooq.com/how-to-use-terraform-output-values/" class="nav-link" title="How to use Terraform output values?">How to use Terraform output values?</a></li>
+	  
+	      <li><a href="https://jhooq.com/error-configuring-terraform-aws-provider/" class="nav-link" title="How to fix error configuring Terraform AWS Provider error validating provider credentials error calling sts GetCallerIdentity SignatureDoesNotMatch?">How to fix error configuring Terraform AWS Provider error validating provider credentials error calling sts GetCallerIdentity SignatureDoesNotMatch?</a></li>
+	  
+	      <li><a href="https://jhooq.com/gcp-invalid-function-argument-credential-file/" class="nav-link" title="How to fix Invalid function argument on line in provider credentials file google Invalid value for path parameter no file exists">How to fix Invalid function argument on line in provider credentials file google Invalid value for path parameter no file exists</a></li>
+	  
+	      <li><a href="https://jhooq.com/value-for-undeclared-variable/" class="nav-link" title="How to fix error value for undeclared variable a variable named was assigned on the command line?">How to fix error value for undeclared variable a variable named was assigned on the command line?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-variable-and-tfvars-file/" class="nav-link" title="What is variable.tf and terraform.tfvars?">What is variable.tf and terraform.tfvars?</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-input-variables/" class="nav-link" title="How to use Terraform Variables - Locals,Input,Output">How to use Terraform Variables - Locals,Input,Output</a></li>
+	  
+	      <li><a href="https://jhooq.com/terraform-ec2-instance-setup/" class="nav-link" title="Terraform create EC2 Instance on AWS">Terraform create EC2 Instance on AWS</a></li>
+	  
+	      <li><a href="https://jhooq.com/fix-error-create-service-account-google-api/" class="nav-link" title="How to fix Error creating service account googleapi Error 403 Identity and Access Management (IAM) API has not been used in project before or it is disabled">How to fix Error creating service account googleapi Error 403 Identity and Access Management (IAM) API has not been used in project before or it is disabled</a></li>
+	  
+	      <li><a href="https://jhooq.com/install-terrafrom/" class="nav-link" title="Install terraform on Ubuntu 20.04, CentOS 8, MacOS, Windows 10, Fedora 33, Red hat 8 and Solaris 11">Install terraform on Ubuntu 20.04, CentOS 8, MacOS, Windows 10, Fedora 33, Red hat 8 and Solaris 11</a></li>
+	  
+	</ul>
+
+
+
+  </article>
+<aside class="sidebar">
+  <section class="sidebar_inner">
+    <br>
+    
+  
+  <div class="search">
+    <input type="search" class="search_field form_field" placeholder='Search...' id="find" autocomplete="off" data-scope='post'>
+    <label for="find" class="search_label"><svg class="icon">
+  <title>search</title>
+  <use xlink:href="#search"></use>
+</svg>
+
+    </label>
+    
+    <div class="search_results results"></div>
+  </div>
+
+    
+
+    
+    
+    
+    
+    
+    <div>
+      <h2 class="mt-4 taxonomy" id="categories-section">Categories</h2>
+      <nav class="tags_nav">
+        <a href='https://jhooq.com/categories/terraform/' class="post_tag button button_translucent" title="terraform">
+          TERRAFORM
+          <span class="button_tally">63</span>
+        </a>
+        
+        <a href='https://jhooq.com/categories/docker/' class="post_tag button button_translucent" title="docker">
+          DOCKER
+          <span class="button_tally">28</span>
+        </a>
+        
+        <a href='https://jhooq.com/categories/kubernetes/' class="post_tag button button_translucent" title="kubernetes">
+          KUBERNETES
+          <span class="button_tally">26</span>
+        </a>
+        
+        <a href='https://jhooq.com/categories/aws/' class="post_tag button button_translucent" title="aws">
+          AWS
+          <span class="button_tally">13</span>
+        </a>
+        
+        <a href='https://jhooq.com/categories/ansible/' class="post_tag button button_translucent" title="ansible">
+          ANSIBLE
+          <span class="button_tally">11</span>
+        </a>
+        
+        <a href='https://jhooq.com/categories/helm-chart/' class="post_tag button button_translucent" title="helm-chart">
+          HELM-CHART
+          <span class="button_tally">11</span>
+        </a>
+        
+        <a href='https://jhooq.com/categories/blogging/' class="post_tag button button_translucent" title="blogging">
+          BLOGGING
+          <span class="button_tally">6</span>
+        </a>
+        
+        <a href='https://jhooq.com/categories/ssl/' class="post_tag button button_translucent" title="ssl">
+          SSL
+          <span class="button_tally">6</span>
+        </a>
+        
+        <a href='https://jhooq.com/categories/spring-boot/' class="post_tag button button_translucent" title="spring-boot">
+          SPRING-BOOT
+          <span class="button_tally">5</span>
+        </a>
+        
+        <a href='https://jhooq.com/categories/quarkus/' class="post_tag button button_translucent" title="quarkus">
+          QUARKUS
+          <span class="button_tally">4</span>
+        </a>
+        
+        <a href='https://jhooq.com/categories/github/' class="post_tag button button_translucent" title="github">
+          GITHUB
+          <span class="button_tally">3</span>
+        </a>
+        
+        <a href='https://jhooq.com/categories/kubespray/' class="post_tag button button_translucent" title="kubespray">
+          KUBESPRAY
+          <span class="button_tally">3</span>
+        </a>
+        
+        <a href='https://jhooq.com/categories/prometheus-grafana/' class="post_tag button button_translucent" title="prometheus-grafana">
+          PROMETHEUS-GRAFANA
+          <span class="button_tally">3</span>
+        </a>
+        
+        <a href='https://jhooq.com/categories/vagrant/' class="post_tag button button_translucent" title="vagrant">
+          VAGRANT
+          <span class="button_tally">3</span>
+        </a>
+        
+        
+        <br>
+        <div class="post_tags_toggle button">All Categories</div><br>
+
+
+<div id="sidebar-1"></div>
+
+<script>
+    window['nitroAds'].createAd('sidebar-1', {
+        "refreshLimit": 10,
+        "refreshTime": 30,
+        "renderVisibleOnly": false,
+        "refreshVisibleOnly": true,
+        "sizes": [
+            [
+                "300",
+                "250"
+            ],
+            [
+                "160",
+                "600"
+            ],
+            [
+                "300",
+                "600"
+            ],
+            [
+                "336",
+                "280"
+            ]
+        ],
+        "report": {
+            "enabled": true,
+            "wording": "Report Ad",
+            "position": "top-right"
+        }
+    });
+</script>
+        <div class="post_tags">
+          <div class="tags_list">
+            
+            <a href='https://jhooq.com/categories/ansible/' class=" post_tag button button_translucent" data-position=11 title="ansible">ANSIBLE<span class="button_tally">11</span>
+            </a>
+            
+            
+            <a href='https://jhooq.com/categories/aws/' class=" post_tag button button_translucent" data-position=13 title="aws">AWS<span class="button_tally">13</span>
+            </a>
+            
+            
+            <a href='https://jhooq.com/categories/blogging/' class=" post_tag button button_translucent" data-position=6 title="blogging">BLOGGING<span class="button_tally">6</span>
+            </a>
+            
+            
+            <a href='https://jhooq.com/categories/devops/' class=" post_tag button button_translucent" data-position=1 title="devops">DEVOPS<span class="button_tally">1</span>
+            </a>
+            
+            
+            <a href='https://jhooq.com/categories/docker/' class=" post_tag button button_translucent" data-position=28 title="docker">DOCKER<span class="button_tally">28</span>
+            </a>
+            
+            
+            <a href='https://jhooq.com/categories/github/' class=" post_tag button button_translucent" data-position=3 title="github">GITHUB<span class="button_tally">3</span>
+            </a>
+            
+            
+            <a href='https://jhooq.com/categories/gradle/' class=" post_tag button button_translucent" data-position=1 title="gradle">GRADLE<span class="button_tally">1</span>
+            </a>
+            
+            
+            <a href='https://jhooq.com/categories/hadoop/' class=" post_tag button button_translucent" data-position=1 title="hadoop">HADOOP<span class="button_tally">1</span>
+            </a>
+            
+            
+            <a href='https://jhooq.com/categories/helm-chart/' class=" post_tag button button_translucent" data-position=11 title="helm-chart">HELM-CHART<span class="button_tally">11</span>
+            </a>
+            
+            
+            <a href='https://jhooq.com/categories/hibernate/' class=" post_tag button button_translucent" data-position=1 title="hibernate">HIBERNATE<span class="button_tally">1</span>
+            </a>
+            
+            
+            <a href='https://jhooq.com/categories/jenkins/' class=" post_tag button button_translucent" data-position=2 title="jenkins">JENKINS<span class="button_tally">2</span>
+            </a>
+            
+            
+            <a href='https://jhooq.com/categories/kubernetes/' class=" post_tag button button_translucent" data-position=26 title="kubernetes">KUBERNETES<span class="button_tally">26</span>
+            </a>
+            
+            
+            <a href='https://jhooq.com/categories/kubespray/' class=" post_tag button button_translucent" data-position=3 title="kubespray">KUBESPRAY<span class="button_tally">3</span>
+            </a>
+            
+            
+            <a href='https://jhooq.com/categories/linux-commands/' class=" post_tag button button_translucent" data-position=1 title="linux-commands">LINUX-COMMANDS<span class="button_tally">1</span>
+            </a>
+            
+            
+            <a href='https://jhooq.com/categories/nginx/' class=" post_tag button button_translucent" data-position=2 title="nginx">NGINX<span class="button_tally">2</span>
+            </a>
+            
+            
+            <a href='https://jhooq.com/categories/prometheus-grafana/' class=" post_tag button button_translucent" data-position=3 title="prometheus-grafana">PROMETHEUS-GRAFANA<span class="button_tally">3</span>
+            </a>
+            
+            
+            <a href='https://jhooq.com/categories/quarkus/' class=" post_tag button button_translucent" data-position=4 title="quarkus">QUARKUS<span class="button_tally">4</span>
+            </a>
+            
+            
+            <a href='https://jhooq.com/categories/spring-boot/' class=" post_tag button button_translucent" data-position=5 title="spring-boot">SPRING-BOOT<span class="button_tally">5</span>
+            </a>
+            
+            
+            <a href='https://jhooq.com/categories/ssl/' class=" post_tag button button_translucent" data-position=6 title="ssl">SSL<span class="button_tally">6</span>
+            </a>
+            
+            
+            <a href='https://jhooq.com/categories/terraform/' class=" post_tag button button_translucent" data-position=63 title="terraform">TERRAFORM<span class="button_tally">63</span>
+            </a>
+            
+            
+            <a href='https://jhooq.com/categories/vagrant/' class=" post_tag button button_translucent" data-position=3 title="vagrant">VAGRANT<span class="button_tally">3</span>
+            </a>
+            
+            <div class="tags_sort"><span title="sort alphabetically">[A~Z]</span><span title="sort by count">[0~9]</span>
+            </div>
+            <span class="tags_hide"><svg class="icon">
+            <use xlink:href="#closeme"></use>
+          </svg></span>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <div>
+      <h2 class="mt-4 taxonomy" id="series-section">Series</h2>
+      <nav class="tags_nav">
+        <a href='https://jhooq.com/series/terraform/' class="post_tag button button_translucent" title="terraform">
+          TERRAFORM
+          <span class="button_tally">61</span>
+        </a>
+        
+        <a href='https://jhooq.com/series/docker/' class="post_tag button button_translucent" title="docker">
+          DOCKER
+          <span class="button_tally">28</span>
+        </a>
+        
+        <a href='https://jhooq.com/series/kubernetes/' class="post_tag button button_translucent" title="kubernetes">
+          KUBERNETES
+          <span class="button_tally">27</span>
+        </a>
+        
+        <a href='https://jhooq.com/series/ansible/' class="post_tag button button_translucent" title="ansible">
+          ANSIBLE
+          <span class="button_tally">11</span>
+        </a>
+        
+        <a href='https://jhooq.com/series/helm-chart/' class="post_tag button button_translucent" title="helm-chart">
+          HELM-CHART
+          <span class="button_tally">11</span>
+        </a>
+        
+        <a href='https://jhooq.com/series/aws/' class="post_tag button button_translucent" title="aws">
+          AWS
+          <span class="button_tally">2</span>
+        </a>
+        
+        <a href='https://jhooq.com/series/jenkins/' class="post_tag button button_translucent" title="jenkins">
+          JENKINS
+          <span class="button_tally">2</span>
+        </a>
+        
+        <a href='https://jhooq.com/series/linux-commands/' class="post_tag button button_translucent" title="linux-commands">
+          LINUX-COMMANDS
+          <span class="button_tally">1</span>
+        </a>
+        
+        
+      </nav>
+    </div>
+    <div>
+      <h2 class="mt-4 taxonomy" id="tags-section">Tags</h2>
+      <nav class="tags_nav">
+        <a href='https://jhooq.com/tags/kubernetes/' class="post_tag button button_translucent" title="kubernetes">
+          KUBERNETES
+          <span class="button_tally">18</span>
+        </a>
+        
+        <a href='https://jhooq.com/tags/helm-chart/' class="post_tag button button_translucent" title="helm-chart">
+          HELM-CHART
+          <span class="button_tally">10</span>
+        </a>
+        
+        <a href='https://jhooq.com/tags/blogging/' class="post_tag button button_translucent" title="blogging">
+          BLOGGING
+          <span class="button_tally">4</span>
+        </a>
+        
+        <a href='https://jhooq.com/tags/quarkus/' class="post_tag button button_translucent" title="quarkus">
+          QUARKUS
+          <span class="button_tally">4</span>
+        </a>
+        
+        <a href='https://jhooq.com/tags/docker/' class="post_tag button button_translucent" title="docker">
+          DOCKER
+          <span class="button_tally">3</span>
+        </a>
+        
+        <a href='https://jhooq.com/tags/github/' class="post_tag button button_translucent" title="github">
+          GITHUB
+          <span class="button_tally">3</span>
+        </a>
+        
+        <a href='https://jhooq.com/tags/ssl/' class="post_tag button button_translucent" title="ssl">
+          SSL
+          <span class="button_tally">3</span>
+        </a>
+        
+        <a href='https://jhooq.com/tags/kubespray/' class="post_tag button button_translucent" title="kubespray">
+          KUBESPRAY
+          <span class="button_tally">2</span>
+        </a>
+        
+        <a href='https://jhooq.com/tags/spring-boot/' class="post_tag button button_translucent" title="spring-boot">
+          SPRING-BOOT
+          <span class="button_tally">2</span>
+        </a>
+        
+        <a href='https://jhooq.com/tags/ansible/' class="post_tag button button_translucent" title="ansible">
+          ANSIBLE
+          <span class="button_tally">1</span>
+        </a>
+        
+        <a href='https://jhooq.com/tags/hadoop/' class="post_tag button button_translucent" title="hadoop">
+          HADOOP
+          <span class="button_tally">1</span>
+        </a>
+        
+        <a href='https://jhooq.com/tags/index/' class="post_tag button button_translucent" title="index">
+          INDEX
+          <span class="button_tally">1</span>
+        </a>
+        
+        <a href='https://jhooq.com/tags/nginx/' class="post_tag button button_translucent" title="nginx">
+          NGINX
+          <span class="button_tally">1</span>
+        </a>
+        
+        <a href='https://jhooq.com/tags/terraform/' class="post_tag button button_translucent" title="terraform">
+          TERRAFORM
+          <span class="button_tally">1</span>
+        </a>
+        
+        
+      </nav>
+    </div><br>
+
+
+<div id="sidebar-2"></div>
+
+<script>
+    window['nitroAds'].createAd('sidebar-2', {
+        "refreshLimit": 10,
+        "refreshTime": 30,
+        "renderVisibleOnly": true,
+        "refreshVisibleOnly": true,
+        "sizes": [
+            [
+                "300",
+                "250"
+            ],
+            [
+                "160",
+                "600"
+            ],
+            [
+                "300",
+                "600"
+            ],
+            [
+                "336",
+                "280"
+            ]
+        ],
+        "report": {
+            "enabled": true,
+            "wording": "Report Ad",
+            "position": "bottom-center"
+        }
+    });
+</script>
+    <h2 class="mt-4">Recent Posts</h2>
+    <ul class="flex-column">
+      <li>
+        <a href="https://jhooq.com/ansible-handlers/" class="nav-link" title="Ansible Handlers Explained Real-World Use Cases &amp; Examples">Ansible Handlers Explained Real-World Use Cases &amp; Examples</a>
+      </li>
+      <li>
+        <a href="https://jhooq.com/terraform-secure-sensitive-data/" class="nav-link" title="Securing Sensitive Data in Terraform">Securing Sensitive Data in Terraform</a>
+      </li>
+      <li>
+        <a href="https://jhooq.com/security-practices-aws-terraform/" class="nav-link" title="Boost Your AWS Security with Terraform : A Step-by-Step Guide">Boost Your AWS Security with Terraform : A Step-by-Step Guide</a>
+      </li>
+      <li>
+        <a href="https://jhooq.com/terraform-load-data-from-input-file/" class="nav-link" title="How to Load Input Data from a File in Terraform?">How to Load Input Data from a File in Terraform?</a>
+      </li>
+      <li>
+        <a href="https://jhooq.com/terraform-malformed-policy-document/" class="nav-link" title="Fixing the Terraform Error creating IAM Role. MalformedPolicyDocument Has prohibited field Resource">Fixing the Terraform Error creating IAM Role. MalformedPolicyDocument Has prohibited field Resource</a>
+      </li>
+      <li>
+        <a href="https://jhooq.com/terraform-replace-null-value-with-default-value/" class="nav-link" title="In terraform how to handle null value with default value?">In terraform how to handle null value with default value?</a>
+      </li>
+      <li>
+        <a href="https://jhooq.com/terraform-ouput-module-input-another-module/" class="nav-link" title="Terraform use module output variables as inputs for another module?">Terraform use module output variables as inputs for another module?</a>
+      </li>
+      <li>
+        <a href="https://jhooq.com/terraform-reference-module-output/" class="nav-link" title="How to Reference a Resource Created by a Terraform Module?">How to Reference a Resource Created by a Terraform Module?</a>
+      </li>
+    </ul><br>
+
+
+<div id="sidebar-3"></div>
+
+<script>
+    window['nitroAds'].createAd('sidebar-3', {
+        "refreshLimit": 10,
+        "refreshTime": 30,
+        "renderVisibleOnly": true,
+        "refreshVisibleOnly": true,
+        "sizes": [
+            [
+                "300",
+                "250"
+            ],
+            [
+                "160",
+                "600"
+            ],
+            [
+                "300",
+                "600"
+            ],
+            [
+                "336",
+                "280"
+            ]
+        ],
+        "report": {
+            "enabled": true,
+            "wording": "Report Ad",
+            "position": "bottom-center"
+        }
+    });
+</script>
+    <h2>Rahul Wagh</h2>
+    <div class="author_bio">
+      <img src="https://jhooq.com/wp-content/uploads/about-me/profile-pic-round.png" class="logo" alt="Jhooq">
+      <br/>
+      Its all about Open Source and DevOps, here I talk about Kubernetes, Docker, Java, Spring boot and practices.
+    </div>
+    <a href='https://jhooq.com/about/' class="button mt-1" role="button" title='Read More'>Read More</a><br>
+
+
+<div id="sidebar-4"></div>
+
+<script>
+    window['nitroAds'].createAd('sidebar-4', {
+        "refreshLimit": 10,
+        "refreshTime": 30,
+        "renderVisibleOnly": true,
+        "refreshVisibleOnly": true,
+        "sizes": [
+            [
+                "300",
+                "250"
+            ],
+            [
+                "160",
+                "600"
+            ],
+            [
+                "300",
+                "600"
+            ],
+            [
+                "336",
+                "280"
+            ]
+        ],
+        "report": {
+            "enabled": true,
+            "wording": "Report Ad",
+            "position": "bottom-center"
+        }
+    });
+</script>
+    <br/>
+
+    <div class="sticky-toc">
+      <div class="js-toc"><br>
+
+
+<div id="sidebar-4-sticky"></div>
+
+<script>
+    window['nitroAds'].createAd('sidebar-4-sticky', {
+        "refreshLimit": 10,
+        "refreshTime": 30,
+        "renderVisibleOnly": true,
+        "refreshVisibleOnly": true,
+        "sizes": [
+            [
+                "300",
+                "250"
+            ],
+            [
+                "160",
+                "600"
+            ],
+            [
+                "300",
+                "600"
+            ],
+            [
+                "336",
+                "280"
+            ]
+        ],
+        "report": {
+            "enabled": true,
+            "wording": "Report Ad",
+            "position": "bottom-right"
+        }
+    });
+</script>
+      </div>
+    </div>
+  </section>
+
+</aside>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://jhooq.com/custom-js/sticky-sidebar.js"></script>
+<script type="text/javascript">
+  
+  jQuery(function($) {
+    $(document).ready( function() {
+      
+      $('.sticky-toc').stickUp();
+    });
+  });
+
+</script>
+
+  
+</div>
+    </main><svg width="0" height="0" class="hidden">
+  <symbol viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" id="facebook">
+    <path d="M437 0H75C33.648 0 0 33.648 0 75v362c0 41.352 33.648 75 75 75h151V331h-60v-90h60v-61c0-49.629 40.371-90 90-90h91v90h-91v61h91l-15 90h-76v181h121c41.352 0 75-33.648 75-75V75c0-41.352-33.648-75-75-75zm0 0"></path>
+  </symbol>
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.001 18.001" id="twitter">
+    <path d="M15.891 4.013c.808-.496 1.343-1.173 1.605-2.034a8.68 8.68 0 0 1-2.351.861c-.703-.756-1.593-1.14-2.66-1.14-1.043 0-1.924.366-2.643 1.078a3.56 3.56 0 0 0-1.076 2.605c0 .309.039.585.117.819-3.076-.105-5.622-1.381-7.628-3.837-.34.601-.51 1.213-.51 1.846 0 1.301.549 2.332 1.645 3.089-.625-.053-1.176-.211-1.645-.47 0 .929.273 1.705.82 2.388a3.623 3.623 0 0 0 2.115 1.291c-.312.08-.641.118-.979.118-.312 0-.533-.026-.664-.083.23.757.664 1.371 1.291 1.841a3.652 3.652 0 0 0 2.152.743C4.148 14.173 2.625 14.69.902 14.69c-.422 0-.721-.006-.902-.038 1.697 1.102 3.586 1.649 5.676 1.649 2.139 0 4.029-.542 5.674-1.626 1.645-1.078 2.859-2.408 3.639-3.974a10.77 10.77 0 0 0 1.172-4.892v-.468a7.788 7.788 0 0 0 1.84-1.921 8.142 8.142 0 0 1-2.11.593z"
+      ></path>
+  </symbol>
+  <symbol aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="mail">
+    <path  d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"></path>
+  </symbol>
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="calendar">
+    <path d="M452 40h-24V0h-40v40H124V0H84v40H60C26.916 40 0 66.916 0 100v352c0 33.084 26.916 60 60 60h392c33.084 0 60-26.916 60-60V100c0-33.084-26.916-60-60-60zm20 412c0 11.028-8.972 20-20 20H60c-11.028 0-20-8.972-20-20V188h432v264zm0-304H40v-48c0-11.028 8.972-20 20-20h24v40h40V80h264v40h40V80h24c11.028 0 20 8.972 20 20v48z"></path>
+    <path d="M76 230h40v40H76zm80 0h40v40h-40zm80 0h40v40h-40zm80 0h40v40h-40zm80 0h40v40h-40zM76 310h40v40H76zm80 0h40v40h-40zm80 0h40v40h-40zm80 0h40v40h-40zM76 390h40v40H76zm80 0h40v40h-40zm80 0h40v40h-40zm80 0h40v40h-40zm80-80h40v40h-40z"></path>
+  </symbol>
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="github">
+    <path d="M255.968 5.329C114.624 5.329 0 120.401 0 262.353c0 113.536 73.344 209.856 175.104 243.872 12.8 2.368 17.472-5.568 17.472-12.384 0-6.112-.224-22.272-.352-43.712-71.2 15.52-86.24-34.464-86.24-34.464-11.616-29.696-28.416-37.6-28.416-37.6-23.264-15.936 1.728-15.616 1.728-15.616 25.696 1.824 39.2 26.496 39.2 26.496 22.848 39.264 59.936 27.936 74.528 21.344 2.304-16.608 8.928-27.936 16.256-34.368-56.832-6.496-116.608-28.544-116.608-127.008 0-28.064 9.984-51.008 26.368-68.992-2.656-6.496-11.424-32.64 2.496-68 0 0 21.504-6.912 70.4 26.336 20.416-5.696 42.304-8.544 64.096-8.64 21.728.128 43.648 2.944 64.096 8.672 48.864-33.248 70.336-26.336 70.336-26.336 13.952 35.392 5.184 61.504 2.56 68 16.416 17.984 26.304 40.928 26.304 68.992 0 98.72-59.84 120.448-116.864 126.816 9.184 7.936 17.376 23.616 17.376 47.584 0 34.368-.32 62.08-.32 70.496 0 6.88 4.608 14.88 17.6 12.352C438.72 472.145 512 375.857 512 262.353 512 120.401 397.376 5.329 255.968 5.329z"></path>
+  </symbol>
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 212 212" id="gitlab">
+    <path d="M12.3 74.7h54L43.3 3c-1-3.6-6.4-3.6-7.6 0L12.3 74.8z" />
+    <path d="M12.3 74.7L.5 111c-1 3.2 0 6.8 3 8.8l101.6 74-92.5-119z"/>
+    <path d="M105 193.7l-38.6-119h-54l92.7 119z"/>
+    <path d="M105 193.7l38.7-119H66.4l38.7 119z"/>
+    <path d="M105 193.7l38.7-119H198l-93 119z"/>
+    <path d="M198 74.7l11.6 36.2c1 3 0 6.6-3 8.6l-101.5 74 93-119z"/>
+    <path d="M198 74.7h-54.3L167 3c1.2-3.6 6.4-3.6 7.6 0L198 74.8z"/>
+  </symbol>
+  <symbol viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="rss">
+    <circle cx="3.429" cy="20.571" r="3.429"></circle>
+    <path d="M11.429 24h4.57C15.999 15.179 8.821 8.001 0 8v4.572c6.302.001 11.429 5.126 11.429 11.428z"></path>
+    <path d="M24 24C24 10.766 13.234 0 0 0v4.571c10.714 0 19.43 8.714 19.43 19.429z"></path>
+  </symbol>
+  <symbol viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" id="linkedin">
+    <path d="M437 0H75C33.648 0 0 33.648 0 75v362c0 41.352 33.648 75 75 75h362c41.352 0 75-33.648 75-75V75c0-41.352-33.648-75-75-75zM181 406h-60V196h60zm0-240h-60v-60h60zm210 240h-60V286c0-16.54-13.46-30-30-30s-30 13.46-30 30v120h-60V196h60v11.309C286.719 202.422 296.93 196 316 196c40.691.043 75 36.547 75 79.688zm0 0"></path>
+  </symbol>
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 612 612" id="to-top">
+    <path d="M604.501 440.509L325.398 134.956c-5.331-5.357-12.423-7.627-19.386-7.27-6.989-.357-14.056 1.913-19.387 7.27L7.499 440.509c-9.999 10.024-9.999 26.298 0 36.323s26.223 10.024 36.222 0l262.293-287.164L568.28 476.832c9.999 10.024 26.222 10.024 36.221 0 9.999-10.023 9.999-26.298 0-36.323z"></path>
+  </symbol>
+  <symbol viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" id="carly">
+    <path d="M504.971 239.029L448 182.059V84c0-46.317-37.682-84-84-84h-44c-13.255 0-24 10.745-24 24s10.745 24 24 24h44c19.851 0 36 16.149 36 36v108c0 6.365 2.529 12.47 7.029 16.971L454.059 256l-47.029 47.029A24.002 24.002 0 0 0 400 320v108c0 19.851-16.149 36-36 36h-44c-13.255 0-24 10.745-24 24s10.745 24 24 24h44c46.318 0 84-37.683 84-84v-98.059l56.971-56.971c9.372-9.372 9.372-24.568 0-33.941zM112 192V84c0-19.851 16.149-36 36-36h44c13.255 0 24-10.745 24-24S205.255 0 192 0h-44c-46.318 0-84 37.683-84 84v98.059l-56.971 56.97c-9.373 9.373-9.373 24.568 0 33.941L64 329.941V428c0 46.317 37.682 84 84 84h44c13.255 0 24-10.745 24-24s-10.745-24-24-24h-44c-19.851 0-36-16.149-36-36V320c0-6.365-2.529-12.47-7.029-16.971L57.941 256l47.029-47.029A24.002 24.002 0 0 0 112 192z"></path>
+  </symbol>
+  <symbol viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="copy">
+    <path d="M23 2.75A2.75 2.75 0 0 0 20.25 0H8.75A2.75 2.75 0 0 0 6 2.75v13.5A2.75 2.75 0 0 0 8.75 19h11.5A2.75 2.75 0 0 0 23 16.25zM18.25 14.5h-7.5a.75.75 0 0 1 0-1.5h7.5a.75.75 0 0 1 0 1.5zm0-3h-7.5a.75.75 0 0 1 0-1.5h7.5a.75.75 0 0 1 0 1.5zm0-3h-7.5a.75.75 0 0 1 0-1.5h7.5a.75.75 0 0 1 0 1.5z"></path>
+    <path d="M8.75 20.5a4.255 4.255 0 0 1-4.25-4.25V2.75c0-.086.02-.166.025-.25H3.75A2.752 2.752 0 0 0 1 5.25v16A2.752 2.752 0 0 0 3.75 24h12a2.752 2.752 0 0 0 2.75-2.75v-.75z"></path>
+  </symbol>
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512.001 512.001" id="closeme">
+    <path d="M284.286 256.002L506.143 34.144c7.811-7.811 7.811-20.475 0-28.285-7.811-7.81-20.475-7.811-28.285 0L256 227.717 34.143 5.859c-7.811-7.811-20.475-7.811-28.285 0-7.81 7.811-7.811 20.475 0 28.285l221.857 221.857L5.858 477.859c-7.811 7.811-7.811 20.475 0 28.285a19.938 19.938 0 0 0 14.143 5.857 19.94 19.94 0 0 0 14.143-5.857L256 284.287l221.857 221.857c3.905 3.905 9.024 5.857 14.143 5.857s10.237-1.952 14.143-5.857c7.811-7.811 7.811-20.475 0-28.285L284.286 256.002z"></path>
+  </symbol>
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="open-menu">
+    <path d="M492 236H20c-11.046 0-20 8.954-20 20s8.954 20 20 20h472c11.046 0 20-8.954 20-20s-8.954-20-20-20zm0-160H20C8.954 76 0 84.954 0 96s8.954 20 20 20h472c11.046 0 20-8.954 20-20s-8.954-20-20-20zm0 320H20c-11.046 0-20 8.954-20 20s8.954 20 20 20h472c11.046 0 20-8.954 20-20s-8.954-20-20-20z"></path>
+  </symbol>
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="instagram">
+    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+  </symbol>
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id=youtube>
+    <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+  </symbol>
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="stackoverflow">
+    <path d="M21 27v-8h3v11H0V19h3v8h18z"></path><path d="M17.1.2L15 1.8l7.9 10.6 2.1-1.6L17.1.2zm3.7 14.7L10.6 6.4l1.7-2 10.2 8.5-1.7 2zM7.2 12.3l12 5.6 1.1-2.4-12-5.6-1.1 2.4zm-1.8 6.8l13.56 1.96.17-2.38-13.26-2.55-.47 2.97zM19 25H5v-3h14v3z"></path>
+  </symbol>
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="xing">
+    <path d="M18.188 0c-.517 0-.741.325-.927.66 0 0-7.455 13.224-7.702 13.657.015.024 4.919 9.023 4.919 9.023.17.308.436.66.967.66h3.454c.211 0 .375-.078.463-.22.089-.151.089-.346-.009-.536l-4.879-8.916c-.004-.006-.004-.016 0-.022L22.139.756c.095-.191.097-.387.006-.535C22.056.078 21.894 0 21.686 0h-3.498zM3.648 4.74c-.211 0-.385.074-.473.216-.09.149-.078.339.02.531l2.34 4.05c.004.01.004.016 0 .021L1.86 16.051c-.099.188-.093.381 0 .529.085.142.239.234.45.234h3.461c.518 0 .766-.348.945-.667l3.734-6.609-2.378-4.155c-.172-.315-.434-.659-.962-.659H3.648v.016z"/>
+  </symbol>
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 71 55" id="discord">
+    <path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.440769 45.4204 0.525289C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.525289C25.5141 0.443589 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C6.45866 50.0174 12.3413 52.7249 18.1147 54.5195C18.2071 54.5477 18.305 54.5139 18.3638 54.4378C19.7295 52.5728 20.9469 50.6063 21.9907 48.5383C22.0523 48.4172 21.9935 48.2735 21.8676 48.2256C19.9366 47.4931 18.0979 46.6 16.3292 45.5858C16.1893 45.5041 16.1781 45.304 16.3068 45.2082C16.679 44.9293 17.0513 44.6391 17.4067 44.3461C17.471 44.2926 17.5606 44.2813 17.6362 44.3151C29.2558 49.6202 41.8354 49.6202 53.3179 44.3151C53.3935 44.2785 53.4831 44.2898 53.5502 44.3433C53.9057 44.6363 54.2779 44.9293 54.6529 45.2082C54.7816 45.304 54.7732 45.5041 54.6333 45.5858C52.8646 46.6197 51.0259 47.4931 49.0921 48.2228C48.9662 48.2707 48.9102 48.4172 48.9718 48.5383C50.038 50.6034 51.2554 52.5699 52.5959 54.435C52.6519 54.5139 52.7526 54.5477 52.845 54.5195C58.6464 52.7249 64.529 50.0174 70.6019 45.5576C70.6551 45.5182 70.6887 45.459 70.6943 45.3942C72.1747 30.0791 68.2147 16.7757 60.1968 4.9823C60.1772 4.9429 60.1437 4.9147 60.1045 4.8978ZM23.7259 37.3253C20.2276 37.3253 17.3451 34.1136 17.3451 30.1693C17.3451 26.225 20.1717 23.0133 23.7259 23.0133C27.308 23.0133 30.1626 26.2532 30.1066 30.1693C30.1066 34.1136 27.28 37.3253 23.7259 37.3253ZM47.3178 37.3253C43.8196 37.3253 40.9371 34.1136 40.9371 30.1693C40.9371 26.225 43.7636 23.0133 47.3178 23.0133C50.9 23.0133 53.7545 26.2532 53.6986 30.1693C53.6986 34.1136 50.9 37.3253 47.3178 37.3253Z"/>
+  </symbol>
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 18" id="mastodon">
+    <path
+    fill="#ffffff"
+    d="m 15.054695,9.8859583 c -0.22611,1.1632697 -2.02517,2.4363497 -4.09138,2.6830797 -1.0774504,0.12856 -2.1382704,0.24673 -3.2694704,0.19484 -1.84996,-0.0848 -3.30971,-0.44157 -3.30971,-0.44157 0,0.1801 0.0111,0.35157 0.0333,0.51194 0.24051,1.82571 1.81034,1.93508 3.29737,1.98607 1.50088,0.0514 2.8373104,-0.37004 2.8373104,-0.37004 l 0.0617,1.35686 c 0,0 -1.0498104,0.56374 -2.9199404,0.66742 -1.03124,0.0567 -2.3117,-0.0259 -3.80308,-0.42069 -3.23454998,-0.85613 -3.79081998,-4.304 -3.87592998,-7.8024197 -0.026,-1.03871 -0.01,-2.01815 -0.01,-2.83732 0,-3.57732 2.34385998,-4.62587996 2.34385998,-4.62587996 1.18184,-0.54277 3.20976,-0.77101 5.318,-0.7882499985409 h 0.0518 C 9.8267646,0.01719834 11.856025,0.24547834 13.037775,0.78824834 c 0,0 2.34377,1.04855996 2.34377,4.62587996 0,0 0.0294,2.63937 -0.32687,4.47183"/>
+ <path
+    fill="#000000"
+    d="m 12.616925,5.6916583 v 4.3315297 h -1.71607 V 5.8189683 c 0,-0.88624 -0.37289,-1.33607 -1.1187604,-1.33607 -0.82467,0 -1.23799,0.53361 -1.23799,1.58875 v 2.30122 h -1.70594 v -2.30122 c 0,-1.05514 -0.4134,-1.58875 -1.23808,-1.58875 -0.74587,0 -1.11876,0.44983 -1.11876,1.33607 v 4.2042197 h -1.71607 V 5.6916583 c 0,-0.88527 0.22541,-1.58876 0.67817,-2.10922 0.46689,-0.52047 1.07833,-0.78727 1.83735,-0.78727 0.87816,0 1.54317,0.33752 1.98288,1.01267 l 0.42744,0.71655 0.42753,-0.71655 c 0.43961,-0.67515 1.10463,-1.01267 1.9828704,-1.01267 0.75893,0 1.37037,0.2668 1.83735,0.78727 0.45268,0.52046 0.67808,1.22395 0.67808,2.10922"/>
+  </symbol>
+</svg>
+
+<footer class="footer">
+  <div class="footer_inner wrap pale">
+    <img src='https://jhooq.com/icons/apple-touch-icon.png' class="icon icon_2 transparent" alt="Copyright © 2019–2020, Jhooq; all rights reserved.">
+    <p>Copyright&nbsp;<span class="year"></span>&nbsp;COPYRIGHT © 2019–2020, JHOOQ; ALL RIGHTS RESERVED.. All Rights Reserved</p><a class="to_top" href="#documentTop">
+  <svg class="icon">
+  <title>to-top</title>
+  <use xlink:href="#to-top"></use>
+</svg>
+
+</a>
+
+  </div>
+</footer>
+
+<script type="text/javascript" src="https://jhooq.com/en/js/bundle.ee44eebd3344e13e959578f0f7de30a39ed2a3ca541d9ad5a10e7efeef0b2fee37870e266fd2a7b54c21d00d3e9fcade1c4f96357a69dceecbcdf771bbe76d5a.js" integrity="sha512-7kTuvTNE4T6VlXjw994wo57So8pUHZrVoQ5&#43;/u8LL&#43;43hw4mb9KntUwh0A0&#43;n8reHE&#43;WNXpp3O7Lzfdxu&#43;dtWg==" crossorigin="anonymous"></script>
+
+  <script src="https://jhooq.com/js/search.min.441534ebca8f29b72ee98c817c1d9c475fc24ae0a88f1c2eb4deacb203fccebce3c0eee3c758545c399671772a0bc025c7e45b2b1396a19a6dff7ead9c73f066.js"></script>
+
+  </body>
+</html>

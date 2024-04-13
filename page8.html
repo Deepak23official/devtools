@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+</head>
+<style>
+    .w-100{
+        /* display: flex; */
+        gap: 10px;
+    }
+    .col-12{
+        width: 800px;
+        margin-top: 10px;
+        border-radius: 20px;
+    }
+    .col-8{
+        width: 350px;
+        margin-top: 10px;
+    }
+    .d-flex{
+        padding: 10px 20px;
+    }
+    .d-flex .col-12:hover{
+        box-shadow: 0px 0px 23px black;
+        transition: 0.5s;
+    }
+    .d-flex .col-8:hover{
+        box-shadow: 0px 0px 23px black;
+        transition: 0.5s;
+    }
+    .card{
+        /* background-image: url(https://cdn.pixabay.com/photo/2015/12/19/20/32/paper-1100254_1280.jpg); */
+        font-weight: bold;
+        /* background: linear-gradient(20deg, rgb(208, 12, 64) 10%, rgb(226, 218, 201) 100%); */
+        /* background: linear-gradient(rgb(222, 190, 66), rgb(255, 255, 255)); */
+        /* background-color: #6C40EA; */
+        background-image: url(https://img.freepik.com/free-photo/gray-abstract-wireframe-technology-background_53876-101941.jpg?size=626&ext=jpg&ga=GA1.1.617367075.1696605853&semt=sph);
+        color: rgb(0, 0, 0);background-size: cover;
+    }
+    /* .img::before{
+    content: "";
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    inset: 0px;
+    z-index: -1;
+    } */
+    .img{
+        /* background: linear-gradient(20deg, rgb(208, 12, 64) 10%, rgb(226, 218, 201) 100%);  */
+        /* background-image: url(https://cdn.pixabay.com/photo/2015/12/19/20/32/paper-1100254_1280.jpg); */
+        width: 100%;
+        height: 100vh;
+        object-fit: contain;
+        position: fixed;
+        z-index: -1;
+    }
+    .flex{
+        display: flex;
+        gap: 20px;
+        font-weight: 200;
+        padding: 10px;
+        margin: 20px 0px;
+    }
+    .flex img{
+        width: 100px;
+        height: 100px;
+    }
+    .margin-apply{
+        margin-top: 250px;
+    }
+    /* .padding-apply{
+        margin-bottom: 00px;
+    } */
+    @media(min-width:320px){
+        .w-100{
+            flex-direction: column;
+        }
+        .d-flex{
+            max-width: 320px;
+        }
+        .col-8{
+        width: 800px;
+    }
+    }
+    @media(min-width:560px){
+        .w-100{
+            flex-direction: column;
+        }
+        .d-flex{
+            max-width: 560px;
+        }
+    }
+    @media(min-width:768px){
+        .w-100{
+            flex-direction: row;
+        }
+        .d-flex{
+            max-width: 768px;
+        }
+        .col-12{
+        width:470px;
+    }
+    .col-8{
+        width: 260px;
+    }
+    }
+    @media(min-width:1024px){
+        .w-100{
+            flex-direction: row;
+        }
+        .col-12{
+        width: 630px;
+    }
+    .d-flex{
+            max-width: 1024px;
+        }
+    .col-8{
+        width: 350px;
+    }
+    }
+    @media(min-width:1280px){
+        .d-flex{
+            max-width: 1280px;
+        }
+        .col-12{
+            width: 790px;
+        }
+        .col-8{
+        margin-right: 20px;
+        width: 400px;
+    }
+    }
+    li{
+        text-align:justify;
+        font-weight: 200;
+        margin: 20px;
+    }
+</style>
+<body>
+    <div class="img"></div>
+    <div class="container-flvid d-flex w-100">
+        <div>
+            <div class="col-12 mb-3 mb-sm-0">
+                 <div class="card">
+                     <div class="card-body">
+                       <h5 class="card-title fs-3 fw-bold">Terraform and AWS credentials handling?</h5>
+                       <div>
+                        <div class="flex">
+                            <div><img src="https://jhooq.com/wp-content/uploads/terraform/logo/Terraform_logo.webp" alt=""></div>
+                            <p class="card-text">If you are new to terraform or maybe you have been using the terraform for quite some time then might have felt the need to manage your AWS Credentials inside your terraform file. In this blog we will go through the different ways to set up your AWS Credentials so that you do not have to re-configure the AWS …</p>
+                        </div>
+                       </div>
+                      
+                       <a href="#" class="btn btn-primary">Read More</a>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">My experience of hosting static website hosting on Siteground</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/blogging/hosting-on-siteground/blogging-logo.webp" alt=""></div>
+                           <p class="card-text">My experience of hosting static website hosting on Siteground It is been around 4 years ago I start my DevOps blog but along the way, I learned a lot about what goes behind hosting a website that receives thousands of users each day. I always wanted to document my journey but there is nothing much to share when your …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold ">How to use CommandLineRunner in Spring Boot Application?</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/2019/06/spring-boot-2.png" alt=""></div>
+                           <p class="card-text">
+                            CommandLineRunner Interface is a functional interface provided by Spring Boot. The main purpose of this interface to execute a code block once before the application has finished startup. In this article, I will be addressing the need for the CommandLineRunner Interface as well as how and when to use it. GitHub Source …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">Prometheus-Grafana Vs Zabbix</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/aws/prometheus-vs-zabbix/prometheus-grafan-zabbix.webp" alt=""></div>
+                           <p class="card-text">
+                            To monitor the modern cloud infrastructure SRE(Software reliability Engineer), DevOps personnel has to rely on modern automated monitoring tools such Prometheus, Grafana or Zabbix. These tools can help SREs and DevOps practitioners to analyze the production health of the production environment in the form of graphs on …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">How to setup Prometheus, Grafana dashboard for Kubernetes monitoring on AWS</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/aws/prometheus-grafana/Prometheus-Grafana.webp" alt=""></div>
+                           <p class="card-text">
+                            Prometheus and Grafana are the two popular open-source tools for collecting and visualizing performance metrics. In this blog post, we are going to set up Kubernetes cluster on AWS, later we are gonna set up Prometheus server for collecting the performance metrics and Grafana for. Prometheus and Grafana are always a …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">How to setup Prometheus, Node Exporter and Grafana</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/aws/prometheus-grafana/Prometheus-Grafana.webp" alt=""></div>
+                           <p class="card-text">
+                            Performance monitoring and alerting are very crucial to measure the performance metrics of an application running in a production environment. In this blog post, we are going to talk about two popular open-source tools Prometheus and Grafana. This blog post is aimed at anyone who is trying to learn Prometheus and …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">How to fix-error configuring S3 Backend no valid credential sources for S3 Backend found?</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/terraform/logo/Terraform_logo.webp" alt=""></div>
+                           <p class="card-text">I had an issue while I was trying to setup Remote S3 bucket for storing Terraform state file. The issue faced is error configuring S3 Backend no valid credential sources for S3 Backend found. After spending some time on my local terraform setup and AWS CLI configuration I realised that my AWS CLI was using incorrect …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">MacOS - How to fix Mounting of NFS shared folders on Vagrant?</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/vagrant/vagrant-logo.webp" alt=""></div>
+                           <p class="card-text">To give you a little background on the Vagrant NFS shared folder issue which I have struggled with this issue for almost a week before I found the root cause of the problem. Here is the vagrant's mount.nfs:connection timed out error 1default: Mounting NFS shared folders... 23The following SSH command responded with a …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">How to fix-Support for password authentication was removed. Please use a personal access token instead?</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/2020/12/github.webp" alt=""></div>
+                           <p class="card-text">
+                            GitHub has recently announced their migration to use token-based authentication which means you can no longer use your username and password for GtiHub authentication. You need to create personal access token to continue use of your GitHub Repository. Here is my private GitHub repository which I was trying to clone and …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">Kubernetes Cheat Sheet for day to day DevOps operations?</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/2020/06/Kubernetes_cropped-logo.webp" alt=""></div>
+                           <p class="card-text">
+                            Note - This Kubernetes Cheat sheet is really long and detailed. I would highly recommend to use CTRL+F from the browser to search for the specific command. Table Of Content Pods Deployments Port Forwarding Service Nodes Namespace Service Accounts Documentation Describing Resources Editing Resources Deleting Resources …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+         </div>
+
+         <div>
+            <div class="col-8 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title fs-3 fw-bold">Categories</h5>
+                        <a href="#" class="btn m-2 btn-primary">DOCKER</a>
+                        <a href="#" class="btn m-2 btn-primary">AWS</a>
+                        <a href="#" class="btn m-2 btn-primary">KUBERNETES</a>
+                        <a href="#" class="btn m-2 btn-primary">ANSIBLE</a>
+                        <a href="#" class="btn m-2 btn-primary">HELM-CHART</a>
+                        <a href="#" class="btn m-2 btn-primary">SSL</a>
+                        <a href="#" class="btn m-2 btn-primary">BLOGGING</a>
+                        <a href="#" class="btn m-2 btn-primary">SPRING BOOT</a>
+                        <a href="#" class="btn m-2 btn-primary">GIT HUB</a>
+                        <a href="#" class="btn m-2 btn-primary">QUARKUS</a>
+                        <a href="#" class="btn m-2 btn-primary">VAGRANT</a>
+                        <a href="#" class="btn m-2 btn-primary">KUBESPRAY</a>
+                        <a href="#" class="btn m-2 btn-primary">PROMETHEUS-GRAFANA</a>
+                        <a href="#" class="btn my-5 m-2 btn-primary padding-apply">ALL CATEGORIES</a>
+                        <div class="margin-apply">
+                            <h5 class="card-title fs-3 fw-bold">Series</h5>
+                            <a href="#" class="btn m-2 btn-primary">TRANSFORM</a>
+                            <a href="#" class="btn m-2 btn-primary">KUBERNETES</a>
+                            <a href="#" class="btn m-2 btn-primary">HELM-CHART</a>
+                            <a href="#" class="btn m-2 btn-primary">ANSIBLE</a>
+                            <a href="#" class="btn m-2 btn-primary">DOCKER</a>
+                            <a href="#" class="btn m-2 btn-primary">AWS</a>
+                            <a href="#" class="btn m-2 btn-primary">LINEX-COMMENDS</a>
+                            <a href="#" class="btn m-2 btn-primary">JENKINS</a>
+                        </div>
+                        <div class="my-5">
+                            <h5 class="card-title fs-3 fw-bold">Tags</h5>
+                            <a href="#" class="btn m-2 btn-primary">KUBERNETES</a>
+                            <a href="#" class="btn m-2 btn-primary">SSL</a>
+                            <a href="#" class="btn m-2 btn-primary">BLOGGING</a>
+                            <a href="#" class="btn m-2 btn-primary">SPRING BOOT</a>
+                            <a href="#" class="btn m-2 btn-primary">HELM-CHART</a>
+                            <a href="#" class="btn m-2 btn-primary">QUARKUS</a>
+                            <a href="#" class="btn m-2 btn-primary">TRANSFORM</a>
+                            <a href="#" class="btn m-2 btn-primary">ANSIBLE</a>
+                            <a href="#" class="btn m-2 btn-primary">KUBESPRAY</a>
+                            <a href="#" class="btn m-2 btn-primary">TRANSFORM</a>
+                            <a href="#" class="btn m-2 btn-primary">DOCKER</a>
+                            <a href="#" class="btn m-2 btn-primary">GIT HUB</a>
+                            <a href="#" class="btn m-2 btn-primary">NGINX</a>
+                            <a href="#" class="btn m-2 btn-primary">AWS</a>
+                            <a href="#" class="btn m-2 btn-primary">INDEX</a>
+                            <a href="#" class="btn m-2 btn-primary">JENKINS</a>
+                        </div>
+                        <div class="my-5">
+                            <h4 class="my-5">Recent Posts</h4>
+                            <li>Ansible Handlers Explained Real-World Use Cases & Examples</li>
+                            <li>Securing Sensitive Data in Terraform</li>
+                            <li>Boost Your AWS Security with Terraform : A Step-by-Step Guide</li>
+                            <li>How to Load Input Data from a File in Terraform?</li>
+                            <li>Can Terraform be used to provision on-premises infrastructure?</li>
+                            <li>Fixing the Terraform Error creating IAM Role. MalformedPolicyDocument Has prohibited field Resource</li>
+                            <li>In terraform how to handle null value with default value?</li>
+                            <li>Terraform use module output variables as inputs for another module?</li>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+           
+    <div class="container my-5">
+        <button class="btn btn-warning" onclick="home()"><i class="fa-solid fa-angles-left"></i></button>
+        <button class="btn btn-warning" onclick="page1()">7</button>
+        <button class="btn btn-warning" onclick="page3()">8</button>
+        <button class="btn btn-warning" onclick="page4()">9</button>
+        <button class="btn btn-warning" onclick="page5()"><i class="fa-solid fa-angles-right"></i></button>
+      </div>
+<script>
+    function home(){ 
+setTimeout(function(){ 
+  window.location.href="page6.html"
+}, 1000); // 3 seconds = 3000 milliseconds 
+} 
+function page1(){ 
+  setTimeout(function(){ 
+    window.location.href="page7.html"
+}, 1000); // 3 seconds = 3000 milliseconds 
+} 
+function page3(){ 
+  setTimeout(function(){ 
+    window.location.href="page8.html"
+}, 1000); // 3 seconds = 3000 milliseconds 
+} 
+function page4(){ 
+  setTimeout(function(){ 
+    window.location.href="page9.html"
+}, 1000); // 3 seconds = 3000 milliseconds 
+} 
+function page5(){ 
+  setTimeout(function(){ 
+    window.location.href="page10.html"
+}, 1000); // 3 seconds = 3000 milliseconds 
+}     
+</script> 
+
+
+</body>
+</html>

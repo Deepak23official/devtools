@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+<style>
+    body{
+        padding: 20px;
+        background-color: rgb(221, 237, 225);
+    }
+    body h2{
+      font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        margin-bottom: 20px;
+    }
+    body p{
+      font-size: 15px;
+      font-family: "Poppins", sans-serif;
+        font-weight: 300;
+        margin-bottom: 20px;
+    }
+    .highlight{
+        border-radius: 20px;
+        background-color: rgb(57, 58, 79);
+        height: fit-content;
+        font-weight: bold;
+        padding: 20px;
+    }
+    .highlight:hover{
+        box-shadow: 0px 0px 23px black;
+        transition: 0.5s;
+    }
+    .highlight span{
+      color: rgb(244, 163, 12);
+    }
+    .highlight span .ln{
+      margin: 0 10px;
+      color: white;
+    }
+    .highlight span .kr{
+      color: greenyellow;
+    }
+</style>
+  <body>
+    <div class="container">
+    <div class="post_body"><p>Navigating the intricacies of <strong><a href="https://aws.amazon.com/">Amazon Web Services (AWS)</a></strong> can be a complex task. Even seasoned developers working with <a href="https://www.hashicorp.com/products/terraform">Infrastructure as Code (IaC)</a> tools like Terraform and <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html">CloudFormation</a> may occasionally face frustrating obstacles.</p>
+<p>A common stumbling block arises from <strong>conflicts in Virtual Private Cloud <a href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.htmls">(VPC)</a> settings</strong>, particularly when managing <strong>private DNS domains</strong>.</p>
+<p>In this blog post, I'll guide you through resolving an error stating -</p>
+<blockquote>
+<p><strong><code>private-dns-enabled cannot be set because there is already a conflicting DNS domain for secretsmanager.us-east-2.amazonaws.com in the VPC.</code></strong></p>
+</blockquote>
+<p><figure>
+  <picture>         
+    <img
+      loading="lazy"
+      decoding="async"
+      alt=""
+      
+        class="img-fluid"
+        src="https://jhooq.com/wp-content/uploads/terraform/terraform-aws-vpc-network-conflict/terraform-aws-vpc-network-conflict.webp"
+      
+      
+        title="Fixing the error private-dns-enabled cannot be set because there is already a conflicting DNS domain for secretsmanager"/>
+
+    <figcaption class="caption_figure caption_internal">Fixing the error private-dns-enabled cannot be set because there is already a conflicting DNS domain for secretsmanager</figcaption></picture>
+</figure>
+</p>
+<br>
+<h2>Understanding the Issue</h2>
+<p>Let's first dissect what this error signifies. When you set up a <strong>VPC</strong> with <strong>private DNS enabled</strong>, AWS automatically establishes a <strong>Route 53 private hosted zone</strong> to resolve any <strong>DNS queries</strong> within the <strong>VPC</strong> to the private IPs of the associated service.</p>
+<p>However, if an existing <strong><a href="https://aws.amazon.com/route53/">Route 53 hosted zone</a></strong> for the same domain is present, a conflict arises, leading to this error.</p>
+<p>So how can we resolve this error, both within your <strong>AWS infrastructure</strong> and your <strong><a href="http://localhost:1313/terraform-index/">Terraform</a></strong> and <strong>CloudFormation scripts</strong>?</p>
+<p><strong>Let's break it down step-by-step:</strong></p>
+<h2>Step 1: Identify the Conflicting DNS Zone</h2>
+<ol>
+<li>
+<p>Start by identifying the conflicting DNS zone.</p>
+</li>
+<li>
+<p>Log into the <strong>AWS Route 53</strong> console and locate the existing hosted zone for example <strong>secretsmanager.us-east-2.amazonaws.com</strong>.</p>
+</li>
+<li>
+<p>Take note of the hosted zone ID.</p>
+</li>
+</ol>
+<br/>
+<h2>Step 2: Delete the Conflicting DNS Zone</h2>
+<ol>
+<li>
+<p>If the conflicting DNS zone isn't needed, delete it.</p>
+</li>
+<li>
+<p>But proceed with caution, as this could impact other resources depending on it. If it's necessary, consider alternatives, like -</p>
+<ul>
+<li>Creating a new VPC that doesn't require private DNS for this specific service.</li>
+</ul>
+</li>
+</ol>
+<br/>
+<h2>Step 3: Modify Your Terraform or CloudFormation Script</h2>
+<ol>
+<li>
+<p>Having identified and addressed the conflict in your AWS settings, it's time to turn to your IaC scripts.</p>
+</li>
+<li>
+<p>Ensure that you've removed all references to the deleted DNS hosted zone in your script. If you've opted to create a new VPC or implemented another solution, make these changes in your script as well.</p>
+</li>
+</ol>
+<br/>
+<h2>Step 4: Run Terraform Apply or Update CloudFormation Stack</h2>
+<p>Once your script is updated, apply the changes by running the <em><strong>terraform apply</strong></em> command for Terraform scripts, or update the stack if you're using a <em><strong>CloudFormation script</strong></em>.</p>
+<br/>
+<h2>Step 5: Troubleshooting VPC Endpoint Issues:</h2>
+<p>Sometimes, a similar issue might arise when trying to rename a VPC endpoint in a CloudFormation stack. As one of our readers kindly shared, they resolved this by deleting the problematic endpoint:</p>
+<ol>
+<li>Log into the AWS Console.</li>
+<li>Navigate to <em>VPC</em> -&gt; <em>Virtual Private Cloud</em> -&gt; <em>Endpoints</em>.</li>
+<li>Find the problematic entry in the list of Endpoints.</li>
+<li>Click on the entry and select <em>Actions</em> -&gt; <em>Delete</em> Endpoint.</li>
+<li>Patiently wait for the deletion process to complete (this may take a few minutes).</li>
+</ol>
+<p>Upon deleting the endpoint, they successfully reran their CloudFormation stack without any errors.</p>
+<br/>
+<h2>Conclusion</h2>
+<p>While <strong>Infrastructure as Code (IaC)</strong> can bring efficiency and simplicity to your workflows, encountering challenges is part of the journey.</p>
+<p>Whether you're using Terraform or CloudFormation, understanding how to resolve common errors, such as DNS domain conflicts in Amazon VPC, is crucial. Remember, it's essential to understand the potential impact before modifying your infrastructure.</p>
+<p>Always refer to the relevant AWS documentation or best practices for your IaC tool of choice.</p>
+<p>In times of doubt, don't hesitate to ask for help. AWS Support or a knowledgeable colleague can be invaluable resources. As you continue navigating your path as a developer, remember that each error you face is an opportunity for learning and growth. Keep pushing forward, and happy coding!</p>
+
+    </div>
+    </div>
+    </body>
+</html>

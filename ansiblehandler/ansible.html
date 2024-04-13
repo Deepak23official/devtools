@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapifamily=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Quando&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+<style>
+    body{
+        padding: 20px;
+        width: 100%;
+        height: 100vh;
+    }
+    .hgt{
+        width: 100%;
+        height: auto;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        background-position: scroll;
+        z-index: -1;
+        object-fit: cover;
+    }
+    body h2{
+      font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        margin-bottom: 20px;
+       
+    }
+    body p{
+      font-size: 15px;
+      font-family: "Poppins", sans-serif;
+        font-weight: 300;
+        margin-bottom: 20px;
+    }
+    .highlight{
+        border-radius: 20px;
+        background-color: rgb(57, 58, 79);
+        height: fit-content;
+        font-weight: bold;
+        padding: 20px;
+        position: relative;
+    }
+    .highlight i{
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 20px;
+      top: 10px;
+      right: 10px;
+    }
+    .highlight i:hover{
+      background-color: rgb(37, 20, 20);
+      box-shadow: 0px 0px 23px white;
+      cursor: pointer;
+    }
+    .highlight:hover{
+        box-shadow: 0px 0px 23px black;
+        transition: 0.5s;
+    }
+    .highlight span{
+      color: rgb(244, 163, 12);
+    }
+    .highlight span .ln{
+      margin: 0 10px;
+      color: white;
+    }
+    .highlight span .kr{
+      color: greenyellow;
+    }
+</style>
+<body>
+  <img class="img-fluid hgt" src="https://images.pexels.com/photos/4287012/pexels-photo-4287012.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="">
+    <div class="container">
+    <div class="post_body">
+        <h2>1. What Are Ansible Handlers?</h2>
+        <p>Imagine you're managing a website and wish to update its content. You employ an Ansible Playbook to copy the refreshed <strong>HTML</strong> file onto the <strong>server</strong>.</p>
+        <p>But there's a catch. Every time you update this <strong>HTML</strong> file on your <strong>application server</strong>, you must <strong>restart</strong> the entire server to see these changes on your site.</p>
+        <p><em><strong>How can yothis process? -</strong></em> The answer is very simple using the <a href="https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_handlers.html">Ansible Handlers</a>.</p>
+        <p>
+          <picture>      
+        <figcaption >Ansible hosts file containing host entry</figcaption></picture>
+        </p>
+        <p><strong>With Ansible Handlers, you can:</strong></p>
+        <ol>
+        <li>Copy the updated HTML content onto your application server.</li>
+        <li>Automatically restart the server once the content is updated.</li>
+        </ol>
+        <br/>
+        
+        <div class="ratio ratio-16x9">
+            <iframe src="https://www.youtube.com/embed/44f2zqQGCjg"></iframe>
+          </div>
+        
+        <br/>
+        <h2>2. Setting Up the Ansible Handler</h2>
+        <p>The aim of the Ansible handler for this blog post is to restart the <em><strong>nginx</strong></em> server. So lets create the ansible playbook which has a handler responsible for restarting the nginx server.</p>
+        <p>Here is the GitHub Project Link - <a href="https://github.com/rahulwagh/ansible-examples/tree/main/part-6-ansible-handlers">Ansible Handlers</a></p>
+        <div class="highlight cp1 text-white"><i onclick="cpy()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="nn">---</span><span>
+        </span></span></span><span><span class="ln"> 2</span><span class="cl"><span></span>- <span>name</span><span class="p">:</span><span> </span><span class="l">Example Ansible playbook for Handlers</span><span>
+        </span></span></span><span><span class="ln"> 3</span><span class="cl"><span></span><span>hosts</span><span class="p">:</span><span> </span><span class="l">all</span><span>
+        </span></span></span><span><span class="ln"> 4</span><span class="cl"><span></span><span>become</span><span class="p">:</span><span> </span><span class="kc">yes</span><span>
+        </span></span></span><span><span class="ln"> 5</span><span class="cl"><span><span>remote_user</span><span class="p">:</span><span> </span><span class="l">ubuntu</span><span>
+        </span></span></span><span><span class="ln"> 6</span><span class="cl"><span></span><span>roles</span><span class="p">:</span><span>
+        </span></span></span><span><span class="ln"> 7</span><span class="cl"><span></span>- <span class="l">handlers</span><span>
+        </span></span></span><span><span class="ln"> 8</span><span class="cl"><span>  
+        </span></span></span><span><span class="ln"> 9</span><span class="cl"><span></span><span class="c"># Ansible Handler: This will restart the Nginx server</span><span>
+        </span></span></span><span><span class="ln">10</span><span class="cl"><span></span><span>handlers</span><span class="p">:</span><span>
+        </span></span></span><span><span class="ln">11</span><span class="cl"><span></span>- <span>name</span><span class="p">:</span><span> </span><span class="l">Restart Nginx</span><span>
+        </span></span></span><span><span class="ln">12</span><span class="cl"><span></span><span>service</span><span class="p">:</span><span>
+        </span></span></span><span><span class="ln">13</span><span class="cl"><span></span><span>name</span><span class="p">:</span><span> </span><span class="l">nginx</span><span>
+        </span></span></span><span><span class="ln">14</span><span class="cl"><span></span><span>state</span><span class="p">:</span><span> </span><span class="l">restarted</span><span>
+        </span></span></span></code></pre></div><br/>
+        <h2>3. Setting up the Ansible task</h2>
+        <p>In the previous step we have already define the handler now let's create tasks for the following -</p>
+        <ol>
+        <li>Installing the Nginx Application server</li>
+        <li>Updating the Website Content</li>
+        <li>Calling the Ansible handlers</li>
+        </ol>
+        <h4>3.1. Installing the Nginx Application Server:</h4>
+        <p>The initial task installs the Nginx server.</p>
+        <div class="highlight cp2 text-white"><i onclick="cpy1()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="nn">---</span><span>
+        </span></span></span><span><span class="ln">2</span><span class="cl"><span></span><span class="c"># Step-1 : Install Nginx</span><span>
+        </span></span></span><span><span class="ln">3</span><span class="cl"><span></span>- <span>name</span><span class="p">:</span><span> </span><span class="l">Update apt cache and install Nginx</span><span>
+        </span></span></span><span><span class="ln">4</span><span class="cl"><span>  </span><span>apt</span><span class="p">:</span><span>
+        </span></span></span><span><span class="ln">5</span><span class="cl"><span>    </span><span>name</span><span class="p">:</span><span> </span><span class="l">nginx</span><span>
+        </span></span></span><span><span class="ln">6</span><span class="cl"><span>    </span><span>state</span><span class="p">:</span><span> </span><span class="l">latest</span><span>
+        </span></span></span><span><span class="ln">7</span><span class="cl"><span>    </span><span>update_cache</span><span class="p">:</span><span> </span><span class="kc">yes</span><span>
+        </span></span></span></code></pre></div><br/>
+        <h4>3.2. Updating Website Content:</h4>
+        <p>The playbook then copies the HTML file (which you want to update) to the application server.</p>
+        <div class="highlight cp3 text-white"><i onclick="cpy2()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="nn">---</span><span>
+        </span></span></span><span><span class="ln"> 2</span><span class="cl"><span></span><span class="c"># Step-1 : Install Nginx</span><span>
+        </span></span></span><span><span class="ln"> 3</span><span class="cl"><span></span>- <span>name</span><span class="p">:</span><span> </span><span class="l">Update apt cache and install Nginx</span><span>
+        </span></span></span><span><span class="ln"> 4</span><span class="cl"><span>  </span><span>apt</span><span class="p">:</span><span>
+        </span></span></span><span><span class="ln"> 5</span><span class="cl"><span>    </span><span>name</span><span class="p">:</span><span> </span><span class="l">nginx</span><span>
+        </span></span></span><span><span class="ln"> 6</span><span class="cl"><span>    </span><span>state</span><span class="p">:</span><span> </span><span class="l">latest</span><span>
+        </span></span></span><span><span class="ln"> 7</span><span class="cl"><span>    </span><span>update_cache</span><span class="p">:</span><span> </span><span class="kc">yes</span><span>
+        </span></span></span><span><span class="ln"> 8</span><span class="cl"><span>
+        </span></span></span><span><span class="ln"> 9</span><span class="cl"><span></span><span class="c"># Step-2: Copy index.html</span><span>
+        </span></span></span><span><span class="ln">10</span><span class="cl"><span></span>- <span>name</span><span class="p">:</span><span> </span><span class="l">index.html copy</span><span>
+        </span></span></span><span><span class="ln">11</span><span class="cl"><span>  </span><span>template</span><span class="p">:</span><span> </span><span class="l">src=index.html dest=/usr/share/nginx/html/index.html</span><span>
+        </span></span></span></code></pre></div><br/>
+        <h4>3.3. Calling the Ansible handlers:</h4>
+        <p>The key here is the <code>notify</code> attribute. After copying the content, I've set it to notify a task named '<strong>Restart nginx</strong>'. This is crucial since it informs Ansible about the subsequent task once the content update is complete.</p>
+        <div class="highlight cp4 text-white"><i onclick="cpy3()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="c"># Step-1 : Install Nginx</span><span>
+        </span></span></span><span><span class="ln"> 2</span><span class="cl"><span></span>- <span>name</span><span class="p">:</span><span> </span><span class="l">Update apt cache and install Nginx</span><span>
+        </span></span></span><span><span class="ln"> 3</span><span class="cl"><span>  </span><span>apt</span><span class="p">:</span><span>
+        </span></span></span><span><span class="ln"> 4</span><span class="cl"><span>    </span><span>name</span><span class="p">:</span><span> </span><span class="l">nginx</span><span>
+        </span></span></span><span><span class="ln"> 5</span><span class="cl"><span>    </span><span>state</span><span class="p">:</span><span> </span><span class="l">latest</span><span>
+        </span></span></span><span><span class="ln"> 6</span><span class="cl"><span>    </span><span>update_cache</span><span class="p">:</span><span> </span><span class="kc">yes</span><span>
+        </span></span></span><span><span class="ln"> 7</span><span class="cl"><span>
+        </span></span></span><span><span class="ln"> 8</span><span class="cl"><span></span><span class="c"># Step-2: Copy index.html</span><span>
+        </span></span></span><span><span class="ln"> 9</span><span class="cl"><span></span>- <span>name</span><span class="p">:</span><span> </span><span class="l">index.html copy</span><span>
+        </span></span></span><span><span class="ln">10</span><span class="cl"><span>  </span><span>template</span><span class="p">:</span><span> </span><span class="l">src=index.html dest=/usr/share/nginx/html/index.html</span><span>
+        </span></span></span><span><span class="ln">11</span><span class="cl"><span>  
+        </span></span></span><span><span class="ln">12</span><span class="cl"><span></span><span class="c">## Step-3: Update the content on the website and restart server</span><span>
+        </span></span></span><span><span class="ln">13</span><span class="cl"><span></span>- <span>name</span><span class="p">:</span><span> </span><span class="l">updated.html copy</span><span>
+        </span></span></span><span><span class="ln">14</span><span class="cl"><span>  </span><span>template</span><span class="p">:</span><span> </span><span class="l">src=updated.html dest=/usr/share/nginx/html/index.html</span><span>
+        </span></span></span><span><span class="ln">15</span><span class="cl"><span>  </span><span>notify</span><span class="p">:</span><span>
+        </span></span></span><span><span class="ln">16</span><span class="cl"><span>    </span>- <span class="l">Restart Nginx</span><span>
+        </span></span></span></code></pre></div><br/>
+        <h2>4. Multiple Ansible Handlers using listen keyword</h2>
+        <p>If you've been dabbling with Ansible for automation, you know how powerful and flexible it can be. Today, I want to share a neat trick that's often overlooked but incredibly handy: using the listen keyword to trigger <strong>multiple handlers</strong> with a <strong>single task</strong>.</p>
+        <p>Imagine you're running a web server and a cache service. Whenever you update the web server's configuration, both the <strong>web server</strong> and the <strong>cache service</strong> need to restart.</p>
+        <p>Here's how Ansible makes this seamless:</p>
+        <div class="highlight cp5 text-white"><i onclick="cpy4()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="nn">---</span><span>
+        </span></span></span><span><span class="ln">2</span><span class="cl"><span></span>- <span>name</span><span class="p">:</span><span> </span><span class="l">Ansible multiple handler </span><span>
+        </span></span></span><span><span class="ln">3</span><span class="cl"><span>  </span><span>hosts</span><span class="p">:</span><span> </span><span class="l">webservers</span><span>
+        </span></span></span><span><span class="ln">4</span><span class="cl"><span>  </span><span>tasks</span><span class="p">:</span><span>
+        </span></span></span><span><span class="ln">5</span><span class="cl"><span>    </span>- <span>name</span><span class="p">:</span><span> </span><span class="l">Ensure the web server configuration is updated</span><span>
+        </span></span></span><span><span class="ln">6</span><span class="cl"><span>      </span><span>copy</span><span class="p">:</span><span>
+        </span></span></span><span><span class="ln">7</span><span class="cl"><span>        </span><span>src</span><span class="p">:</span><span> </span><span class="l">/path/to/your/config.conf</span><span>
+        </span></span></span><span><span class="ln">8</span><span class="cl"><span>        </span><span>dest</span><span class="p">:</span><span> </span><span class="l">/destination/on/server/config.conf</span><span>
+        </span></span></span><span><span class="ln">9</span><span class="cl"><span>        </span><span>notify</span><span class="p">:</span><span> </span><span>&#34;Restart Necessary Services&#34;</span><span>
+        </span></span></span></code></pre></div><p>Handlers Responding to the Task:</p>
+        <div class="highlight cp6 text-white"><i onclick="cpy5()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span>handlers</span><span class="p">:</span><span>
+        </span></span></span><span><span class="ln"> 2</span><span class="cl"><span>    </span>- <span>name</span><span class="p">:</span><span> </span><span class="l">Gracefully restart the web server</span><span>
+        </span></span></span><span><span class="ln"> 3</span><span class="cl"><span>      </span><span>service</span><span class="p">:</span><span>
+        </span></span></span><span><span class="ln"> 4</span><span class="cl"><span>        </span><span>name</span><span class="p">:</span><span> </span><span class="l">webserver</span><span>
+        </span></span></span><span><span class="ln"> 5</span><span class="cl"><span>        </span><span>state</span><span class="p">:</span><span> </span><span class="l">restarted</span><span>
+        </span></span></span><span><span class="ln"> 6</span><span class="cl"><span>      </span><span>listen</span><span class="p">:</span><span> </span><span>&#34;Restart Necessary Services&#34;</span><span>
+        </span></span></span><span><span class="ln"> 7</span><span class="cl"><span>
+        </span></span></span><span><span class="ln"> 8</span><span class="cl"><span>    </span>- <span>name</span><span class="p">:</span><span> </span><span class="l">And, don&#39;t forget the cache service!</span><span>
+        </span></span></span><span><span class="ln"> 9</span><span class="cl"><span>      </span><span>service</span><span class="p">:</span><span>
+        </span></span></span><span><span class="ln">10</span><span class="cl"><span>        </span><span>name</span><span class="p">:</span><span> </span><span class="l">cacheservice</span><span>
+        </span></span></span><span><span class="ln">11</span><span class="cl"><span>        </span><span>state</span><span class="p">:</span><span> </span><span class="l">restarted</span><span>
+        </span></span></span><span><span class="ln">12</span><span class="cl"><span>      </span><span>listen</span><span class="p">:</span><span> </span><span>&#34;Restart Necessary Services&#34;</span><span>
+        </span></span></span></code></pre></div><p>Here's the magic: When the configuration update task runs, it sends out a &quot;shout&quot; – in the form of a <strong>notify</strong>. Every handler that's <strong>&quot;listening&quot;</strong> to this shout gets activated. Thus, both our web server and cache service restart gracefully. And that's done using just one <strong>notify</strong>!</p>
+        <p>Isn't that elegant? With Ansible's <strong>listen</strong> keyword, managing interrelated actions becomes a piece of cake. I hope this tip helps yoyour automation tasks even further. Keep automating, and until next time, happy coding!</p>
+        <br/>
+        <h2>5. Ansible Handler order</h2>
+        <p>In Ansible, handler order is not guaranteed by default. This means if you have multiple handlers being notified by tasks, they might not run in the sequence you expect.</p>
+        <p>However, there are methods to ensure handlers run in a specific order, and one of the most common ways is by using <strong>listen</strong>.</p>
+        <p>Let's take a scenario where, after deploying an application, you need to:</p>
+        <ol>
+        <li>Clear the cache.</li>
+        <li>Restart the application.</li>
+        </ol>
+        <p>You want to make sure that clearing the cache always happens before restarting the application.</p>
+        <p>Here's how you can achieve this:</p>
+        <p><strong>Tasks in Your Playbook:</strong></p>
+        <div class="highlight cp7 text-white"><i onclick="cpy6()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="nn">---</span><span>
+        </span></span></span><span><span class="ln"> 2</span><span class="cl"><span></span>- <span>hosts</span><span class="p">:</span><span> </span><span class="l">app_servers</span><span>
+        </span></span></span><span><span class="ln"> 3</span><span class="cl"><span>  </span><span>tasks</span><span class="p">:</span><span>
+        </span></span></span><span><span class="ln"> 4</span><span class="cl"><span>    </span>- <span>name</span><span class="p">:</span><span> </span><span class="l">Deploy the application</span><span>
+        </span></span></span><span><span class="ln"> 5</span><span class="cl"><span>      </span><span>copy</span><span class="p">:</span><span>
+        </span></span></span><span><span class="ln"> 6</span><span class="cl"><span>        </span><span>src</span><span class="p">:</span><span> </span><span class="l">/path/to/app/</span><span>
+        </span></span></span><span><span class="ln"> 7</span><span class="cl"><span>        </span><span>dest</span><span class="p">:</span><span> </span><span class="l">/destination/on/server/</span><span>
+        </span></span></span><span><span class="ln"> 8</span><span class="cl"><span>      </span><span>notify</span><span class="p">:</span><span>
+        </span></span></span><span><span class="ln"> 9</span><span class="cl"><span>        </span>- <span>&#34;Clear Cache&#34;</span><span>     </span><span class="c"># Execution Order 1</span><span>
+        </span></span></span><span><span class="ln">10</span><span class="cl"><span>        </span>- <span>&#34;Restart App&#34;</span><span>     </span><span class="c"># Execution Order 2</span><span>
+        </span></span></span></code></pre></div><p><strong>Handlers:</strong></p>
+        <div class="highlight cp8 text-white"><i onclick="cpy7()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span>handlers</span><span class="p">:</span><span>
+        </span></span></span><span><span class="ln"> 2</span><span class="cl"><span>  </span>- <span>name</span><span class="p">:</span><span> </span><span class="l">handler_clear_cache</span><span>
+        </span></span></span><span><span class="ln"> 3</span><span class="cl"><span>    </span><span>command</span><span class="p">:</span><span> </span><span class="l">/path/to/clear_cache_script.sh</span><span>
+        </span></span></span><span><span class="ln"> 4</span><span class="cl"><span>    </span><span>listen</span><span class="p">:</span><span> </span><span>&#34;Clear Cache&#34;</span><span>
+        </span></span></span><span><span class="ln"> 5</span><span class="cl"><span>
+        </span></span></span><span><span class="ln"> 6</span><span class="cl"><span></span>- <span>name</span><span class="p">:</span><span> </span><span class="l">handler_restart_app</span><span>
+        </span></span></span><span><span class="ln"> 7</span><span class="cl"><span></span><span>service</span><span class="p">:</span><span>
+        </span></span></span><span><span class="ln"> 8</span><span class="cl"><span></span><span>name</span><span class="p">:</span><span> </span><span class="l">my_app_service</span><span>
+        </span></span></span><span><span class="ln"> 9</span><span class="cl"><span></span><span>state</span><span class="p">:</span><span> </span><span class="l">restarted</span><span>
+        </span></span></span><span><span class="ln">10</span><span class="cl"><span></span><span>listen</span><span class="p">:</span><span> </span><span>&#34;Restart App&#34;</span><span>
+        </span></span></span></code></pre></div><p>Here's what happens:</p>
+        <ol>
+        <li>The <strong>&quot;Deploy the application&quot;</strong> task notifies two handlers.</li>
+        <li>The listen keyword ensures that the <strong>&quot;Clear Cache&quot;</strong> handler (handler_clear_cache) runs before the <strong>&quot;Restart App&quot;</strong> handler (handler_restart_app), because they were listed in that order in the notify section.</li>
+        </ol>
+        <p>This setup provides a clear mechanism to control the sequence/order of handlers, making your Ansible playbook more predictable and reliable.</p>
+        <br/>
+        <h2>6. Conclusion &amp; Key Takeaways</h2>
+        <p>Ansible Handlers offer a dynamic way to automate tasks that are dependent on others. In our example, updating a file triggered a server restart. However, the application of Ansible Handlers isn't confined to this.</p>
+        <p>You can send emails, initiate patches, and much more, all based on specific triggers.</p>
+        <p>Today, we've only scratched the surface. The potential applications of Ansible Handlers in diverse projects are vast. Do you have similar dependencies in your endeavors? If yes, then Ansible Handlers might just be the tool you need.</p>
+        
+            </div>
+        </div>
+
+
+        <script>
+           function cpy(){
+            let content = document.querySelector(".cp1");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy1(){
+            let content = document.querySelector(".cp2");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy2(){
+            let content = document.querySelector(".cp3");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy3(){
+            let content = document.querySelector(".cp4");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy4(){
+            let content = document.querySelector(".cp5");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy5(){
+            let content = document.querySelector(".cp6");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy6(){
+            let content = document.querySelector(".cp7");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy7(){
+            let content = document.querySelector(".cp8");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        </script>
+</body>
+</html>

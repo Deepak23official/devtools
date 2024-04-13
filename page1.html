@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+</head>
+<style>
+    .w-100{
+        gap: 10px;
+    }
+    .col-12{
+        width: 800px;
+        margin-top: 10px;
+        outline: none;
+        border: none;
+        border-radius: 20px;
+    }
+    .card:hover{
+        box-shadow: 0px 0px 23px black;
+    transition: 0.5s;
+    }
+    .col-8{
+        width: 350px;
+        margin-top: 10px;
+    }
+    .d-flex{
+        padding: 10px 20px;
+    }
+    .d-flex .col-8:hover{
+        box-shadow: 0px 0px 23px black;
+        transition: 0.5s;
+    }
+    .btn{
+        background-color: rgba(255, 0, 0, 0.781);
+        border: none;
+        outline: none;
+        color: rgb(255, 255, 255);
+    }
+    .card{
+        font-weight: bold;
+        /* background-image: url(https://images.unsplash.com/photo-1619252584172-a83a949b6efd?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE4fHx8ZW58MHx8fHx8); */
+        /* background-image: url(https://img.freepik.com/free-photo/gray-abstract-wireframe-technology-background_53876-101941.jpg?size=626&ext=jpg&ga=GA1.1.617367075.1696605853&semt=sph); */
+        color: rgb(0, 0, 0);
+        background-size: cover;background-repeat: no-repeat;
+        border-radius: 20px;
+        background-position: center;
+        background-image: url(https://img.freepik.com/free-photo/gray-abstract-wireframe-technology-background_53876-101941.jpg?w=900&t=st=1710939573~exp=1710940173~hmac=b0ad16c941f45b754856062a20d5432797a28efaa6380ce4abb60dfecdef4fdc);
+    }
+    .img{
+        width: 100%;
+        height: 100vh;
+        object-fit: contain;
+        position: fixed;
+        z-index: -1;
+    }
+    .flex{
+        display: flex;
+        gap: 20px;
+        font-weight: 200;
+        padding: 10px;
+        margin: 20px 0px;
+    }
+    .flex img{
+        width: 100px;
+        height: 100px;
+    }
+    .margin-apply{
+        margin-top: 250px;
+    }
+    @media(min-width:320px){
+        .w-100{
+            flex-direction: column;
+        }
+        .d-flex{
+            max-width: 320px;
+        }
+        .col-8{
+        width: 800px;
+    }
+    }
+    @media(min-width:560px){
+        .w-100{
+            flex-direction: column;
+        }
+        .d-flex{
+            max-width: 560px;
+        }
+    }
+    @media(min-width:768px){
+        .w-100{
+            flex-direction: row;
+        }
+        .d-flex{
+            max-width: 768px;
+        }
+        .col-12{
+        width:470px;
+    }
+    .col-8{
+        width: 260px;
+    }
+    }
+    @media(min-width:1024px){
+        .w-100{
+            flex-direction: row;
+        }
+        .col-12{
+        width: 630px;
+    }
+    .d-flex{
+            max-width: 1024px;
+        }
+    .col-8{
+        width: 350px;
+    }
+    }
+    @media(min-width:1280px){
+        .d-flex{
+            max-width: 1280px;
+        }
+        .col-12{
+            width: 790px;
+        }
+        .col-8{
+        width: 430px;
+    }
+    }
+    li{
+        text-align:justify;
+        font-weight: 200;
+        margin: 20px;
+    }
+</style>
+<body>
+    <div class="img"></div>
+    <div class="container-flvid d-flex w-100">
+        <div>
+            <div class="col-12 mb-3 mb-sm-0">
+                 <div class="card">
+                     <div class="card-body">
+                       <h5 class="card-title fs-3 fw-bold">(docker run -d) Why Does a Docker Container Stop Automatically?</h5>
+                       <div>
+                        <div class="flex">
+                            <div><img src="https://jhooq.com/wp-content/uploads/2020/03/docker-2-e1584555918677.webp" alt=""></div>
+                            <p class="card-text">
+                                Introduction Docker has become an indispensable tool in modern software development, offering the ability to package applications and their dependencies into lightweight containers. However, if you're like me, you may have encountered a puzzling situation where your Docker container unexpectedly stops after running the …</p>
+                        </div>
+                       </div>
+                      
+                       <a href="./Docker-Run/index.html" class="btn btn-primary">Read More</a>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">How to fix private-dns-enabled cannot be set because there is already a conflicting DNS domain?</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/terraform/logo/Terraform_logo.webp" alt=""></div>
+                           <p class="card-text">Navigating the intricacies of Amazon Web Services (AWS) can be a complex task. Even seasoned developers working with Infrastructure as Code (IaC) tools like Terraform and CloudFormation may occasionally face frustrating obstacles. A common stumbling block arises from conflicts in Virtual Private Cloud (VPC) settings, …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="./terraform-Error-DBS/index.html" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold ">Attach and detach from Docker's process?</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/2020/03/docker-2-e1584555918677.webp" alt=""></div>
+                           <p class="card-text">Docker is a fantastic tool for containerization that provides the flexibility of isolating your application with its environment on a single system. One of the features Docker offers is the ability to attach and detach from Docker processes. This post provides a step-by-step guide to working with this feature. …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="./docker-attach/index.html" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">Use SSH credentials in Jenkins with SSH, SCP, SFTP</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/aws/aws-jenkins/jenkins-logo.webp" alt=""></div>
+                           <p class="card-text">There are various ways in Jenkins for using the SSH credentials to perform SSH, SCP or SFTP. You have to choose which one is more suitable for your need and project setup. In this blog post I will walk you through the couple of options with which you can accomplish the SSH, SCP or SFTP Table of Content Using SSH Agent …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="./jenkins-ssh/index.html" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">How I Change Name of My Docker Repository and Rename Images?</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/2020/03/docker-2-e1584555918677.webp" alt=""></div>
+                           <p class="card-text">Have you ever found yourself needing to change the repository name or rename a Docker image? I recently faced this challenge and got to know that it is a very simple yet effective process to accomplish it. In this blog post, I want to share my step-by-step process of changing the repository name and renaming Docker …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="./docker-repository/index.html" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">Step-By-Step Guide to Setting Up SSH Keys for Jenkins</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/aws/aws-jenkins/jenkins-logo.webp" alt=""></div>
+                           <p class="card-text">Jenkins, the popular open-source automation server that's been making waves in the tech industry. Today, we'll go through an important aspect of Jenkins - setting up Secure Shell (SSH) keys for securely publishing and transferring files. It may sound daunting, but trust me, I'll guide you every step of the way. Let's …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="./jenkins-keys/index.html" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">How to permanently add private ssh key(macOS, Windows, Ubuntu)?</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/ssl/ssl-icon.png" alt=""></div>
+                           <p class="card-text">In our increasingly connected world, the security of our digital interactions is more critical than ever. Just like you lock your front door when you leave the house, you need to secure your online presence too. One of the keys to this virtual lock is called an SSH Key. If you've ever tried accessing remote servers or …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="./ssh-key/index.html" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">Use Terraform to manage AWS IAM Policies, Roles and Users</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/terraform/logo/Terraform_logo.webp" alt=""></div>
+                           <p class="card-text">This blog post is going to be a comprehensive guide on managing the AWS IAM User, IAM Roles and IAM Policies using Terraform. Managing IAM Users, Roles and Policies are always crucial from a security perspective. Proper management of the IAM User, IAM Roles and IAM Policies can really improve the operational burden as …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="./terraform-manage/index.html" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">How to split Your Terraform main.tf File into Multiple Files</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/terraform/logo/Terraform_logo.webp" alt=""></div>
+                           <p class="card-text">Table of Content Why someone need to split the terraform main.tf into multiple files? How to split the main.tf file: A Step-by-Step Approach 2.1 Identify Resources and Data Sources 2.2 Create Separate .tf Files for Resources and Data Sources 2.3 Migrate Resource and Data Source Blocks into individual .tf files 2.4…</p>
+                       </div>
+                      </div>
+                     
+                      <a href="./terraform-split/index.html" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3 fw-bold">How to use Terraform variable within variable</h5>
+                      <div>
+                       <div class="flex">
+                           <div><img src="https://jhooq.com/wp-content/uploads/terraform/logo/Terraform_logo.webp" alt=""></div>
+                           <p class="card-text">Terraform Variables Variables are an important part of Terraform because they let users change settings and make them more flexible and reusable. You can avoid hardcoding values in your Terraform configuration files by using variables. This makes your code more flexible. In this blog post we will focus on how to use …</p>
+                       </div>
+                      </div>
+                     
+                      <a href="./terraform-var/index.html" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+         </div>
+
+         <div>
+            <div class="col-8 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title fs-3 fw-bold">Categories</h5>
+                        <a href="#" class="btn m-2 btn-primary">DOCKER</a>
+                        <a href="#" class="btn m-2 btn-primary">AWS</a>
+                        <a href="#" class="btn m-2 btn-primary">KUBERNETES</a>
+                        <a href="#" class="btn m-2 btn-primary">ANSIBLE</a>
+                        <a href="#" class="btn m-2 btn-primary">HELM-CHART</a>
+                        <a href="#" class="btn m-2 btn-primary">SSL</a>
+                        <a href="#" class="btn m-2 btn-primary">BLOGGING</a>
+                        <a href="#" class="btn m-2 btn-primary">SPRING BOOT</a>
+                        <a href="#" class="btn m-2 btn-primary">GIT HUB</a>
+                        <a href="#" class="btn m-2 btn-primary">QUARKUS</a>
+                        <a href="#" class="btn m-2 btn-primary">VAGRANT</a>
+                        <a href="#" class="btn m-2 btn-primary">KUBESPRAY</a>
+                        <a href="#" class="btn m-2 btn-primary">PROMETHEUS-GRAFANA</a>
+                        <a href="#" class="btn my-5 m-2 btn-primary padding-apply">ALL CATEGORIES</a>
+                        <div class="margin-apply">
+                            <h5 class="card-title fs-3 fw-bold">Series</h5>
+                            <a href="#" class="btn m-2 btn-primary">TRANSFORM</a>
+                            <a href="#" class="btn m-2 btn-primary">KUBERNETES</a>
+                            <a href="#" class="btn m-2 btn-primary">HELM-CHART</a>
+                            <a href="#" class="btn m-2 btn-primary">ANSIBLE</a>
+                            <a href="#" class="btn m-2 btn-primary">DOCKER</a>
+                            <a href="#" class="btn m-2 btn-primary">AWS</a>
+                            <a href="#" class="btn m-2 btn-primary">LINEX-COMMENDS</a>
+                            <a href="#" class="btn m-2 btn-primary">JENKINS</a>
+                        </div>
+                        <div class="my-5">
+                            <h5 class="card-title fs-3 fw-bold">Tags</h5>
+                            <a href="#" class="btn m-2 btn-primary">KUBERNETES</a>
+                            <a href="#" class="btn m-2 btn-primary">SSL</a>
+                            <a href="#" class="btn m-2 btn-primary">BLOGGING</a>
+                            <a href="#" class="btn m-2 btn-primary">SPRING BOOT</a>
+                            <a href="#" class="btn m-2 btn-primary">HELM-CHART</a>
+                            <a href="#" class="btn m-2 btn-primary">QUARKUS</a>
+                            <a href="#" class="btn m-2 btn-primary">TRANSFORM</a>
+                            <a href="#" class="btn m-2 btn-primary">ANSIBLE</a>
+                            <a href="#" class="btn m-2 btn-primary">KUBESPRAY</a>
+                            <a href="#" class="btn m-2 btn-primary">TRANSFORM</a>
+                            <a href="#" class="btn m-2 btn-primary">DOCKER</a>
+                            <a href="#" class="btn m-2 btn-primary">GIT HUB</a>
+                            <a href="#" class="btn m-2 btn-primary">NGINX</a>
+                            <a href="#" class="btn m-2 btn-primary">AWS</a>
+                            <a href="#" class="btn m-2 btn-primary">INDEX</a>
+                            <a href="#" class="btn m-2 btn-primary">JENKINS</a>
+                        </div>
+                        <div class="my-5">
+                            <h4 class="my-5">Recent Posts</h4>
+                            <li>Ansible Handlers Explained Real-World Use Cases & Examples</li>
+                            <li>Securing Sensitive Data in Terraform</li>
+                            <li>Boost Your AWS Security with Terraform : A Step-by-Step Guide</li>
+                            <li>How to Load Input Data from a File in Terraform?</li>
+                            <li>Can Terraform be used to provision on-premises infrastructure?</li>
+                            <li>Fixing the Terraform Error creating IAM Role. MalformedPolicyDocument Has prohibited field Resource</li>
+                            <li>In terraform how to handle null value with default value?</li>
+                            <li>Terraform use module output variables as inputs for another module?</li>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container my-5">
+        <button class="btn btn-warning" onclick="home()"><i class="fa-solid fa-angles-left"></i></button>
+        <button class="btn btn-warning" onclick="page1()">1</button>
+        <button class="btn btn-warning" onclick="page3()">2</button>
+        <button class="btn btn-warning" onclick="page4()">3</button>
+        <button class="btn btn-warning" onclick="page5()"><i class="fa-solid fa-angles-right"></i></button>
+      </div>
+            
+<script>
+function home(){ 
+setTimeout(function(){ 
+  window.location.href="index.html"
+}, 1000); // 3 seconds = 3000 milliseconds 
+} 
+function page3(){ 
+  setTimeout(function(){ 
+    window.location.href="page3.htm"
+}, 1000); // 3 seconds = 3000 milliseconds 
+} 
+function page4(){ 
+  setTimeout(function(){ 
+    window.location.href="page4.html"
+}, 1000); // 3 seconds = 3000 milliseconds 
+} 
+function page5(){ 
+  setTimeout(function(){ 
+    window.location.href="page5.html"
+}, 1000); // 3 seconds = 3000 milliseconds 
+} 
+</script>
+
+</body>
+</html>

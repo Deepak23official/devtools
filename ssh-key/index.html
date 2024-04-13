@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+<style>
+        body{
+        padding: 20px;
+    }
+    body h2{
+      font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        margin-bottom: 20px;
+    }
+    body p{
+      font-size: 15px;
+      font-family: "Poppins", sans-serif;
+        font-weight: 300;
+        margin-bottom: 20px;
+    }
+    .highlight{
+        border-radius: 20px;
+        background-color: rgb(57, 58, 79);
+        height: fit-content;
+        font-weight: bold;
+        padding: 20px;
+        position: relative;
+    }
+    .highlight i{
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 20px;
+      top: 10px;
+      right: 10px;
+      color: white;
+    }
+    .highlight i:hover{
+      background-color: rgb(37, 20, 20);
+      box-shadow: 0px 0px 23px white;
+      cursor: pointer;
+    }
+    .highlight:hover{
+        box-shadow: 0px 0px 23px black;
+        transition: 0.5s;
+    }
+    .highlight span{
+      color: rgb(244, 163, 12);
+    }
+    .highlight span .ln{
+      margin: 0 10px;
+      color: white;
+    }
+    .highlight span .kr{
+      color: greenyellow;
+    }
+</style>
+<body>
+  <div class="container">
+    <h1 class="post_title">How to permanently add private ssh key(macOS, Windows, Ubuntu)?</h1>
+
+    <div class="post_body"><p>In our increasingly connected world, the <strong>security</strong> of our digital interactions is more <strong>critical</strong> than ever. Just like you lock your front door when you leave the house, <strong>you need to secure your online presence too</strong>.</p>
+<p>One of the keys to this virtual lock is called an <strong>SSH Key</strong>. If you've ever tried accessing remote servers or <a href="../2-ways-to-fix-ssl-certificate-problem-self-signed-certificate-in-certificate-chain/index.html">pushing commits to your Git repository</a>, you're probably familiar with the importance of these keys.</p>
+<p>Welcome to your personal guide on <strong>'How to Permanently Add a Private SSH Key on macOS, Windows, and Ubuntu'</strong>. I've crafted this post with you in mind, giving you the tools to navigate the world of SSH keys with ease and confidence, no matter the operating system you're using.</p>
+<p>Whether you're a veteran sysadmin, a coder in the making, or just someone who loves exploring the tech world, this guide is for you.</p>
+<p>Understanding and managing SSH keys is not just for the 'tech gurus' anymore. It's a skill that is becoming as essential as knowing how to create a password. And I'm here to make this journey as smooth as possible for you.</p>
+<p>I'll take you through the process of adding a private SSH key, permanently, on your <strong>macOS, Windows,</strong> or <strong>Ubuntu system</strong>. By the end of this guide, you'll be navigating SSH communications like a pro, ensuring your digital interactions are not just seamless, but also secure.</p>
+<br/>
+<h2>1. Generate SSH key pai on macOS, Windows, Linux</h2>
+<p>Irrespective of what operating system you are using there are three ways to work with your GitHub repository by cloning the repository via <strong>HTTPS, SSH</strong> and <strong><a href="https://cli.github.com/">GitHub CLI</a></strong>.</p>
+<p>Well all the methods(HTTPS, SSH, GitHub CLI) are secured and there is nothing wrong with those methods. But when we talk about the scalability and automation then I would personally like to stick with the <strong>SSH Method</strong> where I need to generate the <strong>SSH Key pair(Public &amp; Private)</strong></p>
+<p>Here are some benefits which are really awesome -</p>
+<ol>
+<li>
+<p><strong>Effortless Authentication:</strong> SSH keys offer a hassle-free way to authenticate yourself on Git. Once you've set them up, you won't have to keep typing your username and password every time you push or pull changes. It's like having a VIP pass to your favorite concert - no waiting in line, just straight in!</p>
+</li>
+<li>
+<p><strong>Enhanced Security:</strong> With SSH keys, you're significantly stepping up your security game. These keys are nearly impossible to crack, compared to traditional passwords. It's like swapping your old padlock for a high-tech security system.</p>
+</li>
+<li>
+<p><strong>One Key, Multiple Repos:</strong> Do you manage multiple Git repositories? With an SSH key, you can authenticate yourself across all your Git repos. No need to remember multiple sets of credentials. It's the ultimate one-key-fits-all solution!</p>
+</li>
+<li>
+<p><strong>Ideal for Automation:</strong> If you're a fan of automating your work, SSH keys will be your new best friend. They enable automated scripts to interact securely with your Git repositories. It's like hiring a virtual assistant that works tirelessly to help you manage your repos.</p>
+</li>
+<li>
+<p><strong>Two-Factor Authentication:</strong> SSH keys pair perfectly with two-factor authentication for enhanced security. Together, they form a powerful shield that keeps intruders at bay. It's like having a double lock system on your precious data!</p>
+</li>
+</ol>
+<p>Let's break down the steps and how we can achieve these on macOS</p>
+<h3>1.1 Generate new SSH key</h3>
+<p><strong>Step 1: Open Terminal</strong></p>
+<p>Our adventure begins with Terminal. How to find the terminal -</p>
+<p><strong>macOS</strong> - You'll find this handy app in your <strong>Utilities</strong> folder within Applications, if you are using macOS.<br>
+<strong>Windows</strong> - Click on the <em>Windows icon</em> or press the <em>Windows key</em> on your keyboard. Click on the Windows <em>PowerShell</em> app in the search results.
+<strong>Linux</strong> - The most common keyboard shortcut to open the terminal in Linux is <code>Ctrl + Alt + T</code>. If your distribution has a search function (like Ubuntu's &quot;Dash&quot; or GNOME's &quot;Activities&quot; overview), you can type &quot;Terminal&quot; into the search bar, and it should pop right up</p>
+<br/>
+<h3>1.2 Check for Existing SSH Keys</h3>
+<p>Before we create a new <strong>SSH key</strong>, let's check if you have any existing ones. Type the following command and hit Enter:</p>
+<div class="highlight cp1"><i onclick="cpy()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1">#List all the ssh keys</span>
+</span></span><span><span class="ln">2</span><span class="cl">ls -al ~/.ssh 
+</span></span></code></pre></div><p>If you see any files named <em><strong>id_rsa.pub</strong></em> or file ending with the extension <em>*<strong>.pub</strong></em>, you already have an <em><strong>SSH key</strong></em>. If not, let's create a new one!</p>
+<br/>
+<h3>1.3 Generate a New SSH Key</h3>
+<p>To create a new key, type the following command in Terminal:</p>
+<div class="highlight cp2"><i onclick="cpy1()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1">#Generate the new key</span>
+</span></span><span><span class="ln">2</span><span class="cl">ssh-keygen -t ed25519 -C <span class="s2">&#34;your_email@example.com&#34;</span>
+</span></span></code></pre></div><p>Replace <em><strong>&quot;your_<a href="mailto:email@example.com">email@example.com</a>&quot;</strong></em> with your actual email.</p>
+<p>This command will create a new <em><strong>SSH key</strong></em> using the <em><strong>ED25519 algorithm</strong></em>, which is currently the most secure option. After hitting Enter, Terminal will ask where to save the key. Simply press Enter again to accept the default location(<em><strong>~/.ssh</strong></em>).</p>
+<br/>
+<h3>1.4 Secure Your SSH Key with a Passphrase</h3>
+<p>Next, you'll be asked to enter a passphrase. Think of this as a password for your <strong>SSH key</strong>. Choose a strong one, type it in, and hit Enter. You'll need to enter it again for confirmation.</p>
+<p><strong>Remember this passphrase!</strong> You'll need it later when adding your SSH key to the ssh-agent and when pushing or pulling from your Git repositories.</p>
+<p><em><strong>Note - The passphrase is not compulsory, so you can skip this part also</strong></em></p>
+<br/>
+<h3>1.5  Start the SSH Agent</h3>
+<p>Now that we have our key, let's start up the <strong>SSH agent</strong>, a handy program that handles keys for us.</p>
+<p>Type the following command and hit Enter:</p>
+<div class="highlight cp3"><i onclick="cpy2()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1">#Start SSH Agent</span>
+</span></span><span><span class="ln">2</span><span class="cl"><span class="nb">eval</span> <span class="s2">&#34;</span><span class="k">$(</span>ssh-agent -s<span class="k">)</span><span class="s2">&#34;</span> 
+</span></span></code></pre></div><br/>
+<h3>1.6 Add Your SSH Key to the SSH Agent</h3>
+<p>Finally, let's add our shiny new <strong>SSH key</strong> to the <strong>SSH agent</strong>. Type in this command:</p>
+<div class="highlight cp4"><i onclick="cpy3()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl">ssh-add -K ~/.ssh/id_ed25519
+</span></span></code></pre></div><p>Remember to replace &quot;id_ed25519&quot; with the name of your key if you chose a different name.</p>
+<br/>
+<h2>2. macOS - adding private key permanently to ssh-agent as well as keychain</h2>
+<h3>2.1 Update ~/.ssh/config and load private keys</h3>
+<ul>
+<li>First check if you have the <em><strong>~/.ssh/config</strong></em> file present or not. If the file is missing then create using the following command
+<div class="highlight cp5"><i onclick="cpy4()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1"># Create config file with touch</span>
+</span></span><span><span class="ln">2</span><span class="cl">
+</span></span><span><span class="ln">3</span><span class="cl">touch ~/.ssh/config
+</span></span></code></pre></div></li>
+<li>Let's open the <em><strong>~/.ssh/config</strong></em> file add the following lines to it but make sure you should put the <em><strong>correct path</strong></em> and <em><strong>correct ssh key file</strong></em> name
+<div class="highlight cp6"><i onclick="cpy5()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1"># Add following lines into the ~/.ssh/config file</span>
+</span></span><span><span class="ln">2</span><span class="cl">
+</span></span><span><span class="ln">3</span><span class="cl">Host github.com
+</span></span><span><span class="ln">4</span><span class="cl">  AddKeysToAgent yes
+</span></span><span><span class="ln">5</span><span class="cl">  UseKeychain yes
+</span></span><span><span class="ln">6</span><span class="cl">  IdentityFile ~/.ssh/id_ed25519
+</span></span></code></pre></div></li>
+</ul>
+<h3>2.2 Add ssh private key to keychain</h3>
+<p>The last improvement which we can do with <strong>SSH Key</strong> is to add it the macOS Keychain. Run the following command to do that -</p>
+<div class="highlight cp7"><i onclick="cpy6()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl">ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+</span></span></code></pre></div><br/>
+<h2>3. Windows - adding private key permanently to ssh-agent</h2>
+<h3>3.1 Check for Existing SSH Keys</h3>
+<p>First, let's check if you already have SSH keys. To do this, we can either use <em><strong>Git Bash</strong></em> or <em><strong>Power shell</strong></em></p>
+<p>Run the following list command to view all the keys -</p>
+<div class="highlight cp8"><i onclick="cpy7()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1"># List all the ssh keys present in windows</span>
+</span></span><span><span class="ln">2</span><span class="cl">
+</span></span><span><span class="ln">3</span><span class="cl">ls -al ~/.ssh 
+</span></span></code></pre></div><br/>
+<h3>3.2 Add Your SSH Key to the SSH-Agent</h3>
+<p>Now, let's add the new <strong>SSH key</strong> to the <strong>SSH-Agent</strong>.</p>
+<ul>
+<li>First, ensure the SSH-Agent is running by typing this command in Git Bash:
+<div class="highlight cp9"><i onclick="cpy8()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1">#Make sure your ssh agent is running</span>
+</span></span><span><span class="ln">2</span><span class="cl">
+</span></span><span><span class="ln">3</span><span class="cl"><span class="nb">eval</span> <span class="k">$(</span>ssh-agent -s<span class="k">)</span>
+</span></span></code></pre></div></li>
+<li>Then, add your SSH key to the SSH-Agent with this command:
+<div class="highlight cp10"><i onclick="cpy9()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1"># Add ssh key permanently to ssh agent</span>
+</span></span><span><span class="ln">2</span><span class="cl">
+</span></span><span><span class="ln">3</span><span class="cl">ssh-add ~/.ssh/id_ed25519
+</span></span></code></pre></div></li>
+</ul>
+<br/>
+<h2>4. Linux - adding private key permanently to ssh-agent</h2>
+<h3>4.1 Check for Existing SSH Keys</h3>
+<p>First, let's check if you already have SSH keys. To do this just open the terminal</p>
+<p>Run the following list command to view all the keys -</p>
+<div class="highlight cp11"><i onclick="cpy10()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1"># List all the ssh keys present in windows</span>
+</span></span><span><span class="ln">2</span><span class="cl">
+</span></span><span><span class="ln">3</span><span class="cl">ls -al ~/.ssh 
+</span></span></code></pre></div><br/>
+<h3>4.2 Add Your SSH Key to the SSH-Agent</h3>
+<p>Now, let's add the new <strong>SSH key</strong> to the <strong>SSH-Agent</strong>.</p>
+<ul>
+<li>First, ensure the SSH-Agent is running by typing this command in Git Bash:
+<div class="highlight cp12"><i onclick="cpy11()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1">#Make sure your ssh agent is running</span>
+</span></span><span><span class="ln">2</span><span class="cl">
+</span></span><span><span class="ln">3</span><span class="cl"><span class="nb">eval</span> <span class="k">$(</span>ssh-agent -s<span class="k">)</span>
+</span></span></code></pre></div></li>
+<li>Then, add your SSH key to the SSH-Agent with this command:
+<div class="highlight cp13"><i onclick="cpy12()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1"># Add ssh key permanently to ssh agent</span>
+</span></span><span><span class="ln">2</span><span class="cl">
+</span></span><span><span class="ln">3</span><span class="cl">ssh-add ~/.ssh/id_ed25519
+</span></span></code></pre></div></li>
+</ul>
+<br/>
+<h2>5. How to verify git SSH connection and SSH key?</h2>
+<p>Here's what you need to do:</p>
+<ol>
+<li>Open your Terminal (<strong>macOS</strong> or <strong>Linux</strong>) or Git Bash (<strong>Windows</strong>).</li>
+<li>Type the following command and hit Enter:
+<div class="highlight cp14"><i onclick="cpy13()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1">#Replace git@github.com with you repository link</span>
+</span></span><span><span class="ln">2</span><span class="cl">
+</span></span><span><span class="ln">3</span><span class="cl">ssh -T git@github.com
+</span></span></code></pre></div></li>
+</ol>
+<br/>
+<h2>6. Troubleshooting your github SSH Connection?</h2>
+<p>In many cases you might end up with the following error -</p>
+<blockquote>
+<p><strong>ssh:</strong> Could not resolve hostname github.com:rahulwagh/jhooq.git: nodename nor servname provided, or not known</p>
+</blockquote>
+<p><figure>
+  <picture>
+
+    
+      
+        
+        
+        
+        
+        
+        
+    <img
+      loading="lazy"
+      decoding="async"
+      alt=""
+      
+        class="img-fluid"
+        src="https://jhooq.com/wp-content/uploads/ssl/add-ssh-key-permanently/could-not-resolve-hostname.webp"
+      
+      
+        title="SSH connection could not resolve hostname"
+      
+    />
+
+    <figcaption class="caption_figure caption_internal">SSH connection could not resolve hostname</figcaption></picture>
+</figure>
+</p>
+<p>Here are the steps for troubleshooting the error -</p>
+<p><strong>1. Check HTTPs port -</strong> In many cases the communication is restricted on normal http port and you need to provide the <em>secure HTTPS port 443</em>.</p>
+<div class="highlight cp15"><i onclick="cpy14()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1">#Verify the connection over the HTTPs port 443 </span>
+</span></span><span><span class="ln">2</span><span class="cl">
+</span></span><span><span class="ln">3</span><span class="cl">ssh -T -p <span class="m">443</span> git@ssh.github.com 
+</span></span></code></pre></div><p><strong>2. Add verbose when testing connection-</strong> To debug the issue in more indepth you should add verbose to test connection command. Here the example command -</p>
+<div class="highlight cp16"><i onclick="cpy15()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1"># Add verbose to ssh test connection command</span>
+</span></span><span><span class="ln">2</span><span class="cl">
+</span></span><span><span class="ln">3</span><span class="cl">ssh -vT git@github.com
+</span></span></code></pre></div><p><strong>3. Check SSH Agent is running and using right SSH key-</strong> You also need to make sure that you <strong>SSH Agent</strong> is working in the background and your have the correct key configured.</p>
+<p>Here is the command to start the SSH agent -</p>
+<div class="highlight cp17"><i onclick="cpy16()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1"># Start the ssh agent</span>
+</span></span><span><span class="ln">2</span><span class="cl">
+</span></span><span><span class="ln">3</span><span class="cl">$ <span class="nb">eval</span> <span class="s2">&#34;</span><span class="k">$(</span>ssh-agent -s<span class="k">)</span><span class="s2">&#34;</span> 
+</span></span></code></pre></div><p>Verify the key by listing them with the following command -</p>
+<div class="highlight cp18"><i onclick="cpy17()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1"># Following command will list all the keys </span>
+</span></span><span><span class="ln">2</span><span class="cl"><span class="c1"># Check if you key is loaded or not </span>
+</span></span><span><span class="ln">3</span><span class="cl">
+</span></span><span><span class="ln">4</span><span class="cl">ssh-add -l -E sha256 
+</span></span></code></pre></div><p><strong>4. Error: Bad file number connection timed out-</strong> When you work in the corporate office then for security rasons firewalls and proxies only allow <strong>HTTPS</strong> traffic, so in such case you need to use <strong>the remote URL</strong> method to clone the repository -</p>
+<p><figure>
+  <picture>
+
+    
+      
+        
+        
+        
+        
+        
+        
+    <img
+      loading="lazy"
+      decoding="async"
+      alt=""
+      
+        class="img-fluid"
+        src="https://jhooq.com/wp-content/uploads/ssl/add-ssh-key-permanently/bad-file-number-error.webp"
+      
+      
+        title="Could not read from remote repo port 22: Bad file number"
+      
+    />
+
+    <figcaption class="caption_figure caption_internal">Could not read from remote repo port 22: Bad file number</figcaption></picture>
+</figure>
+</p>
+<div class="highlight cp19"><i onclick="cpy()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1"># Use HTTPS: remote URL method to clone the repository</span>
+</span></span><span><span class="ln">2</span><span class="cl">
+</span></span><span><span class="ln">3</span><span class="cl">git clone https://github.com/rahulwagh/jhooq.git
+</span></span></code></pre></div>
+
+    </div>
+    </div>
+
+
+    <script>
+      function cpy(){
+            let content = document.querySelector(".cp1");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy1(){
+            let content = document.querySelector(".cp2");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy2(){
+            let content = document.querySelector(".cp3");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy3(){
+            let content = document.querySelector(".cp4");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy4(){
+            let content = document.querySelector(".cp5");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy5(){
+            let content = document.querySelector(".cp6");
+            navigator.clipboard.writeText(content.innerText)
+        }     function cpy6(){
+            let content = document.querySelector(".cp7");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy7(){
+            let content = document.querySelector(".cp8");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy8(){
+            let content = document.querySelector(".cp9");
+            navigator.clipboard.writeText(content.innerText)
+        }     function cpy9(){
+            let content = document.querySelector(".cp10");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy10(){
+            let content = document.querySelector(".cp11");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy11(){
+            let content = document.querySelector(".cp12");
+            navigator.clipboard.writeText(content.innerText)
+        }     function cpy12(){
+            let content = document.querySelector(".cp13");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy13(){
+            let content = document.querySelector(".cp14");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy14(){
+            let content = document.querySelector(".cp15");
+            navigator.clipboard.writeText(content.innerText)
+        }     function cpy15(){
+            let content = document.querySelector(".cp16");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy16(){
+            let content = document.querySelector(".cp17");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy17(){
+            let content = document.querySelector(".cp18");
+            navigator.clipboard.writeText(content.innerText)
+        }
+  </script>
+    </body>
+</html>

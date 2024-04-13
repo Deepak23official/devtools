@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+<style>
+      body{
+  padding: 20px;
+}
+body h2{
+font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+body p{
+font-size: 15px;
+font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+.highlight{
+  border-radius: 20px;
+  background-color: rgb(57, 58, 79);
+  height: fit-content;
+  font-weight: bold;
+  padding: 20px;
+  position: relative;
+}
+.highlight i{
+position: absolute;
+width: 30px;
+height: 30px;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 20px;
+top: 10px;
+right: 10px;
+color: white;
+}
+.highlight i:hover{
+background-color: rgb(37, 20, 20);
+box-shadow: 0px 0px 23px white;
+cursor: pointer;
+}
+.highlight:hover{
+  box-shadow: 0px 0px 23px black;
+  transition: 0.5s;
+}
+.highlight span{
+color: rgb(244, 163, 12);
+}
+.highlight span .ln{
+margin: 0 10px;
+color: white;
+}
+.highlight span .kr{
+color: greenyellow;
+}
+</style>
+<body>
+  <div class="container">
+    <h1 class="post_title">Use Terraform to manage AWS IAM Policies, Roles and Users</h1>
+
+    <div class="post_body"><p>This blog post is going to be a comprehensive guide on <em><strong>managing the AWS IAM User, IAM Roles and IAM Policies using Terraform</strong></em>.</p>
+<p>Managing IAM Users, Roles and Policies are always crucial from a security perspective. Proper management of the IAM User, IAM Roles and IAM Policies can really improve the operational burden as well as the security of the AWS environment.</p>
+<p>In this blog post, we are going to use <a href="https://terraform.io/">Terraform</a> to manage the IAM User, IAM Roles and IAM Policies. There are a couple of examples we are going to take a look -</p>
+<ol>
+<li>Managing one IAM User, one IAM Roles and one IAM policies with terraform</li>
+<li>Managing one IAM user, two IAM Roles and two IAM policies with terraform</li>
+</ol>
+<h2>1. Prerequisites</h2>
+<p><strong>1. An active AWS account and a basic understanding of AWS services -</strong> Before you begin and start following the steps mentioned in this blog post, you must have an active AWS account.</p>
+<p>If you are using AWS for the first time, then you can use their initial trial period credit, and you should be able to perform all the steps mentioned in this blog post.</p>
+<p><strong>2. Terraform is installed on your machine -</strong> This complete blog post is focused around setting up the IAM User, IAM Roles and IAM Policies using <em><strong>Terraform</strong></em>, so you must install <a href="https://developer.hashicorp.com/terraform/cli">Terraform CLI</a> onto your working machine.</p>
+<p>Please refer to this guide on - <a href="../install-terrafrom/index.html">How to install Terraform</a></p>
+<p><strong>3. Familiarity with Terraform syntax (HCL) -</strong> This particular blog requires you to be familiar with Terraform. If this is the first time you are trying to learn the Terraform, then I would highly recommend building your understanding by following <a href="https://www.youtube.com/watch?v=jJX6S5JAGpI&amp;list=PL7iMyoQPMtAOz187ezONf7pL8oGZRobYl">this tutorial series: - On getting started with Terraform</a></p>
+<br/>
+<h2>2. Understanding IAM Roles and Policies</h2>
+<p>Before we start writing Terraform code, it is really important to understand the concept of IAM roles and IAM policies.</p>
+<p><strong>1. IAM Roles -</strong> It is a set of permissions that can be performed on AWS resources such as <a href="https://aws.amazon.com/ec2/">EC2</a>, <a href="https://aws.amazon.com/s3/">S3</a> Bucket, etc. With the help of <em><strong>IAM Roles</strong></em> you can grant permission to -</p>
+<ul>
+<li>User</li>
+<li>AWS Services</li>
+</ul>
+<p>Here are some benefits that you get with the IAM roles -</p>
+<ul>
+<li><strong>Flexibility -</strong> The IAM roles can be assigned to any IAM user or AWS resource, and you can customize the granularity of the IAM roles based on your needs.</li>
+<li><strong>Security -</strong> IAM roles are very granular in nature, and hence, they always add an extra layer of security to your cloud infrastructure.</li>
+<li><strong>Scalability -</strong> When you use Terraform to manage IAM roles, it becomes really scalable, and any developer can manage the roles from the code.</li>
+</ul>
+<p><strong>2. IAM Policies -</strong> It is a JSON formatted document that defines the permissions for IAM users as well as IAM roles. With the help of IAM policies, you can control what kinds of actions you can perform on specific AWS resources.</p>
+<p>Here are two types of policies that exist:</p>
+<ul>
+<li><strong>Managed Policies -</strong> IAM policies are managed policies that are administered by the account administrator.</li>
+<li><strong>Inline Policies -</strong> These policies are directly embedded in the IAM user, IAM group, and IAM roles.</li>
+</ul>
+<br/>
+<h2>3. Create an IAM User(aws_iam_user) - Alice</h2>
+<p>Let's start by creating an <em><strong>User</strong></em> which we call an <em><strong>IAM user</strong></em>. To keep our Terraform project code clean, I am going to create a file called <code>iam-user.tf</code> and put the following code inside the file.</p>
+<div class="highlight cp1"><i onclick="cpy()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1"># Step 1 : Create an IAM user named Alice
+</span></span></span><span><span class="ln">2</span><span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span><span class="ln">3</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_iam_user&#34;</span> <span class="s2">&#34;alice&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln">4</span><span class="cl"><span class="na">name</span> = <span class="s2">&#34;Alice&#34;</span>
+</span></span><span><span class="ln">5</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ol>
+<li>The above code will create an IAM user named <em><strong>Alice</strong></em>.</li>
+<li>To run the above code, simply run <em><strong>terraform plan</strong></em> and <em><strong>terraform apply</strong></em> commands.</li>
+<li>After running the terraform code, you can verify the user by going into the <em><strong>AWS console -&gt; IAM -&gt; Access Management -&gt; User</strong></em>
+create-iam-user.webp</li>
+</ol>
+<p><figure>
+  <picture>
+
+    
+      
+        
+        
+        
+        
+        
+        
+    <img
+      loading="lazy"
+      decoding="async"
+      alt=""
+      
+        class="img-fluid"
+        src="https://jhooq.com/wp-content/uploads/aws/terrafomr-aws-iam-policy/create-iam-user.webp"
+      
+      
+        title="Terraform create IAM user"
+      
+    />
+
+    <figcaption class="caption_figure caption_internal">Terraform create IAM user</figcaption></picture>
+</figure>
+</p>
+<br/>
+<h2>4. Create an IAM Role(aws_iam_role) - alice_role</h2>
+<p>After creating the IAM user in the [Step-3][3], let's create an <em><strong>IAM Role</strong></em>. Here is the Terraform code for creating the IAM role -</p>
+<div class="highlight cp2"><i onclick="cpy1()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_iam_role&#34;</span> <span class="s2">&#34;alice_role&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln"> 2</span><span class="cl"><span class="na">name</span> = <span class="s2">&#34;AliceRole&#34;</span>
+</span></span><span><span class="ln"> 3</span><span class="cl"><span class="na">assume_role_policy</span> =<span class="nb"> jsonencode</span><span class="p">({</span>
+</span></span><span><span class="ln"> 4</span><span class="cl"><span class="na">Version</span> = <span class="s2">&#34;2012-10-17&#34;</span>
+</span></span><span><span class="ln"> 5</span><span class="cl"><span class="na">Statement</span> = <span class="p">[</span>
+</span></span><span><span class="ln"> 6</span><span class="cl"><span class="p">{</span>
+</span></span><span><span class="ln"> 7</span><span class="cl"><span class="na">Action</span> = <span class="s2">&#34;sts:AssumeRole&#34;</span>
+</span></span><span><span class="ln"> 8</span><span class="cl"><span class="na">Effect</span> = <span class="s2">&#34;Allow&#34;</span>
+</span></span><span><span class="ln"> 9</span><span class="cl"><span class="na">Principal</span> = <span class="p">{</span>
+</span></span><span><span class="ln">10</span><span class="cl"><span class="na">Service</span> = <span class="s2">&#34;ec2.amazonaws.com&#34;</span>
+</span></span><span><span class="ln">11</span><span class="cl"><span class="p">}</span>
+</span></span><span><span class="ln">12</span><span class="cl"><span class="p">}</span>
+</span></span><span><span class="ln">13</span><span class="cl"><span class="p">]</span>
+</span></span><span><span class="ln">14</span><span class="cl"><span class="p">})</span>
+</span></span><span><span class="ln">15</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ol>
+<li>The above code will create an IAM role named <em><strong>AliceRole</strong></em>.</li>
+<li>To run the above code, simply run <em><strong>terraform plan</strong></em> and <em><strong>terraform apply</strong></em> commands.</li>
+<li>After running the Terraform code, you can verify the user by going into the <em><strong>AWS console -&gt; IAM -&gt; Access Management -&gt; Roles</strong></em></li>
+</ol>
+<p><figure>
+  <picture>
+
+    
+      
+        
+        
+        
+        
+        
+        
+    <img
+      loading="lazy"
+      decoding="async"
+      alt=""
+      
+        class="img-fluid"
+        src="https://jhooq.com/wp-content/uploads/aws/terrafomr-aws-iam-policy/create-iam-role-alice.webp"
+      
+      
+        title="Create IAM role by the name AliceRole"
+      
+    />
+
+    <figcaption class="caption_figure caption_internal">Create IAM role by the name AliceRole</figcaption></picture>
+</figure>
+</p>
+<ol start="4">
+<li>Click on the <em><strong>AliceRole</strong></em> to view the details about the roles .e.g., <em>Creation Date, ARN, Instance Profile ARN etc..</em></li>
+</ol>
+<p><figure>
+  <picture>
+
+    
+      
+        
+        
+        
+        
+        
+        
+    <img
+      loading="lazy"
+      decoding="async"
+      alt=""
+      
+        class="img-fluid"
+        src="https://jhooq.com/wp-content/uploads/aws/terrafomr-aws-iam-policy/iam-role-description.webp"
+      
+        title="IAM Role description for AliceRole"
+      
+    />
+
+    <figcaption class="caption_figure caption_internal">IAM Role description for AliceRole</figcaption></picture>
+</figure>
+</p>
+<ol start="5">
+<li>To view <em><strong>Permission Policy</strong></em> of the role click on the <em><strong>Permission</strong></em> and then click on the <em><strong>+</strong></em> icon to expand the policy permission.</li>
+</ol>
+<p><figure>
+  <picture>
+
+    
+      
+        
+        
+        
+        
+        
+        
+    <img
+      loading="lazy"
+      decoding="async"
+      alt=""
+      
+        class="img-fluid"
+        src="https://jhooq.com/wp-content/uploads/aws/terrafomr-aws-iam-policy/iam-role-permission-policy.webp"
+      
+        title="IA role permission policy description for ALiceRole"
+      
+    />
+
+    <figcaption class="caption_figure caption_internal">IA role permission policy description for ALiceRole</figcaption></picture>
+</figure>
+</p>
+<p>Here is a detailed explanation of each policy:</p>
+<ul>
+<li><em><strong>AliceRole -</strong></em> The name of the IAM role</li>
+<li><em><strong>assume_role_policy -</strong></em> This is an attribute that sets the trust policy for the IAM role, which defines who can assume the role.</li>
+<li><strong>Version = &quot;2012-10-17&quot;</strong>: This line indicates the policy language version. In this case, it is the 2012-10-17 version.</li>
+<li><strong>Statement = [...]:</strong> This is an array of policy statements. In this example, there's only one statement that is defined as follows:</li>
+<li><strong>Action = &quot;sts:AssumeRole&quot;:</strong> This specifies the action to be allowed, which is to assume the IAM role.</li>
+<li><strong>Effect = &quot;Allow&quot;:</strong> This indicates that the action is allowed.</li>
+<li><strong>Principal = { ... }:</strong> This defines the principal (the entity that is allowed to assume the role). In this example, it is set to an AWS service.</li>
+<li><strong>Service = &quot;ec2.amazonaws.com&quot;:</strong> The service that is allowed to assume the role. In this case, it is the Amazon EC2 service.</li>
+</ul>
+<br/>
+<h2>5. Create IAM Policy(aws_iam_policy) - AllowS3Access</h2>
+<p>An <em><strong><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html">AWS IAM policy</a></strong></em> is like a set of rules that decide who can do what in the digital world of AWS.</p>
+<p>These rules help make sure that people or programs can only get to the things they need and can't touch anything they shouldn't.</p>
+<p>Here is the <em><strong>IAM Policy</strong></em> for <em><strong>AllowS3Access</strong></em> -</p>
+<div class="highlight cp3"><i onclick="cpy2()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_iam_policy&#34;</span> <span class="s2">&#34;allow_s3_access&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln"> 2</span><span class="cl"><span class="na">name</span> = <span class="s2">&#34;AllowS3Access&#34;</span>
+</span></span><span><span class="ln"> 3</span><span class="cl"><span class="na">description</span> = <span class="s2">&#34;Allow Alice to access specific S3 resources&#34;</span>
+</span></span><span><span class="ln"> 4</span><span class="cl"><span class="na">policy</span> =<span class="nb"> jsonencode</span><span class="p">({</span>
+</span></span><span><span class="ln"> 5</span><span class="cl"><span class="na">Version</span> = <span class="s2">&#34;2012-10-17&#34;</span>
+</span></span><span><span class="ln"> 6</span><span class="cl"><span class="na">Statement</span> = <span class="p">[</span>
+</span></span><span><span class="ln"> 7</span><span class="cl"><span class="p">{</span>
+</span></span><span><span class="ln"> 8</span><span class="cl"><span class="na">Action</span> = <span class="p">[</span>
+</span></span><span><span class="ln"> 9</span><span class="cl"><span class="s2">&#34;s3:ListBucket&#34;</span><span class="p">,</span>
+</span></span><span><span class="ln">10</span><span class="cl"><span class="s2">&#34;s3:GetObject&#34;</span><span class="p">,</span>
+</span></span><span><span class="ln">11</span><span class="cl"><span class="s2">&#34;s3:PutObject&#34;</span>
+</span></span><span><span class="ln">12</span><span class="cl"><span class="p">]</span>
+</span></span><span><span class="ln">13</span><span class="cl"><span class="na">Effect</span> = <span class="s2">&#34;Allow&#34;</span>
+</span></span><span><span class="ln">14</span><span class="cl"><span class="na">Resource</span> = <span class="p">[</span>
+</span></span><span><span class="ln">15</span><span class="cl"><span class="s2">&#34;arn:aws:s3:::test-bucket-for-alice&#34;</span><span class="p">,</span>
+</span></span><span><span class="ln">16</span><span class="cl"><span class="s2">&#34;arn:aws:s3:::test-bucket-for-alice/*&#34;</span>
+</span></span><span><span class="ln">17</span><span class="cl"><span class="p">]</span>
+</span></span><span><span class="ln">18</span><span class="cl"><span class="p">}</span>
+</span></span><span><span class="ln">19</span><span class="cl"><span class="p">]</span>
+</span></span><span><span class="ln">20</span><span class="cl"><span class="p">})</span>
+</span></span><span><span class="ln">21</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Here is a detailed explanation of the above policy -</p>
+<ul>
+<li>
+<p><strong>AllowS3Access -</strong> It is the name of the policy.</p>
+</li>
+<li>
+<p><strong>description -</strong> A meaningful description to tell more about the policy</p>
+</li>
+<li>
+<p><strong>policy -</strong> A Json string containing all the <em>Actions</em> and <em>Resources</em></p>
+</li>
+<li>
+<p><strong>Version = &quot;2012-10-17&quot;</strong>: This line indicates the policy language version. In this case, it is the 2012-10-17 version.</p>
+</li>
+<li>
+<p><strong>Statement = [...]:</strong> This is an array of policy statements. In this example, there's only one statement that is defined as follows:</p>
+</li>
+<li>
+<p><strong>Action = [...]:</strong> This lists the actions that are allowed by the policy. In this case, it includes:</p>
+</li>
+<li>
+<p><strong>&quot;s3:ListBucket&quot;:</strong> Listing the contents of a bucket.</p>
+</li>
+<li>
+<p><strong>&quot;s3:GetObject&quot;:</strong> Retrieving an object from the bucket.</p>
+</li>
+<li>
+<p><strong>&quot;s3:PutObject&quot;:</strong> Uploading an object to the bucket.</p>
+</li>
+<li>
+<p><strong>Effect = &quot;Allow&quot;:</strong> This indicates that the actions listed above are allowed by the policy.</p>
+</li>
+<li>
+<p><strong>Resource = [...]:</strong> This specifies the resources the policy applies to. In this example, there are two resources:</p>
+</li>
+<li>
+<p><strong>&quot;arn:aws:s3:::test-bucket-for-alice&quot;:</strong> The Amazon Resource Name (ARN) of the S3 bucket is &quot;test-bucket-for-alice&quot;. This allows the policy to apply to the bucket itself.</p>
+</li>
+<li>
+<p><strong>&quot;arn:aws:s3:::test-bucket-for-alice/*&quot;:</strong> This allows the policy to apply to all objects within the &quot;test-bucket-for-alice&quot; bucket.</p>
+</li>
+</ul>
+<p><strong>How to Create the Policy?</strong></p>
+<ol>
+<li>To create the policy, run the above code: simply run <em><strong>terraform plan</strong></em> and <em><strong>terraform apply</strong></em> command</li>
+<li>After running the Terraform code, you can verify the user by going into the <em><strong>AWS console -&gt; IAM -&gt; Access Management -&gt; Policies</strong></em></li>
+</ol>
+<p><figure>
+  <picture>
+
+    
+      
+        
+        
+        
+        
+        
+        
+    <img
+      loading="lazy"
+      decoding="async"
+      alt=""
+      
+        class="img-fluid"
+        src="https://jhooq.com/wp-content/uploads/aws/terrafomr-aws-iam-policy/aws-iam-policy.webp"
+      
+      
+        title="AWS IAM Policy AllowS3Access"
+      
+    />
+
+    <figcaption class="caption_figure caption_internal">AWS IAM Policy AllowS3Access</figcaption></picture>
+</figure>
+</p>
+<ol start="3">
+<li>Click on the <em><strong>AllowS3Access</strong></em> Policy and you will find all the details related to that policy.</li>
+</ol>
+<p><figure>
+  <picture>
+
+    
+      
+        
+        
+        
+        
+        
+        
+    <img
+      loading="lazy"
+      decoding="async"
+      alt=""
+      
+        class="img-fluid"
+        src="https://jhooq.com/wp-content/uploads/aws/terrafomr-aws-iam-policy/aws-iam-policy-descripton.webp"
+      
+      
+        title="AWS IAM S3 Policy with Read, List and Write permission"
+      
+    />
+
+    <figcaption class="caption_figure caption_internal">AWS IAM S3 Policy with Read, List and Write permission</figcaption></picture>
+</figure>
+</p>
+<br/>
+<h2>6. Create IAM Role and Policy attachment</h2>
+<p>Before we create the IAM Role and Policy attachment, let's try to understand <em><strong>Why it is important to attach the IAM Role and Policy in AWS?</strong></em></p>
+<p>IAM jobs and policy attachments are important in AWS because they help keep track of who can do what in a safe and controlled way. Here are some additional benefits that you will get with the IAM role and policy attachment:</p>
+<p><strong>1. Only necessary access:</strong> Only those who need to get in. It's like a school where only teachers have the keys to certain rooms. IAM roles and rules make sure that people or programs can only do what they are meant to do and nothing else. This makes sure that everything stays safe and sound.</p>
+<p><strong>2. One place to manage:</strong> Instead of writing down on a bunch of sticky notes who can do what, IAM jobs and policies let you keep track of everything in one place. This makes it easy to deal with rights and keep track of them.</p>
+<p><strong>3. Rules that can be used more than once:</strong> Imagine if you could make a rule like &quot;All teachers can open classroom doors&quot; and use it for every teacher in the school. You can make rules like this using IAM jobs and policies, so you don't have to say the same thing over and over again.</p>
+<p><strong>4. Easier to change:</strong> If the rules change, like letting some students into certain places, IAM roles and policies make it easy to change these rights. You don't have to go to each door and change the lock. Instead, you just have to change the rule in one place.</p>
+<p><strong>5. Safer sharing:</strong> Sometimes you have to let a friend take your video game or toy. IAM jobs and rules are like giving your friend the key to your locker so they can get your toy but not anything else. So, you can share access without thinking about someone going through your stuff.</p>
+<p>Here is the IAM Role and Policy Attachment for the <em><strong>AliceRole</strong></em> and <em><strong>AllowS3Access</strong></em> policies:</p>
+<div class="highlight cp4"><i onclick="cpy3()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1"># IAM Role and IAM Policy Attachment
+</span></span></span><span><span class="ln">2</span><span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span><span class="ln">3</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_iam_role_policy_attachment&#34;</span> <span class="s2">&#34;attach_s3_access&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln">4</span><span class="cl"><span class="na">policy_arn</span> = <span class="nx">aws_iam_policy</span><span class="p">.</span><span class="nx">allow_s3_access</span><span class="p">.</span><span class="nx">arn</span>
+</span></span><span><span class="ln">5</span><span class="cl"><span class="na">role</span> = <span class="nx">aws_iam_role</span><span class="p">.</span><span class="nx">alice_role</span><span class="p">.</span><span class="nx">name</span>
+</span></span><span><span class="ln">6</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><br/>
+<h2>7. Create an aws_s3_bucket</h2>
+<p>In the previous 6 steps, we have created <em><strong>IAM User, IAM Role, IAM Policy and IAM RolePolicy Attachment</strong></em> but we haven't yet created an <em><strong>S3 Bucket</strong></em>.</p>
+<p>Here is the Terraform code to create an S3 bucket:</p>
+<div class="highlight cp5"><i onclick="cpy4()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="c1"># S3 Bucket creation by the name - test-bucket-for-alice
+</span></span></span><span><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_s3_bucket&#34;</span> <span class="s2">&#34;example&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln"> 4</span><span class="cl"><span class="na">bucket</span> = <span class="s2">&#34;test-bucket-for-alice&#34;</span>
+</span></span><span><span class="ln"> 5</span><span class="cl">
+</span></span><span><span class="ln"> 6</span><span class="cl"><span class="na">tags</span> = <span class="p">{</span>
+</span></span><span><span class="ln"> 7</span><span class="cl"><span class="na">Name</span> = <span class="s2">&#34;test-bucket-for-alice&#34;</span>
+</span></span><span><span class="ln"> 8</span><span class="cl"><span class="na">Environment</span> = <span class="s2">&#34;Dev&#34;</span>
+</span></span><span><span class="ln"> 9</span><span class="cl"><span class="p">}</span>
+</span></span><span><span class="ln">10</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p><strong>Apply the change by running the Terraform command-</strong></p>
+<ol>
+<li>To create the S3 bucket, run the <em><strong>terraform plan</strong></em> and <em><strong>terraform apply</strong></em> commands.</li>
+<li>Here is the screenshot from my <em><strong>AWS Console</strong></em> after creating an <em><strong>S3 Bucket</strong></em> by the name - <em><strong>test-bucket-for-alice</strong></em></li>
+</ol>
+<p><figure>
+  <picture>
+
+    
+      
+        
+        
+        
+        
+        
+        
+    <img
+      loading="lazy"
+      decoding="async"
+      alt=""
+      
+        class="img-fluid"
+        src="https://jhooq.com/wp-content/uploads/aws/terrafomr-aws-iam-policy/aws-iam-policy-descripton.webp"
+      
+      
+        title="S3 Bucket Creation"
+      
+    />
+
+    <figcaption class="caption_figure caption_internal">S3 Bucket Creation</figcaption></picture>
+</figure>
+</p>
+<br/>
+<h2>8. Create AWS IAM Instance Profile (aws_iam_instance_profile) - AliceProfile</h2>
+<p><em><strong><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html">aws_iam_instance_profile</a></strong></em> is a Terraform resource used to create and manage an AWS IAM Instance Profile.</p>
+<p>In the context of the current blog post, <em><strong>aws_iam_instance_profile</strong></em> is used to create an <em><strong>IAM Instance Profile</strong></em> that allows an <em><strong>Amazon EC2 instance</strong></em> to access the S3 bucket using the permissions defined in an IAM role.</p>
+<p>Here is the Terraform code to create an AWS IAM instance profile:</p>
+<div class="highlight cp6"><i onclick="cpy5()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1"># AWS IAM Instance Profile - AliceProfile
+</span></span></span><span><span class="ln">2</span><span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span><span class="ln">3</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_iam_instance_profile&#34;</span> <span class="s2">&#34;alice_profile&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln">4</span><span class="cl"><span class="na">name</span> = <span class="s2">&#34;AliceProfile&#34;</span>
+</span></span><span><span class="ln">5</span><span class="cl"><span class="na">role</span> = <span class="nx">aws_iam_role</span><span class="p">.</span><span class="nx">alice_role</span><span class="p">.</span><span class="nx">name</span>
+</span></span><span><span class="ln">6</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>To create an AWS IAM instance profile, run the above code: simply run <em><strong>terraform plan</strong></em> and <em><strong>terraform apply</strong></em> commands.</p>
+<br/>
+<h2>9. Create IAM user(aws_iam_user) and IAM Policy(aws_iam_policy) attachment</h2>
+<p>We have setup everything that is needed: IAM User, IAM Role and IAM Policy but we did not attach <em><strong>IAM User</strong></em> with <em><strong>IAM Policy</strong></em> yet.</p>
+<p>Let's write the Terraform resource to attach the <em><strong>IAM User(aws_iam_user)</strong></em> with the <em><strong>IAM Policy(aws_iam_policy)</strong></em> -</p>
+<div class="highlight cp7"><i onclick="cpy6()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln">1</span><span class="cl"><span class="c1"># Attaching the IAM user(aws_iam_user) to IAM Policy(aws_iam_policy)
+</span></span></span><span><span class="ln">2</span><span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span><span class="ln">3</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_iam_user_policy_attachment&#34;</span> <span class="s2">&#34;alice_s3_access&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln">4</span><span class="cl"><span class="na">user</span> = <span class="nx">aws_iam_user</span><span class="p">.</span><span class="nx">alice</span><span class="p">.</span><span class="nx">name</span>
+</span></span><span><span class="ln">5</span><span class="cl"><span class="na">policy_arn</span> = <span class="nx">aws_iam_policy</span><span class="p">.</span><span class="nx">allow_s3_access</span><span class="p">.</span><span class="nx">arn</span>
+</span></span><span><span class="ln">6</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p><figure>
+  <picture>
+
+    
+      
+        
+        
+        
+        
+        
+        
+    <img
+      loading="lazy"
+      decoding="async"
+      alt=""
+      
+        class="img-fluid"
+        src="https://jhooq.com/wp-content/uploads/aws/terrafomr-aws-iam-policy/iam-use-iam-policy-attachment.webp"
+      
+      
+        title="Attach IAM User(aws_iam_user) to IAM Policy(aws_iam_policy)"
+      
+    />
+
+    <figcaption class="caption_figure caption_internal">Attach IAM User(aws_iam_user) to IAM Policy(aws_iam_policy)</figcaption></picture>
+</figure>
+</p>
+<p>Here is the screenshot I have taken from the AWS console, which shows all the permissions associated with the <em><strong>IAM User - Alice</strong></em></p>
+<p><figure>
+  <picture>
+
+    
+      
+        
+        
+        
+        
+        
+        
+    <img
+      loading="lazy"
+      decoding="async"
+      alt=""
+      
+        class="img-fluid"
+        src="https://jhooq.com/wp-content/uploads/aws/terrafomr-aws-iam-policy/iam-user-alice-permission.webp"
+      
+      
+        title="IAM user permissions for S3 bucket"
+      
+    />
+
+    <figcaption class="caption_figure caption_internal">IAM user permissions for S3 bucket</figcaption></picture>
+</figure>
+</p>
+<br/>
+<h2>10. Attaching IAM Instance profile to EC2 instance</h2>
+<p>Alright, so far we have covered a lot of topics and been able to create the following:</p>
+<ul>
+<li><strong>IAM User</strong> : Alice</li>
+<li><strong>IAM Role</strong> : AliceRole</li>
+<li><strong>IAM Policy</strong> : AllowS3Access</li>
+<li><strong>IAM Role Policy Attachment</strong> : AliceRole + AllowS3Access</li>
+<li><strong>IAM Instance Profile</strong> : AliceProfile <em>-&gt;</em> AliceRole</li>
+<li><strong>IAM User Policy Attachment</strong> : Alice + AllowS3Access</li>
+</ul>
+<p><strong>Next Task -</strong> Let's bind the <em>IAM Instance Profile</em> to an <em><a href="https://aws.amazon.com/ec2/">EC2</a></em> instance, and we will do it the Terraform way, but let's take a peek into the AWS Console so that we know where to find these settings to attach the <em>IAM Instance Profile</em> option.</p>
+<p><figure>
+  <picture>
+
+    
+      
+        
+        
+        
+        
+        
+        
+    <img
+      loading="lazy"
+      decoding="async"
+      alt=""
+      
+        class="img-fluid"
+        src="https://jhooq.com/wp-content/uploads/aws/terrafomr-aws-iam-policy/bind-iam-policy-attachment-to-ec2.webp"
+      
+      
+        title="IAM Instance Profile to Attach Role to EC2 Instance"
+      
+    />
+
+    <figcaption class="caption_figure caption_internal">IAM Instance Profile to Attach Role to EC2 Instance</figcaption></picture>
+</figure>
+</p>
+<p>Here is the Terraform code to provision the <em><strong>EC2 instance</strong></em> as well as attach <em><strong>IAM Instance Profile</strong></em> -</p>
+<p><em>(Note - Here is my <a href="https://github.com/rahulwagh/Terraform-Topics/tree/master/terraform-iam-policy-attachment">GitHub Repository</a> where you can find the complete project. If you are new to Terraform and want to learn more about it, then follow this post - <a href="../terraform-ec2-instance-setup/index.html">How to Setup EC2 instance with Terraform</a>)</em></p>
+<div class="highlight cp8"><i onclick="cpy7()" class="fa-regular fa-copy"></i><pre><code><span><span class="ln"> 1</span><span class="cl"><span class="c1"># Setup EC2 instance with iam_instance_profile
+</span></span></span><span><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span><span class="ln"> 3</span><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_instance&#34;</span> <span class="s2">&#34;ec2_example&#34;</span> <span class="p">{</span>
+</span></span><span><span class="ln"> 4</span><span class="cl">
+</span></span><span><span class="ln"> 5</span><span class="cl"><span class="na">ami</span> = <span class="s2">&#34;ami-0767046d1677be5a0&#34;</span>
+</span></span><span><span class="ln"> 6</span><span class="cl"><span class="na">instance_type</span> = <span class="s2">&#34;t2.micro&#34;</span>
+</span></span><span><span class="ln"> 7</span><span class="cl"><span class="na">tags</span> = <span class="p">{</span>
+</span></span><span><span class="ln"> 8</span><span class="cl"><span class="na">Name</span> = <span class="s2">&#34;test-t2-micro&#34;</span>
+</span></span><span><span class="ln"> 9</span><span class="cl"><span class="p">}</span>
+</span></span><span><span class="ln">10</span><span class="cl"><span class="na">key_name</span>= <span class="s2">&#34;aws_key&#34;</span>
+</span></span><span><span class="ln">11</span><span class="cl"><span class="na">vpc_security_group_ids</span> = <span class="p">[</span><span class="nx">aws_security_group</span><span class="p">.</span><span class="nx">main</span><span class="p">.</span><span class="nx">id</span><span class="p">]</span><span class="c1">
+</span></span></span><span><span class="ln">12</span><span class="cl"><span class="c1">
+</span></span></span><span><span class="ln">13</span><span class="cl"><span class="c1"># Attach IAM instance profile with EC2 instance
+</span></span></span><span><span class="ln">14</span><span class="cl"><span class="c1"></span><span class="na">iam_instance_profile</span> = <span class="nx">aws_iam_instance_profile</span><span class="p">.</span><span class="nx">alice_profile</span><span class="p">.</span><span class="nx">name</span>
+</span></span><span><span class="ln">15</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Here is the screenshot I have taken from my AWS console after provisioning the EC2 instance with <em>aws_iam_instance_profile</em></p>
+<p><figure>
+  <picture>
+
+    
+      
+        
+        
+        
+        
+        
+        
+    <img
+      loading="lazy"
+      decoding="async"
+      alt=""
+      
+        class="img-fluid"
+        src="https://jhooq.com/wp-content/uploads/aws/terrafomr-aws-iam-policy/ec2-aws-iam-instance-profile.webp"
+      
+      
+        title="Attach IAM instance profile to EC2 instance"
+      
+    />
+
+    <figcaption class="caption_figure caption_internal">Attach IAM instance profile to EC2 instance</figcaption></picture>
+</figure>
+</p>
+<br/>
+<h2>11. Conclusion</h2>
+<p>I hope this blog post will help you get  started with on <em><strong>How to manage the IAM Roles, IAM Policies and IAM User Permission with Terraform</strong></em>. All the steps mentioned in this blog are really necessary for setting up the correct IAM roles, IAM policies, and IAM permissions.</p>
+<p>But the same steps can be customized to setup other IAM roles, IAM policies, and IAM User permissions as well.</p>
+<p>If you have any questions or suggestions, then please put them in the comment section.</p>
+
+    </div>
+  </div>
+
+  <script>
+      function cpy(){
+            let content = document.querySelector(".cp1");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy1(){
+            let content = document.querySelector(".cp2");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy2(){
+            let content = document.querySelector(".cp3");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy3(){
+            let content = document.querySelector(".cp4");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy4(){
+            let content = document.querySelector(".cp5");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy5(){
+            let content = document.querySelector(".cp6");
+            navigator.clipboard.writeText(content.innerText)
+        }     function cpy6(){
+            let content = document.querySelector(".cp7");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy7(){
+            let content = document.querySelector(".cp8");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy8(){
+            let content = document.querySelector(".cp9");
+            navigator.clipboard.writeText(content.innerText)
+        }  
+  </script>
+    </body>
+</html>

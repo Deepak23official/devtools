@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+<style>
+        body{
+        padding: 20px;
+    }
+    body h2{
+      font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        margin-bottom: 20px;
+    }
+    body p{
+      font-size: 15px;
+      font-family: "Poppins", sans-serif;
+        font-weight: 300;
+        margin-bottom: 20px;
+    }
+    .highlight{
+        border-radius: 20px;
+        background-color: rgb(57, 58, 79);
+        height: fit-content;
+        font-weight: bold;
+        padding: 20px;
+        position: relative;
+    }
+    .highlight i{
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 20px;
+      top: 10px;
+      right: 10px;
+      color: white;
+    }
+    .highlight i:hover{
+      background-color: rgb(37, 20, 20);
+      box-shadow: 0px 0px 23px white;
+      cursor: pointer;
+    }
+    .highlight:hover{
+        box-shadow: 0px 0px 23px black;
+        transition: 0.5s;
+    }
+    .highlight span{
+      color: rgb(244, 163, 12);
+    }
+    .highlight span .ln{
+      margin: 0 10px;
+      color: white;
+    }
+    .highlight span .kr{
+      color: greenyellow;
+    }
+</style>
+<body>
+  <div class="container">
+    <div class="post_body"><p><strong><a href="https://www.jenkins.io/">Jenkins</a></strong>, the popular open-source automation server that's been making waves in the tech industry.</p>
+<p>Today, we'll go through an important aspect of <a href="https://www.jenkins.io/">Jenkins</a> - setting up Secure Shell (SSH) keys for securely publishing and transferring files. It may sound daunting, but trust me, I'll guide you every step of the way. Let's get started!</p>
+<h2>Step 1. Creating an SSH Key Pair on Your Jenkins Server</h2>
+<p>We're going to kick things off by <a href="https://www.ssh.com/academy/ssh/keygen">generating a new <strong>SSH key pair</strong></a> right on your <strong>Jenkins server</strong>. These keys, <strong>one public</strong> and <strong>one private</strong>, are the secret handshake that lets your Jenkins server chat with other servers securely.</p>
+<p>Open up a terminal on your Jenkins server and punch in the following command:</p>
+<div class="highlight cp1"><i onclick="cpy()" class="fa-regular fa-copy"></i><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="ln">1</span><span class="cl"><span class="c1"># Generate SSH key pair</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl">
+</span></span><span class="line"><span class="ln">3</span><span class="cl">ssh-keygen -t rsa -b <span class="m">4096</span> -C <span class="s2">&#34;jenkins@example.com&#34;</span> 
+</span></span></code></pre></div><br/>
+<h2>Step 2: Installing the SSH Keys</h2>
+<p>Now that you've got your <strong>SSH key pair</strong>, you need to install your <strong>public key (id_rsa.pub)</strong> on the <strong>target server</strong> - the server you wish Jenkins to connect to.</p>
+<p>To copy the public key to the server, use the following command:</p>
+<div class="highlight cp2"><i onclick="cpy1()" class="fa-regular fa-copy"></i><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="ln">1</span><span class="cl">ssh-copy-id -i ~/.ssh/id_rsa.pub user@hostname 
+</span></span></code></pre></div><p>Don't forget to replace <em><strong>&quot;user@hostname&quot;</strong></em> with your username and the hostname (or IP address) of your target server.</p>
+<br/>
+<h2>Step 3: Using the Publish Over SSH Plugin</h2>
+<p>Next, head over to the Jenkins UI. Navigate to <em><strong>Manage Jenkins &gt; Manage Plugins &gt; Available</strong></em> and search for the <em><strong>&quot;Publish Over SSH&quot;</strong></em> plugin. Install this plugin and then reboot Jenkins for the changes to take effect.</p>
+<br/>
+<h2>Step 4: Configuring the Publish Over SSH Plugin</h2>
+<p>With the plugin(<a href="https://plugins.jenkins.io/publish-over-ssh/">Publish Over SSH</a>) installed, it's time to configure it. In the Jenkins UI, go to <em><strong>Jenkins &gt; Manage Jenkins &gt; Configure System &gt; Publish over SSH</strong></em>, and scroll down to the &quot;Publish Over SSH&quot; section.</p>
+<p>Here's how to complete the configuration:</p>
+<ol>
+<li>Click on <strong>&quot;Add&quot;</strong> to add a new SSH server.</li>
+<li>Provide a name for the server.</li>
+<li>Fill in the hostname or IP address of the server.</li>
+<li>Enter the username you used when you copied the public key to the server.</li>
+<li>In the <strong>&quot;Key&quot;</strong> field, enter the contents of your <strong>private key file (id_rsa)</strong>. You can get this information by running <strong>cat ~/.ssh/id_rsa</strong> in the terminal and copying the output.</li>
+</ol>
+<br/>
+<h2>Step 5: Utilizing the SSH Server in a Jenkins Job</h2>
+<p>With the SSH server set up and ready, it's time to use it in a Jenkins job. In the job configuration, you'll notice a &quot;Send files or execute commands over SSH&quot; option in the &quot;Add post-build action&quot; dropdown.</p>
+<p>Here's how to proceed:</p>
+<ol>
+<li>Choose the server you configured earlier from the &quot;SSH Server&quot; dropdown.</li>
+<li>If you need to transfer files, specify the source files and the remote directory.</li>
+<li>If you need to run commands, enter them in the &quot;Exec command&quot; field.</li>
+</ol>
+<p>Make sure to save your job settings. The job will now connect to the SSH server using the configured key and carry out the specified actions securely.</p>
+<br/>
+<h2>Conclusion</h2>
+<p>Jenkins, when set up with SSH keys, ensures secure communication and file transfer between servers. By following the steps in this guide, you can enhance the security of your Jenkins server and maintain the integrity of your files. Don't forget to ensure your Jenkins server's outgoing connections to the other server are allowed in your network's firewall rules. Stay secure and happy building with Jenkins!</p>
+
+    </div>
+  </div>
+
+  <script>
+     function cpy(){
+            let content = document.querySelector(".cp1");
+            navigator.clipboard.writeText(content.innerText)
+        }
+        function cpy1(){
+            let content = document.querySelector(".cp2");
+            navigator.clipboard.writeText(content.innerText)
+        }
+  </script>
+    </body>
+</html>
